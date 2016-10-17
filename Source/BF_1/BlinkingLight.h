@@ -1,0 +1,37 @@
+// Fill out your copyright notice in the Description page of Project Settings.
+
+#pragma once
+
+#include "GameFramework/Actor.h"
+#include "BlinkingLight.generated.h"
+
+UCLASS()
+class BF_1_API ABlinkingLight : public AActor
+{
+	GENERATED_BODY()
+	
+	UPROPERTY(EditDefaultsOnly, Category = Light)
+	FName LightKey;
+
+	FName messege;
+
+public:	
+	// Sets default values for this actor's properties
+	ABlinkingLight();
+
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+	
+	// Called every frame
+	virtual void Tick( float DeltaSeconds ) override;
+
+	UPROPERTY(VisibleAnywhere, Category = "Switch Components")
+	class UPointLightComponent* PointLight;
+
+	//UPROPERTY(EditAnywhere, Category = Light)
+	class UBlackboardComponent* BlackboardComp;
+
+	UPROPERTY(EditAnywhere, Category = Light)
+	class UBehaviorTree* BehaviorTree;
+	
+};
