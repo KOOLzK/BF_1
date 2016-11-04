@@ -33,9 +33,17 @@ void AAIPatrolController::Possess(APawn* Pawn)
 		}
 
 		/*change to get form AICharacter*/
-		UGameplayStatics::GetAllActorsOfClass(GetWorld(), AAIPatrolPoint::StaticClass(), PatrolPoints);
-		
-		BehaviorComp->StartTree(*AICharacter->BehaviorTree);
+		UGameplayStatics::GetAllActorsOfClass(GetWorld(), AAIPatrolPoint::StaticClass(), AllPoints);
+
+		for (int i = 0; i < AllPoints.Num(); i++) {
+			AAIPatrolPoint* temp = Cast<AAIPatrolPoint>(AllPoints[i]);
+			if (AICharacter->enemyName == temp->enemyName) {
+				PatrolPoints.Add(temp);
+			}
+		}
+		if (PatrolPoints.Num() > 0) {
+			BehaviorComp->StartTree(*AICharacter->BehaviorTree);
+		}
 	}
 }
 

@@ -23,6 +23,16 @@ public:
 	UPROPERTY(EditAnywhere, Category = AI)
 	class UBehaviorTree* BehaviorTree;
 
+	/*UPROPERTY(EditAnywhere, Category = AI)
+	int numberOfPatrolPoints;*/
+
+	/*UPROPERTY(EditAnywhere, Category = AI)
+	FString o;*/
+
+	/*Is used for selecting Patrol Points with the same Name*/
+	UPROPERTY(EditAnywhere, Category = AI)
+	FName enemyName;
+
 	//TArray<AActor*> PatrolPoints;
 
 	UPROPERTY(VisibleAnywhere, Category = AI)

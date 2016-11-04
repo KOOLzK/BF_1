@@ -13,7 +13,12 @@ class BF_1_API AAIPatrolPoint : public ATargetPoint
 {
 	GENERATED_BODY()
 	
-	
-	
+public:
+	/*UPROPERTY(EditAnywhere, Category = AI)
+	FString o;*/
+
+	/*Is used for selecting the Enemy with the same Name*/
+	UPROPERTY(EditAnywhere, Category = AI)
+	FName enemyName;
 	
 };

@@ -26,6 +26,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Level)
 	ULevel* NameToLoad;*/
 
+	/*Is used to load the level by name, NOTE entering a name to a level that doesn't exist will cause a crash*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Level)
 	FName LevelName;
 

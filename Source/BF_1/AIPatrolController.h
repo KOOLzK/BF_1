@@ -23,6 +23,8 @@ class BF_1_API AAIPatrolController : public AAIController
 	UPROPERTY(EditDefaultsOnly, Category = AI)
 	FName PlayerKey;
 
+	TArray<AActor*> AllPoints;
+
 	TArray<AActor*> PatrolPoints;
 
 	virtual void Possess(APawn* Pawn) override;

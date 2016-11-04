@@ -12,6 +12,30 @@ AAIPatrol::AAIPatrol()
 {
 	PawnSensingComp = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("PawnSensingComp"));
 	PawnSensingComp->SetPeripheralVisionAngle(90.f);
+
+	/*UPROPERTY(VisibleAnywhere, Category = AI)
+	UBillboardComponent* temp3 = CreateDefaultSubobject<UBillboardComponent>(TEXT("TargetPoint"));
+	temp3->AttachTo(RootComponent);*/
+
+	//AActor* temp2 = CreateDefaultSubobject<AActor>(TEXT("TargetPoint"));
+	//temp2->AttachToActor(RootComponent);
+
+	/*ATargetPoint* temp = CreateDefaultSubobject<ATargetPoint>(TEXT("TargetPoint"));
+	temp->AddToRoot();*/
+
+	
+
+	//ATargetPoint* temp;
+	//temp->AttachRootComponentTo(RootComponent);
+	//>AttachTo(RootComponent);
+	//temp->AttachTo();
+	//RootComponent r = GetRootComponent();
+
+	//GetCapsuleComponent()->AttachChildren(temp);
+	//RootComponent->AttachTo()
+	//temp->AttachToComponent(GetRootComponent(),);
+	//PatrolPoints.Add();
+
 }
 
 // Called when the game starts or when spawned

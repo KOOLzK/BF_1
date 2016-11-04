@@ -41,11 +41,11 @@ void ABlinkingLight::Tick( float DeltaTime )
 	bool temp = BlackboardComp->GetValueAsBool(LightKey);
 	if (temp)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "true");
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "true");
 	}
 	else
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "false");
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "false");
 	}
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, messege);
 	PointLight->SetVisibility(temp);
