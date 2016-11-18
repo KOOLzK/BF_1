@@ -9,21 +9,23 @@ UCLASS()
 class BF_1_API ABlinkingLight : public AActor
 {
 	GENERATED_BODY()
-	
+
 	UPROPERTY(EditDefaultsOnly, Category = Light)
 	FName LightKey;
 
 	FName messege;
 
-public:	
+	bool LightOn;
+
+public:
 	// Sets default values for this actor's properties
 	ABlinkingLight();
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	
+
 	// Called every frame
-	virtual void Tick( float DeltaSeconds ) override;
+	virtual void Tick(float DeltaSeconds) override;
 
 	UPROPERTY(VisibleAnywhere, Category = "Switch Components")
 	class UPointLightComponent* PointLight;
@@ -33,5 +35,5 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = Light)
 	class UBehaviorTree* BehaviorTree;
-	
+
 };

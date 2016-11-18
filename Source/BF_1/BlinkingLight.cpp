@@ -10,7 +10,7 @@
 // Sets default values
 ABlinkingLight::ABlinkingLight()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	BlackboardComp = CreateDefaultSubobject<UBlackboardComponent>(TEXT("BlackboardComp"));
@@ -31,23 +31,23 @@ void ABlinkingLight::BeginPlay()
 }
 
 // Called every frame
-void ABlinkingLight::Tick( float DeltaTime )
+void ABlinkingLight::Tick(float DeltaTime)
 {
-	Super::Tick( DeltaTime );
+	Super::Tick(DeltaTime);
 
 	/*if (BlackboardComp->GetValueAsBool("Light")) {
 
 	}*/
-	bool temp = BlackboardComp->GetValueAsBool(LightKey);
-	if (temp)
+	LightOn = BlackboardComp->GetValueAsBool(LightKey);
+	/*if (LightOn)
 	{
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "true");
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "true");
 	}
 	else
 	{
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "false");
-	}
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "false");
+	}*/
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, messege);
-	PointLight->SetVisibility(temp);
+	PointLight->SetVisibility(LightOn);
 }
 

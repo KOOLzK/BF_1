@@ -20,6 +20,8 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
+	virtual float GetLightingAmount();
+
 	UPROPERTY(EditAnywhere, Category = AI)
 	class UBehaviorTree* BehaviorTree;
 
@@ -33,6 +35,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = AI)
 	FName enemyName;
 
+	APointLight* PointLight;
 	//TArray<AActor*> PatrolPoints;
 
 	UPROPERTY(VisibleAnywhere, Category = AI)
@@ -42,5 +45,5 @@ private:
 
 	UFUNCTION()
 	void OnPlayerCaught(APawn* Pawn);
-	
+
 };
