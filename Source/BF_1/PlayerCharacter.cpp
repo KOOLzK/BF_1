@@ -3,6 +3,7 @@
 #include "BF_1.h"
 #include "PlayerCharacter.h"
 #include "LightSwitch.h"
+#include "AIPatrol.h"
 
 
 // Sets default values
@@ -92,6 +93,10 @@ void APlayerCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActo
 		if (OtherActor->IsA(ALightSwitch::StaticClass())) {
 			ALightSwitch* temp = Cast<ALightSwitch>(OtherActor);
 			currentSwitch = temp;
+		}
+
+		if (OtherActor->IsA(AAIPatrol::StaticClass())) {
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, "Dead");
 		}
 	}
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, "Begin");

@@ -35,7 +35,19 @@ public:
 	UPROPERTY(EditAnywhere, Category = AI)
 	FName LightName;
 
+	UPROPERTY(EditAnywhere, Category = Light)
+	int stateOne;
+
+	UPROPERTY(EditAnywhere, Category = Light)
+	int stateTwo;
+
 	bool OnOff;
+
+	int currentState;
+
+	TArray<AActor*> AllLights;
+
+	TArray<AActor*> MyLights;
 
 
 	// Called when the game starts or when spawned

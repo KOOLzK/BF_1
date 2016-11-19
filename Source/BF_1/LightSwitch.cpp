@@ -4,6 +4,7 @@
 #include "LightSwitch.h"
 #include "PlayerCharacter.h"
 #include "Engine/TextRenderActor.h"
+#include "BlinkingLight.h"
 
 
 // Sets default values
@@ -29,6 +30,7 @@ ALightSwitch::ALightSwitch()
 	ButtonPromptMesh->AttachTo(RootComponent);
 
 	OnOff = false;
+	currentState = stateOne;
 }
 
 // Called when the game starts or when spawned
@@ -37,6 +39,16 @@ void ALightSwitch::BeginPlay()
 	Super::BeginPlay();
 	
 	ButtonPromptMesh->SetMaterial(0, SeeThroughMaterial);
+
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ABlinkingLight::StaticClass(), AllLights);
+
+	for (int i = 0; i < AllLights.Num(); i++) {
+		ABlinkingLight* temp = Cast<ABlinkingLight>(AllLights[i]);
+		if (LightName == temp->LightName) {
+			MyLights.Add(temp);
+		}
+	}
+	
 
 }
 
@@ -74,5 +86,22 @@ void ALightSwitch::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* Oth
 void ALightSwitch::Switch()
 {
 	OnOff = !OnOff;
+
+	if (MyLights.Num() > 0) {
+		for (int i = 0; i < MyLights.Num(); i++) {
+			ABlinkingLight* temp = Cast<ABlinkingLight>(MyLights[i]);
+			if (OnOff)
+			{
+				//ABlinkingLight::LightState::Blink;
+				temp->currentStateNum = stateOne;
+			}
+			else
+			{
+				temp->currentStateNum = stateTwo;
+			}
+		}
+	}
+	
+
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Black, FString::Printf(TEXT("Bool: %s"), OnOff ? TEXT("true") : TEXT("false")));
 }

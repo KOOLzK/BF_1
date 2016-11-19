@@ -5,6 +5,7 @@
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "BehaviorTree/BehaviorTreeComponent.h"
+//#include "LightSwitch.h"
 
 
 // Sets default values
@@ -21,6 +22,7 @@ ABlinkingLight::ABlinkingLight()
 	RootComponent = PointLight;
 
 	LightKey = "Light";
+	currentState = LightState::Blink;
 }
 
 // Called when the game starts or when spawned
@@ -38,7 +40,38 @@ void ABlinkingLight::Tick(float DeltaTime)
 	/*if (BlackboardComp->GetValueAsBool("Light")) {
 
 	}*/
-	LightOn = BlackboardComp->GetValueAsBool(LightKey);
+
+
+	if (currentStateNum == 0) {
+		LightOn = false;
+	}
+	else if (currentStateNum == 1)
+	{
+		LightOn = true;
+	}
+	else if (currentStateNum == 2)
+	{
+		LightOn = BlackboardComp->GetValueAsBool(LightKey);
+	}
+
+
+
+	/*if (currentState == LightState::On) {
+		LightOn = true;
+	}
+	else if (currentState == LightState::Blink)
+	{
+		LightOn = BlackboardComp->GetValueAsBool(LightKey);
+	}
+	else if (currentState == LightState::Off)
+	{
+		LightOn = false;
+	}*/
+
+
+
+
+
 	/*if (LightOn)
 	{
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "true");

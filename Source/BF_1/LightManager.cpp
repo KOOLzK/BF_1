@@ -41,4 +41,13 @@ void ALightManager::toggle()
 {
 	Light = !Light;
 	BlackboardComp->SetValueAsBool(LightKey, Light);
+
+	/*if (Light)
+	{
+		currentState = stateOne;
+	}
+	else
+	{
+		currentState = stateTwo;
+	}*/
 }

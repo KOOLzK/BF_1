@@ -21,6 +21,8 @@ public:
 	// Sets default values for this actor's properties
 	ABlinkingLight();
 
+	enum LightState { On, Blink, Off };
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
@@ -35,5 +37,15 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = Light)
 	class UBehaviorTree* BehaviorTree;
+
+	UPROPERTY(EditAnywhere, Category = AI)
+	FName LightName;
+
+	/*UPROPERTY(EditAnywhere, Category = Light)
+	class ALightSwitch* LightSwitch;*/
+
+	LightState currentState;
+
+	int currentStateNum;
 
 };
