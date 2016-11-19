@@ -2,6 +2,7 @@
 
 #include "BF_1.h"
 #include "LevelLoader.h"
+#include "PlayerCharacter.h"
 
 
 // Sets default values
@@ -51,13 +52,17 @@ void ALevelLoader::Tick( float DeltaTime )
 
 void ALevelLoader::OnOverLapB(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult) {
 	
-	if (LevelName != "None") {
-		UGameplayStatics::OpenLevel(this, LevelName);
+	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr))
+	{
+		if (OtherActor->IsA(APlayerCharacter::StaticClass())) {
+			if (LevelName != "None") {
+				UGameplayStatics::OpenLevel(this, LevelName);
+			}
+			else {
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Level Name can't equal None");
+			}
+		}
 	}
-	else {
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Level Name can't equal None");
-	}
-
 	/*if (OtherActor->IsA(Atest3Projectile::StaticClass())) {
 	health--;
 	if (health <= 0) {

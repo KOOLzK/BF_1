@@ -2,6 +2,7 @@
 
 #include "BF_1.h"
 #include "PlayerCharacter.h"
+#include "LightSwitch.h"
 
 
 // Sets default values
@@ -9,7 +10,17 @@ APlayerCharacter::APlayerCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	
+	//this->on
 
+	UCapsuleComponent*  CapsuleComponent = GetCapsuleComponent(); 
+	//GetCapsuleComponent()->bGenerateOverlapEvents = true;
+	//GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
+	GetCapsuleComponent()->BodyInstance.SetCollisionProfileName("Player");
+	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &APlayerCharacter::OnOverlapBegin);//->OnComponentBeginOverlap(this, APlayerCharacter::BeginPlay());
+	GetCapsuleComponent()->OnComponentEndOverlap.AddDynamic(this, &APlayerCharacter::OnOverlapEnd);
+
+	currentSwitch = nullptr;
 }
 
 
@@ -66,4 +77,35 @@ void APlayerCharacter::LookPitch(float val)
 
 void APlayerCharacter::Use()
 {
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "E");
+	if (currentSwitch != nullptr)
+	{
+		currentSwitch->Switch();
+	}
+}
+
+void APlayerCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) 
+{
+	// Other Actor is the actor that triggered the event. Check that is not ourself.
+	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr))
+	{
+		if (OtherActor->IsA(ALightSwitch::StaticClass())) {
+			ALightSwitch* temp = Cast<ALightSwitch>(OtherActor);
+			currentSwitch = temp;
+		}
+	}
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, "Begin");
+}
+
+void APlayerCharacter::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	// Other Actor is the actor that triggered the event. Check that is not ourself.
+	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr))
+	{
+		if (OtherActor->IsA(ALightSwitch::StaticClass())) {
+			currentSwitch = nullptr;
+		}
+	}
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, "End");
+	
 }
