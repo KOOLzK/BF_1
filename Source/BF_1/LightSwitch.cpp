@@ -29,7 +29,7 @@ ALightSwitch::ALightSwitch()
 	ButtonPromptMesh = CreateDefaultSubobject <UStaticMeshComponent>(TEXT("ButtonPromptMesh"));
 	ButtonPromptMesh->AttachTo(RootComponent);
 
-	OnOff = false;
+	OnOff = true;
 	currentState = stateOne;
 }
 
@@ -49,6 +49,20 @@ void ALightSwitch::BeginPlay()
 		}
 	}
 	
+	if (MyLights.Num() > 0) {
+		for (int i = 0; i < MyLights.Num(); i++) {
+			ABlinkingLight* temp = Cast<ABlinkingLight>(MyLights[i]);
+			if (OnOff)
+			{
+				//ABlinkingLight::LightState::Blink;
+				temp->currentStateNum = stateOne;
+			}
+			else
+			{
+				temp->currentStateNum = stateTwo;
+			}
+		}
+	}
 
 }
 

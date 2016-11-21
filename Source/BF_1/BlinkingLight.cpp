@@ -23,6 +23,7 @@ ABlinkingLight::ABlinkingLight()
 
 	LightKey = "Light";
 	currentState = LightState::Blink;
+	currentStateNum = 2;
 }
 
 // Called when the game starts or when spawned

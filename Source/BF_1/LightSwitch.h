@@ -35,9 +35,11 @@ public:
 	UPROPERTY(EditAnywhere, Category = AI)
 	FName LightName;
 
+	/*default state, when level is loaded; 0 = off, 1 = on, 2 = blinking*/
 	UPROPERTY(EditAnywhere, Category = Light)
 	int stateOne;
 
+	/*second state, after using once; 0 = off, 1 = on, 2 = blinking*/
 	UPROPERTY(EditAnywhere, Category = Light)
 	int stateTwo;
 
