@@ -16,6 +16,22 @@ public:
 
 	class ALightSwitch* currentSwitch;
 
+	UPROPERTY(EditDefaultsOnly, Category = Level)
+	FName LevelKey;
+
+	FName currentLevel;
+
+	UPROPERTY(EditAnywhere, Category = Move)
+	float MyMaxWalkSpeed;
+
+	class UBlackboardComponent* BlackboardComp;
+
+	//global variable access
+	UPROPERTY(EditAnywhere, Category = Variable)
+	class UBehaviorTree* GlobalVariableAccess; 
+
+	UPROPERTY(EditAnywhere, Category = Variable)
+	float ZLevelRestart;
 
 	/*INPUTS*/
 	void MoveForward(float val);
@@ -23,6 +39,9 @@ public:
 	void LookYaw(float val);
 	void LookPitch(float val);
 	void Use();
+
+
+	void Death();
 
 	/*OVERRIDES*/
 	// Called when the game starts or when spawned

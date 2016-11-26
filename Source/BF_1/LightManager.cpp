@@ -25,7 +25,10 @@ ALightManager::ALightManager()
 void ALightManager::BeginPlay()
 {
 	Super::BeginPlay();
-	BlackboardComp->InitializeBlackboard(*(BehaviorTree->BlackboardAsset));
+	//if (BehaviorTree)
+	//{
+		BlackboardComp->InitializeBlackboard(*(BehaviorTree->BlackboardAsset));
+	//}
 	GetWorldTimerManager().SetTimer(lightDelay, this, &ALightManager::toggle, DelayLight, true);
 
 }

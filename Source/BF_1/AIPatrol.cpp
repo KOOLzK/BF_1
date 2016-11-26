@@ -14,6 +14,8 @@ AAIPatrol::AAIPatrol()
 	PawnSensingComp = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("PawnSensingComp"));
 	PawnSensingComp->SetPeripheralVisionAngle(90.f);
 
+	MyMaxWalkSpeed = 1000;// GetCharacterMovement()->MaxWalkSpeed;
+
 	/*UPROPERTY(VisibleAnywhere, Category = AI)
 	UBillboardComponent* temp3 = CreateDefaultSubobject<UBillboardComponent>(TEXT("TargetPoint"));
 	temp3->AttachTo(RootComponent);*/
@@ -64,7 +66,7 @@ void AAIPatrol::OnPlayerCaught(APawn* Pawn)
 
 	if (AIController)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("angry!"));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("angry!"));
 		AIController->SetPlayerCaught(Pawn);
 	}
 }

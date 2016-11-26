@@ -30,6 +30,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Level)
 	FName LevelName;
 
+	UPROPERTY(EditDefaultsOnly, Category = Level)
+	FName LevelKey;
+
+	class UBlackboardComponent* BlackboardComp;
+
+	UPROPERTY(EditAnywhere, Category = Variable)
+	class UBehaviorTree* GlobalVariableAccess;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	

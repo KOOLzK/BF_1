@@ -35,6 +35,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = AI)
 	FName enemyName;
 
+	UPROPERTY(EditAnywhere, Category = AI)
+	float MyMaxWalkSpeed;
+
 	APointLight* PointLight;
 	//TArray<AActor*> PatrolPoints;
 

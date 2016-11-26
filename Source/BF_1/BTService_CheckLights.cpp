@@ -30,7 +30,7 @@ void UBTService_CheckLights::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* 
 
 		if (light == 0) {
 			//BlackboardComp->SetValueAsBool("IsInLight", false);
-			AICharacter->GetCharacterMovement()->MaxWalkSpeed = 600;
+			AICharacter->GetCharacterMovement()->MaxWalkSpeed = AICharacter->MyMaxWalkSpeed;
 		}
 		else {
 			//BlackboardComp->SetValueAsBool("IsInLight", true);

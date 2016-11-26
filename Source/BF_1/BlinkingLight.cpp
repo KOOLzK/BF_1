@@ -30,7 +30,10 @@ ABlinkingLight::ABlinkingLight()
 void ABlinkingLight::BeginPlay()
 {
 	Super::BeginPlay();
-	BlackboardComp->InitializeBlackboard(*(BehaviorTree->BlackboardAsset));
+	//if (BehaviorTree)
+	//{
+		BlackboardComp->InitializeBlackboard(*(BehaviorTree->BlackboardAsset));
+	//}
 }
 
 // Called every frame

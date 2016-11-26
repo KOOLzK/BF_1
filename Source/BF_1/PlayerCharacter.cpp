@@ -4,6 +4,9 @@
 #include "PlayerCharacter.h"
 #include "LightSwitch.h"
 #include "AIPatrol.h"
+#include "BehaviorTree/BehaviorTree.h"
+#include "BehaviorTree/BlackboardComponent.h"
+#include "BehaviorTree/BehaviorTreeComponent.h"
 
 
 // Sets default values
@@ -22,6 +25,17 @@ APlayerCharacter::APlayerCharacter()
 	GetCapsuleComponent()->OnComponentEndOverlap.AddDynamic(this, &APlayerCharacter::OnOverlapEnd);
 
 	currentSwitch = nullptr;
+
+	//back up in case it isn't set
+	currentLevel = "puzzle1";
+
+	LevelKey = "CurrentLevel";
+
+	MyMaxWalkSpeed = 500;
+	GetCharacterMovement()->MaxWalkSpeed = MyMaxWalkSpeed;
+
+	ZLevelRestart = -10000;
+	//BlackboardComp = CreateDefaultSubobject<UBlackboardComponent>(TEXT("BlackboardComp"));
 }
 
 
@@ -29,13 +43,25 @@ APlayerCharacter::APlayerCharacter()
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	/*if (GlobalVariableAccess)
+	{
+		BlackboardComp->InitializeBlackboard(*(GlobalVariableAccess->BlackboardAsset));
+	}
+	else 
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "NO");
+	}*/
 }
 
 // Called every frame
 void APlayerCharacter::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
+
+	if (GetActorLocation().Z < ZLevelRestart)
+	{
+		Death();
+	}
 
 }
 
@@ -78,7 +104,7 @@ void APlayerCharacter::LookPitch(float val)
 
 void APlayerCharacter::Use()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "E");
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "E");
 	if (currentSwitch != nullptr)
 	{
 		currentSwitch->Switch();
@@ -96,7 +122,8 @@ void APlayerCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActo
 		}
 
 		if (OtherActor->IsA(AAIPatrol::StaticClass())) {
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, "Dead");
+			Death();
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, "Dead");
 		}
 	}
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, "Begin");
@@ -113,4 +140,13 @@ void APlayerCharacter::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor*
 	}
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, "End");
 	
+}
+
+void APlayerCharacter::Death()
+{
+	//currentLevel = BlackboardComp->GetValueAsName(LevelKey);//GetValueAsBool(LevelKey);
+	//UGameplayStatics::OpenLevel(this, currentLevel);
+	FString a = UGameplayStatics::GetCurrentLevelName(this);
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, a);
+	UGameplayStatics::OpenLevel(this, FName(*a));
 }
