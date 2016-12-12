@@ -39,6 +39,18 @@ AAIPatrol::AAIPatrol()
 	//temp->AttachToComponent(GetRootComponent(),);
 	//PatrolPoints.Add();
 
+	static ConstructorHelpers::FObjectFinder<USoundCue> propellerCue(TEXT("'/Game/Sounds/Church_Ambiance_Cue.Church_Ambiance_Cue'"));//'/Game/Sounds/Cowboy_with_spurs-G-rant_Cue.Cowboy_with_spurs-G-rant_Cue'
+
+	propellerAudioCue = propellerCue.Object;
+
+	propellerAudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("PropellerAudioComp"));
+
+	propellerAudioComponent->bAutoActivate = false;
+
+	propellerAudioComponent->AttachParent = RootComponent;
+
+	propellerAudioComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 100.0f));
+
 }
 
 // Called when the game starts or when spawned
@@ -50,6 +62,11 @@ void AAIPatrol::BeginPlay()
 	{
 		PawnSensingComp->OnSeePawn.AddDynamic(this, &AAIPatrol::OnPlayerCaught);
 	}
+
+	if (propellerAudioCue->IsValidLowLevelFast()) {
+		propellerAudioComponent->SetSound(propellerAudioCue);
+	}
+
 }
 
 // Called to bind functionality to input

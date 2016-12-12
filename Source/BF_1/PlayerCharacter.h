@@ -16,6 +16,8 @@ public:
 
 	class ALightSwitch* currentSwitch;
 
+	class ASwingingDoor* currentDoor;
+
 	UPROPERTY(EditDefaultsOnly, Category = Level)
 	FName LevelKey;
 

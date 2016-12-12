@@ -51,6 +51,10 @@ public:
 
 	TArray<AActor*> MyLights;
 
+	USoundCue* propellerAudioCue;
+
+	UAudioComponent* propellerAudioComponent;
+
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

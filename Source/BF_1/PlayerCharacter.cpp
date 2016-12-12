@@ -3,6 +3,7 @@
 #include "BF_1.h"
 #include "PlayerCharacter.h"
 #include "LightSwitch.h"
+#include "SwingingDoor.h"
 #include "AIPatrol.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
@@ -109,6 +110,11 @@ void APlayerCharacter::Use()
 	{
 		currentSwitch->Switch();
 	}
+
+	if (currentDoor != nullptr)
+	{
+		currentDoor->Use();
+	}
 }
 
 void APlayerCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) 
@@ -119,6 +125,11 @@ void APlayerCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActo
 		if (OtherActor->IsA(ALightSwitch::StaticClass())) {
 			ALightSwitch* temp = Cast<ALightSwitch>(OtherActor);
 			currentSwitch = temp;
+		}
+
+		if (OtherActor->IsA(ASwingingDoor::StaticClass())) {
+			ASwingingDoor* temp = Cast<ASwingingDoor>(OtherActor);
+			currentDoor = temp;
 		}
 
 		if (OtherActor->IsA(AAIPatrol::StaticClass())) {
@@ -137,6 +148,11 @@ void APlayerCharacter::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor*
 		if (OtherActor->IsA(ALightSwitch::StaticClass())) {
 			currentSwitch = nullptr;
 		}
+
+		if (OtherActor->IsA(ASwingingDoor::StaticClass())) {
+			currentDoor = nullptr;
+		}
+
 	}
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, "End");
 	

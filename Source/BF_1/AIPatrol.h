@@ -44,6 +44,10 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = AI)
 	class UPawnSensingComponent* PawnSensingComp;
 
+	USoundCue* propellerAudioCue;
+
+	UAudioComponent* propellerAudioComponent;
+
 private:
 
 	UFUNCTION()

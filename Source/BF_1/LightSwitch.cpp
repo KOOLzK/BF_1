@@ -31,6 +31,18 @@ ALightSwitch::ALightSwitch()
 
 	OnOff = true;
 	currentState = stateOne;
+
+	static ConstructorHelpers::FObjectFinder<USoundCue> propellerCue(TEXT("'/Game/Sounds/Button_Click_Cue.Button_Click_Cue'"));
+
+	propellerAudioCue = propellerCue.Object;
+
+	propellerAudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("PropellerAudioComp"));
+
+	propellerAudioComponent->bAutoActivate = false;
+
+	propellerAudioComponent->AttachParent = RootComponent;
+
+	propellerAudioComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 100.0f));
 }
 
 // Called when the game starts or when spawned
@@ -64,13 +76,16 @@ void ALightSwitch::BeginPlay()
 		}
 	}
 
+	if (propellerAudioCue->IsValidLowLevelFast()) {
+		propellerAudioComponent->SetSound(propellerAudioCue);
+	}
 }
 
 // Called every frame
 void ALightSwitch::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
-
+	//propellerAudioComponent->SetFloatParameter(FName("pitch"), 2500.f);//for runtime
 }
 
 void ALightSwitch::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -100,6 +115,8 @@ void ALightSwitch::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* Oth
 void ALightSwitch::Switch()
 {
 	OnOff = !OnOff;
+
+	propellerAudioComponent->Play();
 
 	if (MyLights.Num() > 0) {
 		for (int i = 0; i < MyLights.Num(); i++) {

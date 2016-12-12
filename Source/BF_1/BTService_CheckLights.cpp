@@ -31,11 +31,16 @@ void UBTService_CheckLights::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* 
 		if (light == 0) {
 			//BlackboardComp->SetValueAsBool("IsInLight", false);
 			AICharacter->GetCharacterMovement()->MaxWalkSpeed = AICharacter->MyMaxWalkSpeed;
+			if (!AICharacter->propellerAudioComponent->IsPlaying())
+			{
+				AICharacter->propellerAudioComponent->Play();
+			}
 		}
 		else {
 			//BlackboardComp->SetValueAsBool("IsInLight", true);
 			//AICharacter->SetActorLocation(AICharacter->GetActorLocation());
 			AICharacter->GetCharacterMovement()->MaxWalkSpeed = 0;
+			AICharacter->propellerAudioComponent->Stop();
 		}
 
 	}
