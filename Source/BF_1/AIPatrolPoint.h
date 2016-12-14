@@ -20,5 +20,9 @@ public:
 	/*Is used for selecting the Enemy with the same Name*/
 	UPROPERTY(EditAnywhere, Category = AI)
 	FName enemyName;
+
+	/*Is used to order the points*/
+	UPROPERTY(EditAnywhere, Category = AI)
+	int Order;
 	
 };

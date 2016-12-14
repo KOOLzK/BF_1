@@ -29,6 +29,9 @@ class BF_1_API AAIPatrolController : public AAIController
 
 	virtual void Possess(APawn* Pawn) override;
 
+	bool Result;
+
+	bool AllResult;
 
 public:
 
