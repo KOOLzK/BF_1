@@ -14,12 +14,36 @@ public:
 	// Sets default values for this character's properties
 	APlayerCharacter();
 
+	class ALightSwitch* currentSwitch;
+
+	class ASwingingDoor* currentDoor;
+
+	UPROPERTY(EditDefaultsOnly, Category = Level)
+	FName LevelKey;
+
+	FName currentLevel;
+
+	UPROPERTY(EditAnywhere, Category = Move)
+	float MyMaxWalkSpeed;
+
+	class UBlackboardComponent* BlackboardComp;
+
+	//global variable access
+	UPROPERTY(EditAnywhere, Category = Variable)
+	class UBehaviorTree* GlobalVariableAccess; 
+
+	UPROPERTY(EditAnywhere, Category = Variable)
+	float ZLevelRestart;
+
 	/*INPUTS*/
 	void MoveForward(float val);
 	void MoveRight(float val);
 	void LookYaw(float val);
 	void LookPitch(float val);
 	void Use();
+
+
+	void Death();
 
 	/*OVERRIDES*/
 	// Called when the game starts or when spawned
@@ -31,6 +55,11 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
+	UFUNCTION()
+	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	
-	
+	UFUNCTION()
+	void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+	//class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex
 };

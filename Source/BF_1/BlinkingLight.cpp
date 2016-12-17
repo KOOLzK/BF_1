@@ -5,12 +5,13 @@
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "BehaviorTree/BehaviorTreeComponent.h"
+//#include "LightSwitch.h"
 
 
 // Sets default values
 ABlinkingLight::ABlinkingLight()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	BlackboardComp = CreateDefaultSubobject<UBlackboardComponent>(TEXT("BlackboardComp"));
@@ -21,33 +22,69 @@ ABlinkingLight::ABlinkingLight()
 	RootComponent = PointLight;
 
 	LightKey = "Light";
+	currentState = LightState::Blink;
+	currentStateNum = 2;
 }
 
 // Called when the game starts or when spawned
 void ABlinkingLight::BeginPlay()
 {
 	Super::BeginPlay();
-	BlackboardComp->InitializeBlackboard(*(BehaviorTree->BlackboardAsset));
+	//if (BehaviorTree)
+	//{
+		BlackboardComp->InitializeBlackboard(*(BehaviorTree->BlackboardAsset));
+	//}
 }
 
 // Called every frame
-void ABlinkingLight::Tick( float DeltaTime )
+void ABlinkingLight::Tick(float DeltaTime)
 {
-	Super::Tick( DeltaTime );
+	Super::Tick(DeltaTime);
 
 	/*if (BlackboardComp->GetValueAsBool("Light")) {
 
 	}*/
-	bool temp = BlackboardComp->GetValueAsBool(LightKey);
-	if (temp)
+
+
+	if (currentStateNum == 0) {
+		LightOn = false;
+	}
+	else if (currentStateNum == 1)
 	{
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "true");
+		LightOn = true;
+	}
+	else if (currentStateNum == 2)
+	{
+		LightOn = BlackboardComp->GetValueAsBool(LightKey);
+	}
+
+
+
+	/*if (currentState == LightState::On) {
+		LightOn = true;
+	}
+	else if (currentState == LightState::Blink)
+	{
+		LightOn = BlackboardComp->GetValueAsBool(LightKey);
+	}
+	else if (currentState == LightState::Off)
+	{
+		LightOn = false;
+	}*/
+
+
+
+
+
+	/*if (LightOn)
+	{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "true");
 	}
 	else
 	{
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "false");
-	}
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "false");
+	}*/
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, messege);
-	PointLight->SetVisibility(temp);
+	PointLight->SetVisibility(LightOn);
 }
 
