@@ -26,6 +26,10 @@ public:
 	UPROPERTY(EditAnywhere, Category = Move)
 	float MyMaxWalkSpeed;
 
+	/*default is 45.0*/
+	UPROPERTY(EditAnywhere, Category = Move)
+	float MyMaxStepHeight;
+
 	class UBlackboardComponent* BlackboardComp;
 
 	//global variable access
@@ -35,13 +39,16 @@ public:
 	UPROPERTY(EditAnywhere, Category = Variable)
 	float ZLevelRestart;
 
+	UPROPERTY(EditAnywhere, Category = Variable)
+	bool DisplayDebugMessages = false;
+
 	/*INPUTS*/
 	void MoveForward(float val);
 	void MoveRight(float val);
 	void LookYaw(float val);
 	void LookPitch(float val);
 	void Use();
-
+	void ToggleDebugMessages();
 
 	void Death();
 

@@ -76,6 +76,7 @@ void APlayerCharacter::SetupPlayerInputComponent(class UInputComponent* InputCom
 	InputComponent->BindAxis("LookYaw", this, &APlayerCharacter::LookYaw);
 	InputComponent->BindAxis("LookPitch", this, &APlayerCharacter::LookPitch);
 	InputComponent->BindAction("Use", IE_Pressed, this, &APlayerCharacter::Use);
+	InputComponent->BindAction("DebugMessage", IE_Pressed, this, &APlayerCharacter::ToggleDebugMessages);
 
 }
 
@@ -117,6 +118,15 @@ void APlayerCharacter::Use()
 	}
 }
 
+void APlayerCharacter::ToggleDebugMessages()
+{
+	DisplayDebugMessages = !DisplayDebugMessages;
+	
+	if (DisplayDebugMessages) {
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, "DebugMessagesOn");
+	}
+}
+
 void APlayerCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) 
 {
 	// Other Actor is the actor that triggered the event. Check that is not ourself.
@@ -137,7 +147,10 @@ void APlayerCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActo
 			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, "Dead");
 		}
 	}
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, "Begin");
+	if (DisplayDebugMessages) {
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, "Begin");
+	}
+	
 }
 
 void APlayerCharacter::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
@@ -154,7 +167,9 @@ void APlayerCharacter::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor*
 		}
 
 	}
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, "End");
+	if (DisplayDebugMessages) {
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, "End");
+	}
 	
 }
 

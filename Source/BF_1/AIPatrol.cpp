@@ -16,6 +16,8 @@ AAIPatrol::AAIPatrol()
 
 	MyMaxWalkSpeed = 1000;// GetCharacterMovement()->MaxWalkSpeed;
 
+	//GetCharacterMovement()->MaxStepHeight = MyMaxStepHeight;
+
 	/*UPROPERTY(VisibleAnywhere, Category = AI)
 	UBillboardComponent* temp3 = CreateDefaultSubobject<UBillboardComponent>(TEXT("TargetPoint"));
 	temp3->AttachTo(RootComponent);*/
@@ -57,6 +59,8 @@ AAIPatrol::AAIPatrol()
 void AAIPatrol::BeginPlay()
 {
 	Super::BeginPlay();
+
+	GetCharacterMovement()->MaxStepHeight = MyMaxStepHeight;
 
 	if (PawnSensingComp)
 	{

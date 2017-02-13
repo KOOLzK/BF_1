@@ -38,6 +38,10 @@ public:
 	UPROPERTY(EditAnywhere, Category = AI)
 	float MyMaxWalkSpeed;
 
+	/*default is 45.0*/
+	UPROPERTY(EditAnywhere, Category = AI)
+	float MyMaxStepHeight = 45.0;
+
 	APointLight* PointLight;
 	//TArray<AActor*> PatrolPoints;
 
