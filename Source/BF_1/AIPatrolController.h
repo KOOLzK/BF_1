@@ -25,7 +25,11 @@ class BF_1_API AAIPatrolController : public AAIController
 
 	TArray<AActor*> AllPoints;
 
+	//Patrol Points for this enemy
 	TArray<AActor*> PatrolPoints;
+
+	/*//current target location
+	AActor* Target;*/
 
 	virtual void Possess(APawn* Pawn) override;
 

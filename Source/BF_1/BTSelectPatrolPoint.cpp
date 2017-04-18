@@ -22,7 +22,8 @@ EBTNodeResult::Type UBTSelectPatrolPoint::ExecuteTask(UBehaviorTreeComponent& Ow
 
 		if (AICon->CurrentPatrolPoint != AvailablePatrolPoints.Num() - 1)
 		{
-			NextPatrolPoint = Cast<AAIPatrolPoint>(AvailablePatrolPoints[++AICon->CurrentPatrolPoint]);
+			AICon->CurrentPatrolPoint++;
+			NextPatrolPoint = Cast<AAIPatrolPoint>(AvailablePatrolPoints[AICon->CurrentPatrolPoint]);
 		}
 		else
 		{
