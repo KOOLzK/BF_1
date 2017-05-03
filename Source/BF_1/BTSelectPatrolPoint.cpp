@@ -19,18 +19,19 @@ EBTNodeResult::Type UBTSelectPatrolPoint::ExecuteTask(UBehaviorTreeComponent& Ow
 		TArray<AActor*> AvailablePatrolPoints = AICon->GetPatrolPoints();
 
 		AAIPatrolPoint* NextPatrolPoint = nullptr;
-
-		if (AICon->CurrentPatrolPoint != AvailablePatrolPoints.Num() - 1)
-		{
-			AICon->CurrentPatrolPoint++;
-			NextPatrolPoint = Cast<AAIPatrolPoint>(AvailablePatrolPoints[AICon->CurrentPatrolPoint]);
+		if (AICon->GetMoveStatus() == EPathFollowingStatus::Idle) {
+			if (AICon->CurrentPatrolPoint != AvailablePatrolPoints.Num() - 1)
+			{
+				AICon->CurrentPatrolPoint++;
+				//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, FString::FromInt(AICon->CurrentPatrolPoint));
+				NextPatrolPoint = Cast<AAIPatrolPoint>(AvailablePatrolPoints[AICon->CurrentPatrolPoint]);
+			}
+			else
+			{
+				NextPatrolPoint = Cast<AAIPatrolPoint>(AvailablePatrolPoints[0]);
+				AICon->CurrentPatrolPoint = 0;
+			}
 		}
-		else
-		{
-			NextPatrolPoint = Cast<AAIPatrolPoint>(AvailablePatrolPoints[0]);
-			AICon->CurrentPatrolPoint = 0;
-		}
-
 		BlackboardComp->SetValueAsObject("LocationToGo", NextPatrolPoint);
 
 		return EBTNodeResult::Succeeded;

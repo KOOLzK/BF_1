@@ -17,6 +17,7 @@ EBTNodeResult::Type UBTMoveToTarget::ExecuteTask(UBehaviorTreeComponent& OwerCom
 	{
 		TArray<AActor*> AvailablePatrolPoints = AICon->GetPatrolPoints();
 
+		//CurrentPatrolPoint changed in BTSelectPatrolPoint.cpp
 		AActor* NextPatrolPoint = AvailablePatrolPoints[AICon->CurrentPatrolPoint];
 
 		
@@ -30,6 +31,7 @@ EBTNodeResult::Type UBTMoveToTarget::ExecuteTask(UBehaviorTreeComponent& OwerCom
 			//EPathFollowingStatus::Moving;
 			//AICon->GetMoveGoalOffset(AICon);
 			AICon->MoveToActor(NextPatrolPoint, 5.f, true, true, true, 0, true);
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, FString::FromInt(AICon->CurrentPatrolPoint));
 			return EBTNodeResult::Succeeded;
 		}
 		else {

@@ -102,8 +102,15 @@ void AAIPatrolController::Possess(APawn* Pawn)
 
 		if (PatrolPoints.Num() > 0) {
 			BehaviorComp->StartTree(*AICharacter->BehaviorTree);
+
+			/*for (int i = 0; i < PatrolPoints.Num(); i++) {
+				AAIPatrolPoint* temporary = Cast<AAIPatrolPoint>(PatrolPoints[i]);
+				//FString::FromInt(temporary->Order);
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, FString::FromInt(temporary->Order));
+			}*/
 		}
 	}
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, "Begin2222");
 }
 
 void AAIPatrolController::SetPlayerCaught(APawn* Pawn)
