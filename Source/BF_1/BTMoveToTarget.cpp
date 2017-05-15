@@ -26,19 +26,25 @@ EBTNodeResult::Type UBTMoveToTarget::ExecuteTask(UBehaviorTreeComponent& OwerCom
 		//if (AICon->GetMoveStatus()); //AICon->GetMoveGoalReachTest(AICon, , NextPatrolPoint, 5.f, 5.f
 		
 		//if(AICon->GetPawn()->GetDistanceTo(NextPatrolPoint) < 10.1f)
-		if (AICon->GetMoveStatus() == EPathFollowingStatus::Idle)
-		{
-			//EPathFollowingStatus::Moving;
-			//AICon->GetMoveGoalOffset(AICon);
-			AICon->MoveToActor(NextPatrolPoint, 5.f, true, true, true, 0, true);
-			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, FString::FromInt(AICon->CurrentPatrolPoint));
+		if (AICon->CurrentState == AAIPatrolController::State::patrol) {
+
+			//when Idle it moves to the next Patrol Point and when it has completed the move it goes Idle
+			if (AICon->GetMoveStatus() == EPathFollowingStatus::Idle)
+			{
+				//EPathFollowingStatus::Moving;
+				//AICon->GetMoveGoalOffset(AICon);
+				AICon->MoveToActor(NextPatrolPoint, 5.f, true, true, true, 0, true);
+				//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, FString::FromInt(AICon->CurrentPatrolPoint));
+				return EBTNodeResult::Succeeded;
+			}
+			else {
+				//return EBTNodeResult::InProgress;
+			}
+		}
+		if (AICon->CurrentState == AAIPatrolController::State::spotted) {
+			AICon->MoveToLocation(AICon->LastLocation);
 			return EBTNodeResult::Succeeded;
 		}
-		else {
-			//return EBTNodeResult::InProgress;
-		}
-
-		
 
 		
 		//AICon->ReceiveMoveCompleted;

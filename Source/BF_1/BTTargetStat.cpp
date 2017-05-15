@@ -4,5 +4,8 @@
 #include "BTTargetStat.h"
 
 
-
+EBTNodeResult::Type UBTTargetStat::ExecuteTask(UBehaviorTreeComponent& OwerComp, uint8* NodeMemory)
+{
+	return EBTNodeResult::Succeeded;
+}
 

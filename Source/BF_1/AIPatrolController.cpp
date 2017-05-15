@@ -26,6 +26,8 @@ void AAIPatrolController::Possess(APawn* Pawn)
 {
 	Super::Possess(Pawn);
 
+	CurrentState = State::patrol;
+
 	AAIPatrol* AICharacter = Cast<AAIPatrol>(Pawn);
 
 	if (AICharacter) {
@@ -115,8 +117,19 @@ void AAIPatrolController::Possess(APawn* Pawn)
 
 void AAIPatrolController::SetPlayerCaught(APawn* Pawn)
 {
-	if (BlackboardComp)
+	CurrentState = State::spotted;
+
+	LastLocation = Pawn->GetActorLocation();
+	/*if (BlackboardComp)
 	{
 		BlackboardComp->SetValueAsObject(PlayerKey, Pawn);
-	}
+	}*/
+}
+
+void AAIPatrolController::SetPlayerLost(APawn* Pawn)
+{
+	CurrentState = State::lastSeen;
+
+	LastLocation = Pawn->GetActorLocation();
+	
 }

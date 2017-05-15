@@ -43,9 +43,23 @@ public:
 
 	void SetPlayerCaught(APawn* Pawn);
 
+	void SetPlayerLost(APawn* Pawn);
+
 	int32 CurrentPatrolPoint = 0;
 
 	FORCEINLINE UBlackboardComponent* GetBlackboardComp() const { return BlackboardComp; }
 	FORCEINLINE TArray<AActor*> GetPatrolPoints() const { return PatrolPoints; }
 	
+
+	/*Patrol moving between patrol points.
+	Spotted the enemy sees the player.
+	LastSeen enemy moves to the place the player was last seen.
+	Searching enemy has gone to the place where the player was last seen and didn't find the player. */
+	enum State { patrol, spotted, lastSeen, searching };
+
+	State CurrentState;
+
+	FVector LastLocation;
+
+	//APawn* player;
 };

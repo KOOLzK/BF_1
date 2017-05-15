@@ -18,5 +18,6 @@ class BF_1_API UBTTargetStat : public UBTTaskNode
 		Searching enemy has gone to the place where the player was last seen and didn't find the player. */
 		enum State {patrol, spotted, lastSeen, searching};
 	
-	
+	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwerComp, uint8* NodeMemory) override;
+
 };
