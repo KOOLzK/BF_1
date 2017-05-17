@@ -41,7 +41,21 @@ EBTNodeResult::Type UBTMoveToTarget::ExecuteTask(UBehaviorTreeComponent& OwerCom
 				//return EBTNodeResult::InProgress;
 			}
 		}
+
 		if (AICon->CurrentState == AAIPatrolController::State::spotted) {
+			AICon->lastSeenTimer--;
+			if (AICon->lastSeenTimer < 0) {
+				AICon->CurrentState = AAIPatrolController::State::lastSeen;
+			}
+			AICon->MoveToLocation(AICon->LastLocation);
+			return EBTNodeResult::Succeeded;
+		}
+
+		if (AICon->CurrentState == AAIPatrolController::State::lastSeen) {
+			if (AICon->GetMoveStatus() == EPathFollowingStatus::Idle)
+			{
+				AICon->CurrentState = AAIPatrolController::State::patrol;
+			}
 			AICon->MoveToLocation(AICon->LastLocation);
 			return EBTNodeResult::Succeeded;
 		}

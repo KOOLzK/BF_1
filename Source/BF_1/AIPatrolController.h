@@ -61,5 +61,7 @@ public:
 
 	FVector LastLocation;
 
+	int32 lastSeenTimer;
+
 	//APawn* player;
 };

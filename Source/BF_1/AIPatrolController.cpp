@@ -18,6 +18,8 @@ AAIPatrolController::AAIPatrolController()
 
 	CurrentPatrolPoint = 0;
 
+	lastSeenTimer = 10;
+
 	Result = false;
 	AllResult = false;
 }
@@ -117,6 +119,8 @@ void AAIPatrolController::Possess(APawn* Pawn)
 
 void AAIPatrolController::SetPlayerCaught(APawn* Pawn)
 {
+	lastSeenTimer = 10;
+
 	CurrentState = State::spotted;
 
 	LastLocation = Pawn->GetActorLocation();
