@@ -53,6 +53,12 @@ AAIPatrol::AAIPatrol()
 
 	propellerAudioComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 100.0f));
 
+
+	MovingToLocationMaker = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("EnemyMakerPSC"));
+	//MovingToLocationMaker->ActivateSystem(true);
+	//MovingToLocationMaker->SetWorldLocation(FVector(0, 0, 0));
+	//MovingToLocationMaker->SpawnEvents.
+	//UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), MovingToLocationMaker->Template, FVector(0, 0, 0));
 }
 
 // Called when the game starts or when spawned

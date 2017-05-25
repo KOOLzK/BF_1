@@ -30,6 +30,8 @@ void AAIPatrolController::Possess(APawn* Pawn)
 
 	CurrentState = State::patrol;
 
+	AICharacterRef = Pawn;
+
 	AAIPatrol* AICharacter = Cast<AAIPatrol>(Pawn);
 
 	if (AICharacter) {
@@ -120,7 +122,9 @@ void AAIPatrolController::Possess(APawn* Pawn)
 void AAIPatrolController::SetPlayerCaught(APawn* Pawn)
 {
 	lastSeenTimer = 10;
-
+	if (CurrentState == State::lastSeen) {
+		MovingToLocationMakerOff();
+	}
 	CurrentState = State::spotted;
 
 	LastLocation = Pawn->GetActorLocation();
@@ -130,10 +134,33 @@ void AAIPatrolController::SetPlayerCaught(APawn* Pawn)
 	}*/
 }
 
-void AAIPatrolController::SetPlayerLost(APawn* Pawn)
+/*void AAIPatrolController::SetPlayerLost(APawn* Pawn)
 {
 	CurrentState = State::lastSeen;
 
 	LastLocation = Pawn->GetActorLocation();
 	
+}*/
+
+void AAIPatrolController::MovingToLocationMakerOn() 
+{
+	AAIPatrol* AICharacter = Cast<AAIPatrol>(AICharacterRef);
+
+	AICharacter->MovingToLocationMaker->SetWorldLocation(LastLocation);
+
+	AICharacter->MovingToLocationMaker->ActivateSystem();
 }
+
+void AAIPatrolController::MovingToLocationMakerOff()
+{
+	AAIPatrol* AICharacter = Cast<AAIPatrol>(AICharacterRef);
+
+	AICharacter->MovingToLocationMaker->DeactivateSystem();
+}
+
+/* crap 
+
+Ref
+https://answers.unrealengine.com/questions/158065/startstop-emitting-particle-system-component.html
+
+*/

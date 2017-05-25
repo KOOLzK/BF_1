@@ -52,6 +52,10 @@ public:
 
 	UAudioComponent* propellerAudioComponent;
 
+	/*when enemy is in lastSeen state, this Particle System is suppost to Maker where the enemy last saw the player*/
+	UPROPERTY(EditAnywhere, Category = Effects)
+	class UParticleSystemComponent* MovingToLocationMaker;
+
 private:
 
 	UFUNCTION()

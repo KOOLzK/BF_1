@@ -46,6 +46,7 @@ EBTNodeResult::Type UBTMoveToTarget::ExecuteTask(UBehaviorTreeComponent& OwerCom
 			AICon->lastSeenTimer--;
 			if (AICon->lastSeenTimer < 0) {
 				AICon->CurrentState = AAIPatrolController::State::lastSeen;
+				AICon->MovingToLocationMakerOn();
 			}
 			AICon->MoveToLocation(AICon->LastLocation);
 			return EBTNodeResult::Succeeded;
@@ -55,6 +56,7 @@ EBTNodeResult::Type UBTMoveToTarget::ExecuteTask(UBehaviorTreeComponent& OwerCom
 			if (AICon->GetMoveStatus() == EPathFollowingStatus::Idle)
 			{
 				AICon->CurrentState = AAIPatrolController::State::patrol;
+				AICon->MovingToLocationMakerOff();
 			}
 			AICon->MoveToLocation(AICon->LastLocation);
 			return EBTNodeResult::Succeeded;

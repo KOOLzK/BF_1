@@ -43,7 +43,13 @@ public:
 
 	void SetPlayerCaught(APawn* Pawn);
 
-	void SetPlayerLost(APawn* Pawn);
+	//void SetPlayerLost(APawn* Pawn);
+
+	/*places a Particle System where the enemy last saw the player*/
+	void MovingToLocationMakerOn();
+
+	/*removes the Particle System where the enemy last saw the player*/
+	void MovingToLocationMakerOff();
 
 	int32 CurrentPatrolPoint = 0;
 
@@ -62,6 +68,8 @@ public:
 	FVector LastLocation;
 
 	int32 lastSeenTimer;
+
+	APawn* AICharacterRef;
 
 	//APawn* player;
 };
