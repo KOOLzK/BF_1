@@ -53,8 +53,21 @@ public:
 	UAudioComponent* propellerAudioComponent;
 
 	/*when enemy is in lastSeen state, this Particle System is suppost to Maker where the enemy last saw the player*/
-	UPROPERTY(EditAnywhere, Category = Effects)
+	UPROPERTY()
 	class UParticleSystemComponent* MovingToLocationMaker;
+
+	/*temporary holds Particle System so it can be set MovingToLocationMaker in BeginPlay*/
+	UParticleSystem* TempPS;
+
+	/*maybe add a way to change the Particle System from with in the editer*/
+	/*UPROPERTY(VisibleAnywhere, Category = Effects)
+	FName ParticleSystemRef;*/
+
+	UPROPERTY(EditAnywhere, Category = Effects)
+	class UMaterial* FootPrintMaterial;
+
+	/*UPROPERTY(EditAnywhere, Category = Effects)
+	float FootPrintLifeSpan = 5.0;*/
 
 private:
 

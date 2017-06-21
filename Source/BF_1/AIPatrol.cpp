@@ -18,29 +18,6 @@ AAIPatrol::AAIPatrol()
 
 	//GetCharacterMovement()->MaxStepHeight = MyMaxStepHeight;
 
-	/*UPROPERTY(VisibleAnywhere, Category = AI)
-	UBillboardComponent* temp3 = CreateDefaultSubobject<UBillboardComponent>(TEXT("TargetPoint"));
-	temp3->AttachTo(RootComponent);*/
-
-	//AActor* temp2 = CreateDefaultSubobject<AActor>(TEXT("TargetPoint"));
-	//temp2->AttachToActor(RootComponent);
-
-	/*ATargetPoint* temp = CreateDefaultSubobject<ATargetPoint>(TEXT("TargetPoint"));
-	temp->AddToRoot();*/
-
-
-
-	//ATargetPoint* temp;
-	//temp->AttachRootComponentTo(RootComponent);
-	//>AttachTo(RootComponent);
-	//temp->AttachTo();
-	//RootComponent r = GetRootComponent();
-
-	//GetCapsuleComponent()->AttachChildren(temp);
-	//RootComponent->AttachTo()
-	//temp->AttachToComponent(GetRootComponent(),);
-	//PatrolPoints.Add();
-
 	static ConstructorHelpers::FObjectFinder<USoundCue> propellerCue(TEXT("'/Game/Sounds/Church_Ambiance_Cue.Church_Ambiance_Cue'"));//'/Game/Sounds/Cowboy_with_spurs-G-rant_Cue.Cowboy_with_spurs-G-rant_Cue'
 
 	propellerAudioCue = propellerCue.Object;
@@ -53,12 +30,10 @@ AAIPatrol::AAIPatrol()
 
 	propellerAudioComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 100.0f));
 
-
+	static ConstructorHelpers::FObjectFinder<UParticleSystem> PS(TEXT("ParticleSystem'/Game/Effects/P_Moving_Spin_Untyped_00.P_Moving_Spin_Untyped_00'"));
+	TempPS = PS.Object;
 	MovingToLocationMaker = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("EnemyMakerPSC"));
-	//MovingToLocationMaker->ActivateSystem(true);
-	//MovingToLocationMaker->SetWorldLocation(FVector(0, 0, 0));
-	//MovingToLocationMaker->SpawnEvents.
-	//UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), MovingToLocationMaker->Template, FVector(0, 0, 0));
+	
 }
 
 // Called when the game starts or when spawned
@@ -76,6 +51,11 @@ void AAIPatrol::BeginPlay()
 	if (propellerAudioCue->IsValidLowLevelFast()) {
 		propellerAudioComponent->SetSound(propellerAudioCue);
 	}
+
+	/*if the Particle System(MovingToLocationMaker) is set in the constructor then the blueprint gets 
+	all weird. the camera zooms really far back and is a pain to zoom in again so I'm doing it here 
+	in BeginPlay*/
+	MovingToLocationMaker->SetTemplate(TempPS);
 
 }
 
@@ -151,46 +131,106 @@ float AAIPatrol::GetLightingAmount()
 		}
 	}
 
-	/*if (BL)
-	{
-	UPointLightComponent* LightComp = BL->PointLight;//PointLight->PointLightComponent;
-
-	if (LightComp)
-	{
-	if (LightComp->IsVisible())
-	{
-	FVector End = BL->GetActorLocation();
-	float Distance = FVector::Dist(Loc, End);
-	float LightRadius = LightComp->AttenuationRadius;
-	bool bHit = GetWorld()->LineTraceTestByChannel(Loc, End, ECC_Visibility, Params); //ActorLineTraceSingle(HitResult, Loc, End, ECC_Visibility, Params);// LineTraceTest(
-
-	if (Distance <= LightRadius && !bHit)
-	{
-	//Result = FMath::Pow(1.0 - (Distance / LightRadius), (LightComp->LightFalloffExponent + 1) * (LightRadius * 1.25));
-	//Result = FMath::Clamp(Result, 0.0f, 1.0f);
-
-	Result = FMath::Pow(FMath::Max(0.0f, 1.0f - (Distance / LightRadius)), (LightComp->LightFalloffExponent + 1)) * (LightRadius * 1.25);
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(Result));// "" + Result);
-	}
-	else
-	{
-	Result = 0.0f;
-	}
-
-	if (Result > 1.0f)
-	{
-	Result = 1.0f;
-	}
-	}
-	else
-	{
-	Result = 0.0f;
-	}
-	}
-	}*/
-
-	/*FString VeryCleanString = FString::SanitizeFloat(Result);
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, enemyName.ToString() + VeryCleanString);*/
-
 	return AllResult;
 }
+
+/*
+Ref
+https://answers.unrealengine.com/questions/253934/how-to-correctly-initialize-decal-components-and-m.html
+https://docs.unrealengine.com/latest/INT/API/Runtime/Engine/Components/UDecalComponent/index.html
+https://answers.unrealengine.com/questions/67701/how-to-correctly-spawn-a-bullet-hole.html
+https://answers.unrealengine.com/questions/198712/how-to-spawn-decal-on-collision.html
+https://answers.unrealengine.com/questions/198712/how-to-spawn-decal-on-collision.html
+https://answers.unrealengine.com/questions/125678/best-way-to-highlight-under-selected-unit.html#answer-126922
+
+
+
+crap
+
+//MovingToLocationMaker->ActivateSystem(true);
+//MovingToLocationMaker->SetWorldLocation(FVector(0, 0, 0));
+//MovingToLocationMaker->SpawnEvents.
+//UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), MovingToLocationMaker->Template, FVector(0, 0, 0));
+
+
+
+
+
+
+/*UPROPERTY(VisibleAnywhere, Category = AI)
+UBillboardComponent* temp3 = CreateDefaultSubobject<UBillboardComponent>(TEXT("TargetPoint"));
+temp3->AttachTo(RootComponent);* /
+
+//AActor* temp2 = CreateDefaultSubobject<AActor>(TEXT("TargetPoint"));
+//temp2->AttachToActor(RootComponent);
+
+/*ATargetPoint* temp = CreateDefaultSubobject<ATargetPoint>(TEXT("TargetPoint"));
+temp->AddToRoot();* /
+
+
+
+//ATargetPoint* temp;
+//temp->AttachRootComponentTo(RootComponent);
+//>AttachTo(RootComponent);
+//temp->AttachTo();
+//RootComponent r = GetRootComponent();
+
+//GetCapsuleComponent()->AttachChildren(temp);
+//RootComponent->AttachTo()
+//temp->AttachToComponent(GetRootComponent(),);
+//PatrolPoints.Add();
+
+
+
+
+//MovingToLocationMaker->SetTemplate(PS.Object);
+//MovingToLocationMaker->DeactivateSystem();
+//MovingToLocationMaker->AttachParent = propellerAudioComponent;
+
+
+
+
+
+
+/*if (BL)
+{
+UPointLightComponent* LightComp = BL->PointLight;//PointLight->PointLightComponent;
+
+if (LightComp)
+{
+if (LightComp->IsVisible())
+{
+FVector End = BL->GetActorLocation();
+float Distance = FVector::Dist(Loc, End);
+float LightRadius = LightComp->AttenuationRadius;
+bool bHit = GetWorld()->LineTraceTestByChannel(Loc, End, ECC_Visibility, Params); //ActorLineTraceSingle(HitResult, Loc, End, ECC_Visibility, Params);// LineTraceTest(
+
+if (Distance <= LightRadius && !bHit)
+{
+//Result = FMath::Pow(1.0 - (Distance / LightRadius), (LightComp->LightFalloffExponent + 1) * (LightRadius * 1.25));
+//Result = FMath::Clamp(Result, 0.0f, 1.0f);
+
+Result = FMath::Pow(FMath::Max(0.0f, 1.0f - (Distance / LightRadius)), (LightComp->LightFalloffExponent + 1)) * (LightRadius * 1.25);
+//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(Result));// "" + Result);
+}
+else
+{
+Result = 0.0f;
+}
+
+if (Result > 1.0f)
+{
+Result = 1.0f;
+}
+}
+else
+{
+Result = 0.0f;
+}
+}
+}*/
+
+/*FString VeryCleanString = FString::SanitizeFloat(Result);
+GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, enemyName.ToString() + VeryCleanString);* /
+
+*/

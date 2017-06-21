@@ -35,6 +35,7 @@ void UBTService_CheckLights::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* 
 			{
 				AICharacter->propellerAudioComponent->Play();
 			}
+			UGameplayStatics::SpawnDecalAtLocation(GetWorld(), AICharacter->FootPrintMaterial, FVector(1, 1, 1), AICharacter->GetActorLocation());
 		}
 		else {
 			//BlackboardComp->SetValueAsBool("IsInLight", true);
