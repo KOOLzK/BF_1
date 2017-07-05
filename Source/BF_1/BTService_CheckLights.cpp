@@ -35,7 +35,11 @@ void UBTService_CheckLights::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* 
 			{
 				AICharacter->propellerAudioComponent->Play();
 			}
-			UGameplayStatics::SpawnDecalAtLocation(GetWorld(), AICharacter->FootPrintMaterial, FVector(1, 1, 1), AICharacter->GetActorLocation());
+			/*Spawns Foot Print when enemies walk. Note Location is lowered in the z axis to get it 
+			close enough to the ground to spawn, if enemy height changes this z axis will have to too.
+			Note Rotaton was changed in the Roll because Foot Print picture was the wrong way, if we 
+			get a different one check this*/
+			UGameplayStatics::SpawnDecalAtLocation(GetWorld(), AICharacter->FootPrintMaterial, FVector(50, 50, 50), AICharacter->GetActorLocation() - FVector(0,0,80), FRotator(-90, AICharacter->GetActorRotation().Yaw, AICharacter->GetActorRotation().Roll + 90), 5.0f);
 		}
 		else {
 			//BlackboardComp->SetValueAsBool("IsInLight", true);
