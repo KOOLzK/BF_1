@@ -18,6 +18,8 @@ public:
 
 	class ASwingingDoor* currentDoor;
 
+	UCameraComponent* PlayerCamera;
+
 	UPROPERTY(EditDefaultsOnly, Category = Level)
 	FName LevelKey;
 
@@ -69,4 +71,42 @@ public:
 	void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 	//class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex
+
+	/*static FORCEINLINE bool Trace(
+		UWorld* World,
+		AActor* ActorToIgnore,
+		const FVector& Start,
+		const FVector& End,
+		FHitResult& HitOut,
+		ECollisionChannel CollisionChannel = ECC_Pawn,
+		bool ReturnPhysMat = false
+	) {
+		if (!World)
+		{
+			return false;
+		}
+
+		FCollisionQueryParams TraceParams(FName(TEXT("VictoreCore Trace")), true, ActorToIgnore);
+		TraceParams.bTraceComplex = true;
+		//TraceParams.bTraceAsyncScene = true;
+		TraceParams.bReturnPhysicalMaterial = ReturnPhysMat;
+
+		//Ignore Actors
+		TraceParams.AddIgnoredActor(ActorToIgnore);
+
+		//Re-initialize hit info
+		HitOut = FHitResult(ForceInit);
+
+		//Trace!
+		World->LineTraceSingle(
+			HitOut,		//result
+			Start,	//start
+			End, //end
+			CollisionChannel, //collision channel
+			TraceParams
+		);
+
+		//Hit any Actor?
+		return (HitOut.GetActor() != NULL);
+	}*/
 };

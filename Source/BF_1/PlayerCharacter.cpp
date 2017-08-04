@@ -25,6 +25,10 @@ APlayerCharacter::APlayerCharacter()
 	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &APlayerCharacter::OnOverlapBegin);//->OnComponentBeginOverlap(this, APlayerCharacter::BeginPlay());
 	GetCapsuleComponent()->OnComponentEndOverlap.AddDynamic(this, &APlayerCharacter::OnOverlapEnd);
 
+	PlayerCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("GameCamera"));
+
+	PlayerCamera->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepWorldTransform);
+
 	currentSwitch = nullptr;
 
 	//back up in case it isn't set
@@ -116,6 +120,47 @@ void APlayerCharacter::Use()
 	{
 		currentDoor->Use();
 	}
+
+	FHitResult* HitResult = new FHitResult();
+	FVector StartTrace = PlayerCamera->GetComponentLocation();
+	FVector ForwardVector = PlayerCamera->GetForwardVector();
+	FVector EndTrace = ((ForwardVector * 1000.f) + StartTrace);
+	FCollisionQueryParams* TraceParams = new FCollisionQueryParams();
+
+	if (GetWorld()->LineTraceSingleByChannel(*HitResult, StartTrace, EndTrace, ECC_Visibility, *TraceParams))
+	{
+		DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor(255, 0, 0), true);
+
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("You Hit: %s"), *HitResult->Actor->GetName()));
+	}
+
+
+	//FHitResult Hit(ForceInit);
+	//GetWorld()->QueryTraceData()
+	/*
+	//In player controller class
+
+	//location the PC is focused on
+	const FVector Start = GetFocalLocation();
+
+	//256 units in facing direction of PC (256 units in front of the camera)
+	const FVector End = Start + GetControlRotation().Vector() * 256;
+
+	//The trace data is stored here
+	FHitResult HitData(ForceInit);
+
+	//If Trace Hits anything
+	if (UMyStaticFunctionLibrary::Trace(GetWorld(), GetPawn(), Start, End, HitData))
+	{
+		//Print out the name of the traced actor
+		if (HitData.GetActor())
+		{
+			ClientMessage(HitData.GetActor()->GetName());
+
+			//Print out distance from start of trace to impact point
+			ClientMessage("Trace Distance: " + FString::SanitizeFloat(HitData.Distance));
+		}
+	}*/
 }
 
 void APlayerCharacter::ToggleDebugMessages()

@@ -5,7 +5,8 @@
 #include "PlayerCharacter.h"
 
 // Sets default values
-ASwingingDoor::ASwingingDoor()
+ASwingingDoor::ASwingingDoor(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -34,6 +35,15 @@ ASwingingDoor::ASwingingDoor()
 	openState = false;
 
 	//SwingDelay = 0.5f;
+	static ConstructorHelpers::FObjectFinder<UCurveFloat> Curvy(TEXT("CurveFloat'/Game/blueprints/NewCurveFloat.NewCurveFloat'"));
+	if (Curvy.Object) {
+		fCurve = Curvy.Object;
+	}
+
+	SwingTimeline = ObjectInitializer.CreateDefaultSubobject<UTimelineComponent>(this, TEXT("SwingTimeline"));
+	
+	//Bind the Callbackfuntion for the float return value
+	InterpFunction.BindUFunction(this, FName{ TEXT("TimelineFloatReturn") });
 
 }
 
@@ -41,13 +51,25 @@ ASwingingDoor::ASwingingDoor()
 void ASwingingDoor::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	//Add the float curve to the timeline and connect it to your timelines's interpolation function
+	SwingTimeline->AddInterpFloat(fCurve, InterpFunction, FName{ TEXT("Floaty") });
+
 }
 
 // Called every frame
 void ASwingingDoor::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
+	//HingeComp->RelativeRotation.Yaw = fCurve->FloatCurve.GetKeyValue;
+	/*if (openState)
+	{
+		SwingTimeline->Play();
+	}
+	else
+	{
+		SwingTimeline->Reverse();
+	}*/
 
 	/*if (openState) 
 	{
@@ -95,7 +117,16 @@ void ASwingingDoor::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* Ot
 void ASwingingDoor::Use()
 {
 	openState = !openState;
-	GetWorldTimerManager().SetTimer(SwingDelay, this, &ASwingingDoor::Swinging, 0.5f, false);
+	//GetWorldTimerManager().SetTimer(SwingDelay, this, &ASwingingDoor::Swinging, 0.5f, false);
+	if (openState)
+	{
+		SwingTimeline->Play();
+		
+	}
+	else
+	{
+		SwingTimeline->Reverse();
+	}
 }
 
 void ASwingingDoor::Swinging()
@@ -117,4 +148,11 @@ void ASwingingDoor::Swinging()
 			GetWorldTimerManager().SetTimer(SwingDelay, this, &ASwingingDoor::Swinging, 0.5f, false);
 		}
 	}
+}
+
+//Your Callback Function for the timeline float value
+void ASwingingDoor::TimelineFloatReturn(float val)
+{
+	//Your float val from curve returns here
+	//HingeComp->RelativeRotation.Yaw = val;
 }

@@ -12,7 +12,7 @@ class BF_1_API ASwingingDoor : public AActor
 	
 public:	
 	// Sets default values for this actor's properties
-	ASwingingDoor();
+	ASwingingDoor(const FObjectInitializer& ObjectInitializer);
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -52,6 +52,17 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Text)
 	UMaterial* SeeThroughMaterial;
+
+	UPROPERTY(EditAnywhere)
+	UTimelineComponent* SwingTimeline;
+
+	UPROPERTY(EditAnywhere)
+	UCurveFloat* fCurve;
+
+	FOnTimelineFloat InterpFunction{};
+
+	UFUNCTION()
+	void TimelineFloatReturn(float val);
 
 	bool openState;
 
