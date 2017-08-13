@@ -14,12 +14,13 @@ APhysicsInteract::APhysicsInteract()
 	CollisionComp->BodyInstance.SetCollisionProfileName("PhysicsInteract");
 	CollisionComp->SetCollisionResponseToChannel(EEC_InteractAble, ECollisionResponse::ECR_Block);
 	CollisionComp->SetSimulatePhysics(true);
+	HasPhysics = true;
 	CollisionComp->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	RootComponent = CollisionComp;
 
 	InteractAbleMesh = CreateDefaultSubobject <UStaticMeshComponent>(TEXT("InteractAbleMesh"));
-	InteractAbleMesh->SetRelativeLocation(FVector(0, 0, 0));
-	InteractAbleMesh->SetCollisionResponseToChannel(EEC_InteractAble, ECollisionResponse::ECR_Block);
+	//InteractAbleMesh->SetRelativeLocation(FVector(0, 0, 0));
+	//InteractAbleMesh->SetCollisionResponseToChannel(EEC_InteractAble, ECollisionResponse::ECR_Block);
 	InteractAbleMesh->AttachTo(CollisionComp);
 }
 
@@ -47,4 +48,22 @@ void APhysicsInteract::Unfocused()
 {
 	//mesh->SetRenderCustomDepth(false);
 	InteractAbleMesh->SetRenderCustomDepth(false);
+}
+
+void APhysicsInteract::AttachToHead(USceneComponent* Head)
+{
+	//this->AddOwnedComponent(Head);
+	//this->AttachToComponent
+	CollisionComp->SetSimulatePhysics(false);
+	CollisionComp->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);//:NoCollision);
+	CollisionComp->AttachToComponent(Head, FAttachmentTransformRules::KeepWorldTransform);
+}
+
+void APhysicsInteract::DetachFromHead()
+{
+	CollisionComp->DetachFromParent(true);
+	//CollisionComp->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+	CollisionComp->SetSimulatePhysics(true);
+	CollisionComp->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	/*CollisionComp->AttachToComponent(Head, FAttachmentTransformRules::KeepWorldTransform);*/
 }

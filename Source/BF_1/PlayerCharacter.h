@@ -19,6 +19,7 @@ public:
 
 	class ASwingingDoor* currentDoor;
 
+	UPROPERTY(EditAnywhere, Category = Camera)
 	UCameraComponent* PlayerCamera;
 
 	UPROPERTY(EditDefaultsOnly, Category = Level)
@@ -87,7 +88,18 @@ public:
 	//stores the item the player is holding in the right head
 	class AInteractAble* RightHead;
 
+	//don't think this is going to work, remove?
 	//UStaticMeshSocket* RightSocket;
+
+	UPROPERTY(EditAnywhere, Category = Camera)
+	class USceneComponent* RightHeadOffset;
+
+	UPROPERTY(EditAnywhere, Category = Camera)
+	class APhysicsInteract* RightHeadOffset2;
+	
+
+	UPROPERTY(EditAnywhere, Category = Camera)
+	class USceneComponent* LeftHeadOffset;
 
 	//class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex
 

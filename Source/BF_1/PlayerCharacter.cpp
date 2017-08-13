@@ -5,6 +5,7 @@
 #include "LightSwitch.h"
 #include "SwingingDoor.h"
 #include "InteractAble.h"
+#include "PhysicsInteract.h"
 #include "AIPatrol.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
@@ -34,6 +35,19 @@ APlayerCharacter::APlayerCharacter()
 	PlayerCamera->AttachToComponent(GetCapsuleComponent(), FAttachmentTransformRules::KeepWorldTransform);
 	PlayerCamera->RelativeLocation = FVector(0, 0, 64.f);
 	PlayerCamera->bUsePawnControlRotation = true;
+
+	//attach heads to Camera
+	RightHeadOffset = CreateDefaultSubobject<USceneComponent>(TEXT("RightHeadOffset"));
+	RightHeadOffset->AttachToComponent(PlayerCamera, FAttachmentTransformRules::KeepWorldTransform);
+	RightHeadOffset->RelativeLocation = FVector(50.f, 20.f, 0);
+
+	//RightHeadOffset2 = CreateDefaultSubobject<UActorComponent>(TEXT("RightHeadOffset"));
+	//RightHeadOffset2->AttachToComponent(PlayerCamera, FAttachmentTransformRules::KeepWorldTransform);
+	//RightHeadOffset2->RelativeLocation = FVector(50.f, 20.f, 0);
+
+	LeftHeadOffset = CreateDefaultSubobject<USceneComponent>(TEXT("LeftHeadOffset"));
+	LeftHeadOffset->AttachToComponent(PlayerCamera, FAttachmentTransformRules::KeepWorldTransform);
+	LeftHeadOffset->RelativeLocation = FVector(50.f, -20.f, 0);
 
 
 	currentSwitch = nullptr;
@@ -169,7 +183,22 @@ void APlayerCharacter::Use()
 		currentDoor->Use();
 	}
 
-	
+	if (Targeting != NULL) 
+	{
+		//check HasPhysics true
+		RightHead = Targeting;
+		RightHead->AttachToHead(RightHeadOffset);
+		
+		//check HasPhysics false
+	}
+	else
+	{
+		if (RightHead != NULL)
+		{
+			RightHead->DetachFromHead();
+			//RightHead = NULL;
+		}
+	}
 
 
 	//FHitResult Hit(ForceInit);

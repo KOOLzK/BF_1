@@ -31,6 +31,11 @@ public:
 	//called when the player stops looking at this actor, turns off glowing
 	virtual void Unfocused();
 
+	virtual void AttachToHead(USceneComponent* Head);
+
+	virtual void DetachFromHead();
+
+	bool HasPhysics;
 	//UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Mesh, meta = (AllowPrivateAssess = "true"))
 	//class UStaticMeshComponent* InteractAbleMesh;
 	

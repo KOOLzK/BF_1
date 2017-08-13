@@ -44,3 +44,13 @@ void AInteractAble::Unfocused()
 	//mesh->SetRenderCustomDepth(false);
 	//InteractAbleMesh->SetRenderCustomDepth(false);
 }
+
+void AInteractAble::AttachToHead(USceneComponent* Head)
+{
+
+}
+
+void AInteractAble::DetachFromHead()
+{
+
+}

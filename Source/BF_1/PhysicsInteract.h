@@ -29,6 +29,11 @@ public:
 	virtual void Unfocused() override;
 
 
+	virtual void AttachToHead(USceneComponent* Head) override;
+
+	virtual void DetachFromHead() override;
+	//void AttachHead2(USceneComponent* Head);
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Collision)
 	class USphereComponent* CollisionComp;
 
