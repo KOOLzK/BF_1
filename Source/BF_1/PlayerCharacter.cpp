@@ -4,10 +4,13 @@
 #include "PlayerCharacter.h"
 #include "LightSwitch.h"
 #include "SwingingDoor.h"
+#include "InteractAble.h"
 #include "AIPatrol.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "BehaviorTree/BehaviorTreeComponent.h"
+
+#define EEC_InteractAble ECollisionChannel::ECC_GameTraceChannel1
 
 
 // Sets default values
@@ -24,10 +27,14 @@ APlayerCharacter::APlayerCharacter()
 	GetCapsuleComponent()->BodyInstance.SetCollisionProfileName("Player");
 	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &APlayerCharacter::OnOverlapBegin);//->OnComponentBeginOverlap(this, APlayerCharacter::BeginPlay());
 	GetCapsuleComponent()->OnComponentEndOverlap.AddDynamic(this, &APlayerCharacter::OnOverlapEnd);
+	GetCapsuleComponent()->SetCollisionResponseToChannel(EEC_InteractAble, ECollisionResponse::ECR_Ignore);
+
 
 	PlayerCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("GameCamera"));
+	PlayerCamera->AttachToComponent(GetCapsuleComponent(), FAttachmentTransformRules::KeepWorldTransform);
+	PlayerCamera->RelativeLocation = FVector(0, 0, 64.f);
+	PlayerCamera->bUsePawnControlRotation = true;
 
-	PlayerCamera->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepWorldTransform);
 
 	currentSwitch = nullptr;
 
@@ -41,6 +48,8 @@ APlayerCharacter::APlayerCharacter()
 
 	ZLevelRestart = -10000;
 	//BlackboardComp = CreateDefaultSubobject<UBlackboardComponent>(TEXT("BlackboardComp"));
+
+	Targeting = NULL;
 }
 
 
@@ -67,6 +76,45 @@ void APlayerCharacter::Tick( float DeltaTime )
 	{
 		Death();
 	}
+
+	HitResult = new FHitResult();
+	StartTrace = PlayerCamera->GetComponentLocation();
+	ForwardVector = PlayerCamera->GetForwardVector();
+	EndTrace = ((ForwardVector * 1000.f) + StartTrace); //1000 is to far
+	TraceParams = new FCollisionQueryParams();
+
+	if (GetWorld()->LineTraceSingleByChannel(*HitResult, StartTrace, EndTrace, EEC_InteractAble, *TraceParams))
+	{
+		//check if ray trace storage is the not the same or NULL as Trace Result
+		if (Targeting != Cast<AInteractAble>(HitResult->GetActor())) {
+			//check if ray trace storage is empty
+			if (Targeting) {
+				//turns off glowing
+				Targeting->Unfocused();
+				//replace actor to ray trace storage
+				Targeting = Cast<AInteractAble>(HitResult->GetActor());
+			}
+			else {
+				//add actor to ray trace storage
+				Targeting = Cast<AInteractAble>(HitResult->GetActor());
+				//turns on glowing
+				Targeting->Focused();
+				//Debug
+				DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor(255, 0, 0), false, 5.f);
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("You Hit: %s"), *HitResult->Actor->GetName()));
+			}
+		}
+	}
+	else {
+	//if ray trace storage is full(it only holds one)
+		if (Targeting) {
+			//turns off glowing
+			Targeting->Unfocused();
+			//clear ray trace storage
+			Targeting = NULL;
+		}
+	}
+
 
 }
 
@@ -121,18 +169,7 @@ void APlayerCharacter::Use()
 		currentDoor->Use();
 	}
 
-	FHitResult* HitResult = new FHitResult();
-	FVector StartTrace = PlayerCamera->GetComponentLocation();
-	FVector ForwardVector = PlayerCamera->GetForwardVector();
-	FVector EndTrace = ((ForwardVector * 1000.f) + StartTrace);
-	FCollisionQueryParams* TraceParams = new FCollisionQueryParams();
-
-	if (GetWorld()->LineTraceSingleByChannel(*HitResult, StartTrace, EndTrace, ECC_Visibility, *TraceParams))
-	{
-		DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor(255, 0, 0), true);
-
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("You Hit: %s"), *HitResult->Actor->GetName()));
-	}
+	
 
 
 	//FHitResult Hit(ForceInit);

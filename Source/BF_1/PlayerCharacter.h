@@ -5,6 +5,7 @@
 #include "GameFramework/Character.h"
 #include "PlayerCharacter.generated.h"
 
+
 UCLASS()
 class BF_1_API APlayerCharacter : public ACharacter
 {
@@ -44,6 +45,13 @@ public:
 	UPROPERTY(EditAnywhere, Category = Variable)
 	bool DisplayDebugMessages = false;
 
+	FHitResult* HitResult;
+	FVector StartTrace;
+	FVector ForwardVector;
+	FVector EndTrace;
+	FCollisionQueryParams* TraceParams;
+
+
 	/*INPUTS*/
 	void MoveForward(float val);
 	void MoveRight(float val);
@@ -69,6 +77,17 @@ public:
 	
 	UFUNCTION()
 	void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+	//stores the Interact Able the player is looking at
+	class AInteractAble* Targeting;
+
+	//stores the item the player is holding in the left head
+	class AInteractAble* LeftHead;
+
+	//stores the item the player is holding in the right head
+	class AInteractAble* RightHead;
+
+	//UStaticMeshSocket* RightSocket;
 
 	//class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex
 
