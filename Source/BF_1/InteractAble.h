@@ -36,6 +36,10 @@ public:
 	virtual void DetachFromHead();
 
 	bool HasPhysics;
+
+	UPROPERTY(EditAnywhere, Category = Camera)
+	FName ItemName;
+
 	//UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Mesh, meta = (AllowPrivateAssess = "true"))
 	//class UStaticMeshComponent* InteractAbleMesh;
 	
