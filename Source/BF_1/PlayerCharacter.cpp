@@ -186,10 +186,28 @@ void APlayerCharacter::Use()
 	if (Targeting != NULL) 
 	{
 		//check HasPhysics true
-		RightHead = Targeting;
-		RightHead->AttachToHead(RightHeadOffset);
+		if (Targeting->HasPhysics) {
+			RightHead = Targeting;
+			RightHead->AttachToHead(RightHeadOffset);
+		}
+		else //check HasPhysics false
+		{
+			if (RightHead != NULL) {
+				if (Targeting->ItemName == RightHead->ItemName) {
+					Targeting->Destroy();
+					RightHead->Destroy();
+				}
+				else
+				{
+					GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Wrong Item");// +Targeting->ItemName.ToString);
+				}
+			}
+			else 
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "You need Key");
+			}
+		}
 		
-		//check HasPhysics false
 	}
 	else
 	{
