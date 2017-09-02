@@ -12,12 +12,15 @@ EBTNodeResult::Type UBTSelectPatrolPoint::ExecuteTask(UBehaviorTreeComponent& Ow
 
 	if(AICon)
 	{
+		//old i don't know if i still need this
 		UBlackboardComponent* BlackboardComp = AICon->GetBlackboardComp();
-
+		//old i don't know if i still need this
 		AAIPatrolPoint* CurrentPoint = Cast<AAIPatrolPoint>(BlackboardComp->GetValueAsObject("LocationToGo"));
 
 		TArray<AActor*> AvailablePatrolPoints = AICon->GetPatrolPoints();
 
+		/*i don't know if i still need NextPatrolPoint cause its using BlackboardComp and i don't 
+		think i'm using Black boards any more*/
 		AAIPatrolPoint* NextPatrolPoint = nullptr;
 		if (AICon->GetMoveStatus() == EPathFollowingStatus::Idle) {
 			if (AICon->CurrentPatrolPoint != AvailablePatrolPoints.Num() - 1)
@@ -32,6 +35,7 @@ EBTNodeResult::Type UBTSelectPatrolPoint::ExecuteTask(UBehaviorTreeComponent& Ow
 				AICon->CurrentPatrolPoint = 0;
 			}
 		}
+		//old i don't know if i still need this
 		BlackboardComp->SetValueAsObject("LocationToGo", NextPatrolPoint);
 
 		return EBTNodeResult::Succeeded;

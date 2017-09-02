@@ -23,6 +23,7 @@ class BF_1_API AAIPatrolController : public AAIController
 	UPROPERTY(EditDefaultsOnly, Category = AI)
 	FName PlayerKey;
 
+	//Patrol Points that will be used
 	TArray<AActor*> AllPoints;
 
 	//Patrol Points for this enemy
@@ -70,6 +71,4 @@ public:
 	int32 lastSeenTimer;
 
 	APawn* AICharacterRef;
-
-	//APawn* player;
 };

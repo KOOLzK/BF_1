@@ -6,6 +6,8 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "BehaviorTree/BehaviorTreeComponent.h"
 
+/*this may have to be replaced it just turns the light on and off, i can't change the timing in editor
+, i can't have two sets of light on different times. i think i should replace it with a power system*/
 
 // Sets default values
 ALightManager::ALightManager()
@@ -14,8 +16,7 @@ ALightManager::ALightManager()
 	PrimaryActorTick.bCanEverTick = true;
 
 	BlackboardComp = CreateDefaultSubobject<UBlackboardComponent>(TEXT("BlackboardComp"));
-	//BlackboardComp->AddToRoot();
-	//BlackboardComp->InitializeBlackboard(*(BehaviorTree->BlackboardAsset));
+
 	Light = true;
 	LightKey = "Light";
 	DelayLight = 1.f;
@@ -25,10 +26,8 @@ ALightManager::ALightManager()
 void ALightManager::BeginPlay()
 {
 	Super::BeginPlay();
-	//if (BehaviorTree)
-	//{
-		BlackboardComp->InitializeBlackboard(*(BehaviorTree->BlackboardAsset));
-	//}
+
+	BlackboardComp->InitializeBlackboard(*(BehaviorTree->BlackboardAsset));
 	GetWorldTimerManager().SetTimer(lightDelay, this, &ALightManager::toggle, DelayLight, true);
 
 }
@@ -44,13 +43,27 @@ void ALightManager::toggle()
 {
 	Light = !Light;
 	BlackboardComp->SetValueAsBool(LightKey, Light);
-
-	/*if (Light)
-	{
-		currentState = stateOne;
-	}
-	else
-	{
-		currentState = stateTwo;
-	}*/
 }
+
+/*
+Ref
+
+crap
+
+//BlackboardComp->AddToRoot();
+//BlackboardComp->InitializeBlackboard(*(BehaviorTree->BlackboardAsset));
+
+//if (BehaviorTree)
+//{
+//}
+
+/*if (Light)
+{
+currentState = stateOne;
+}
+else
+{
+currentState = stateTwo;
+}*
+
+*/

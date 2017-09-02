@@ -20,8 +20,11 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Mesh, meta = (AllowPrivateAssess = "true"))
 	class UStaticMeshComponent* SwitchMesh;
 
-	/*UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Text)
-	class ATextRenderActor* ButtonPrompt;*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh)
+	UMaterial* SwitchMaterial1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh)
+	UMaterial* SwitchMaterial2;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Text)
 	class UStaticMeshComponent* ButtonPromptMesh;
@@ -73,3 +76,7 @@ public:
 
 	
 };
+
+/*crap
+UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Text)
+class ATextRenderActor* ButtonPrompt;*/

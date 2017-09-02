@@ -7,6 +7,7 @@
 #include "BehaviorTree/BehaviorTreeComponent.h"
 //#include "LightSwitch.h"
 
+//***********************************i don't think i'm using this for anything
 
 // Sets default values
 ABlinkingLight::ABlinkingLight()

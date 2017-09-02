@@ -19,12 +19,9 @@ APlayerCharacter::APlayerCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	
-	//this->on
+
 
 	UCapsuleComponent*  CapsuleComponent = GetCapsuleComponent(); 
-	//GetCapsuleComponent()->bGenerateOverlapEvents = true;
-	//GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
 	GetCapsuleComponent()->BodyInstance.SetCollisionProfileName("Player");
 	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &APlayerCharacter::OnOverlapBegin);//->OnComponentBeginOverlap(this, APlayerCharacter::BeginPlay());
 	GetCapsuleComponent()->OnComponentEndOverlap.AddDynamic(this, &APlayerCharacter::OnOverlapEnd);
@@ -36,18 +33,17 @@ APlayerCharacter::APlayerCharacter()
 	PlayerCamera->RelativeLocation = FVector(0, 0, 64.f);
 	PlayerCamera->bUsePawnControlRotation = true;
 
+
+
 	//attach heads to Camera
 	RightHeadOffset = CreateDefaultSubobject<USceneComponent>(TEXT("RightHeadOffset"));
 	RightHeadOffset->AttachToComponent(PlayerCamera, FAttachmentTransformRules::KeepWorldTransform);
 	RightHeadOffset->RelativeLocation = FVector(50.f, 20.f, 0);
 
-	//RightHeadOffset2 = CreateDefaultSubobject<UActorComponent>(TEXT("RightHeadOffset"));
-	//RightHeadOffset2->AttachToComponent(PlayerCamera, FAttachmentTransformRules::KeepWorldTransform);
-	//RightHeadOffset2->RelativeLocation = FVector(50.f, 20.f, 0);
-
 	LeftHeadOffset = CreateDefaultSubobject<USceneComponent>(TEXT("LeftHeadOffset"));
 	LeftHeadOffset->AttachToComponent(PlayerCamera, FAttachmentTransformRules::KeepWorldTransform);
 	LeftHeadOffset->RelativeLocation = FVector(50.f, -20.f, 0);
+
 
 
 	currentSwitch = nullptr;
@@ -71,14 +67,6 @@ APlayerCharacter::APlayerCharacter()
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	/*if (GlobalVariableAccess)
-	{
-		BlackboardComp->InitializeBlackboard(*(GlobalVariableAccess->BlackboardAsset));
-	}
-	else 
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "NO");
-	}*/
 }
 
 // Called every frame
@@ -91,6 +79,8 @@ void APlayerCharacter::Tick( float DeltaTime )
 		Death();
 	}
 
+
+	//Ray Trace
 	HitResult = new FHitResult();
 	StartTrace = PlayerCamera->GetComponentLocation();
 	ForwardVector = PlayerCamera->GetForwardVector();
@@ -114,8 +104,10 @@ void APlayerCharacter::Tick( float DeltaTime )
 				//turns on glowing
 				Targeting->Focused();
 				//Debug
-				DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor(255, 0, 0), false, 5.f);
-				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("You Hit: %s"), *HitResult->Actor->GetName()));
+				if (DisplayDebugMessages) {
+					DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor(255, 0, 0), false, 5.f);
+					GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("You Hit: %s"), *HitResult->Actor->GetName()));
+				}
 			}
 		}
 	}
@@ -214,37 +206,10 @@ void APlayerCharacter::Use()
 		if (RightHead != NULL)
 		{
 			RightHead->DetachFromHead();
-			//RightHead = NULL;
+			//RightHead = NULL; //i should check to see if i need this
 		}
 	}
 
-
-	//FHitResult Hit(ForceInit);
-	//GetWorld()->QueryTraceData()
-	/*
-	//In player controller class
-
-	//location the PC is focused on
-	const FVector Start = GetFocalLocation();
-
-	//256 units in facing direction of PC (256 units in front of the camera)
-	const FVector End = Start + GetControlRotation().Vector() * 256;
-
-	//The trace data is stored here
-	FHitResult HitData(ForceInit);
-
-	//If Trace Hits anything
-	if (UMyStaticFunctionLibrary::Trace(GetWorld(), GetPawn(), Start, End, HitData))
-	{
-		//Print out the name of the traced actor
-		if (HitData.GetActor())
-		{
-			ClientMessage(HitData.GetActor()->GetName());
-
-			//Print out distance from start of trace to impact point
-			ClientMessage("Trace Distance: " + FString::SanitizeFloat(HitData.Distance));
-		}
-	}*/
 }
 
 void APlayerCharacter::ToggleDebugMessages()
@@ -261,6 +226,7 @@ void APlayerCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActo
 	// Other Actor is the actor that triggered the event. Check that is not ourself.
 	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr))
 	{
+		//probably replace this with a ray trace so the player can't hit a light switch behind them
 		if (OtherActor->IsA(ALightSwitch::StaticClass())) {
 			ALightSwitch* temp = Cast<ALightSwitch>(OtherActor);
 			currentSwitch = temp;
@@ -276,6 +242,7 @@ void APlayerCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActo
 			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, "Dead");
 		}
 	}
+	//i don't know if my own messages is more trouble then its worth, i wanted to show what it hit
 	if (DisplayDebugMessages) {
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, "Begin");
 	}
@@ -304,9 +271,66 @@ void APlayerCharacter::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor*
 
 void APlayerCharacter::Death()
 {
-	//currentLevel = BlackboardComp->GetValueAsName(LevelKey);//GetValueAsBool(LevelKey);
-	//UGameplayStatics::OpenLevel(this, currentLevel);
 	FString a = UGameplayStatics::GetCurrentLevelName(this);
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, a);
 	UGameplayStatics::OpenLevel(this, FName(*a));
 }
+
+
+/*
+Ref
+
+crap
+//currentLevel = BlackboardComp->GetValueAsName(LevelKey);//GetValueAsBool(LevelKey);
+//UGameplayStatics::OpenLevel(this, currentLevel);
+//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, a);
+
+
+
+
+//FHitResult Hit(ForceInit);
+//GetWorld()->QueryTraceData()
+
+//In player controller class
+
+//location the PC is focused on
+const FVector Start = GetFocalLocation();
+
+//256 units in facing direction of PC (256 units in front of the camera)
+const FVector End = Start + GetControlRotation().Vector() * 256;
+
+//The trace data is stored here
+FHitResult HitData(ForceInit);
+
+//If Trace Hits anything
+if (UMyStaticFunctionLibrary::Trace(GetWorld(), GetPawn(), Start, End, HitData))
+{
+//Print out the name of the traced actor
+if (HitData.GetActor())
+{
+ClientMessage(HitData.GetActor()->GetName());
+
+//Print out distance from start of trace to impact point
+ClientMessage("Trace Distance: " + FString::SanitizeFloat(HitData.Distance));
+}
+}
+
+
+if (GlobalVariableAccess)
+{
+BlackboardComp->InitializeBlackboard(*(GlobalVariableAccess->BlackboardAsset));
+}
+else
+{
+GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "NO");
+}
+
+
+//RightHeadOffset2 = CreateDefaultSubobject<UActorComponent>(TEXT("RightHeadOffset"));
+//RightHeadOffset2->AttachToComponent(PlayerCamera, FAttachmentTransformRules::KeepWorldTransform);
+//RightHeadOffset2->RelativeLocation = FVector(50.f, 20.f, 0);
+
+//GetCapsuleComponent()->bGenerateOverlapEvents = true;
+//GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
+
+
+*/

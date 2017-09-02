@@ -25,21 +25,11 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
-	/*//for swinging door wops
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Collision)
-	class USphereComponent* HingeComp;*/
-
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Collision)
 	class UBoxComponent* CollisionComp;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Mesh, meta = (AllowPrivateAssess = "true"))
 	class UStaticMeshComponent* DoorMesh;
-
-	/*UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Mesh)
-	class UStaticMeshComponent* ClosedPosition;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Mesh)
-	class UStaticMeshComponent* OpenedPosition;*/
 	
 	class UBlackboardComponent* BlackboardComp;
 
@@ -55,5 +45,25 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Action)
 	float OpenedY;
 
-	/*Don't add a Mesh to this, it only exists to have a position to stop. feel free to move in blue print*/
 };
+
+
+/*
+Ref
+
+crap
+
+// / for swinging door wops
+UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Collision)
+class USphereComponent* HingeComp; *
+
+/*UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Mesh)
+class UStaticMeshComponent* ClosedPosition;
+
+UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Mesh)
+class UStaticMeshComponent* OpenedPosition;*
+
+/*Don't add a Mesh to this, it only exists to have a position to stop. feel free to move in blue print*
+
+
+*/

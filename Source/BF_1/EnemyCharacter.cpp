@@ -3,6 +3,7 @@
 #include "BF_1.h"
 #include "EnemyCharacter.h"
 
+//test class //old i don't know if i still need this
 
 // Sets default values
 AEnemyCharacter::AEnemyCharacter()

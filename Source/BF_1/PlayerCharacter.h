@@ -22,6 +22,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = Camera)
 	UCameraComponent* PlayerCamera;
 
+	//old i don't know if i still need this
 	UPROPERTY(EditDefaultsOnly, Category = Level)
 	FName LevelKey;
 
@@ -30,22 +31,26 @@ public:
 	UPROPERTY(EditAnywhere, Category = Move)
 	float MyMaxWalkSpeed;
 
-	/*default is 45.0*/
+	/*default is 45.0*/ //player charactor and enemy charactor have trouble with stares, i uses ramps
 	UPROPERTY(EditAnywhere, Category = Move)
 	float MyMaxStepHeight;
 
+	//old i don't know if i still need this
 	class UBlackboardComponent* BlackboardComp;
 
-	//global variable access
+	//global variable access //old i don't know if i still need this
 	UPROPERTY(EditAnywhere, Category = Variable)
 	class UBehaviorTree* GlobalVariableAccess; 
 
+	//in case the player falls through or off the map
 	UPROPERTY(EditAnywhere, Category = Variable)
 	float ZLevelRestart;
 
 	UPROPERTY(EditAnywhere, Category = Variable)
 	bool DisplayDebugMessages = false;
 
+
+	/*Ray Trace*/
 	FHitResult* HitResult;
 	FVector StartTrace;
 	FVector ForwardVector;

@@ -16,19 +16,15 @@ ALevelLoader::ALevelLoader()
 
 	CollisionComp = CreateDefaultSubobject<UBoxComponent>(TEXT("CoiComp"));
 	CollisionComp->BodyInstance.SetCollisionProfileName("enemy");
-	//CollisionComp->OnComponentHit.AddDynamic(this, &ALevelLoader::OnHit);
 	CollisionComp->OnComponentBeginOverlap.AddDynamic(this, &ALevelLoader::OnOverLapB);
 	RootComponent = CollisionComp;
 
 	LoaderMesh = CreateDefaultSubobject <UStaticMeshComponent>(TEXT("LoaderMesh"));
 	LoaderMesh->AttachTo(RootComponent);
 
-	//Material->BlendMode = BLEND_Translucent;
-	//Material->Opacity.Constant = 0.5f;
-	//LoaderMesh->SetMaterial(0 ,Material);
-
 	LevelKey = "CurrentLevel";
 
+	//for the life of me i don't know why i have a Black board in this class
 	BlackboardComp = CreateDefaultSubobject<UBlackboardComponent>(TEXT("BlackboardComp"));
 }
 
@@ -36,28 +32,16 @@ ALevelLoader::ALevelLoader()
 void ALevelLoader::BeginPlay()
 {
 	Super::BeginPlay();
-	//UGameplayStatics::OpenLevel(this, LevelName);
-	//FName d = "" + NameToLoad->GetName();
 }
 
 // Called every frame
 void ALevelLoader::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
-	//if(GlobalVariableAccess)
-	//{ 
-		BlackboardComp->InitializeBlackboard(*(GlobalVariableAccess->BlackboardAsset));
-	//}
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "tick");
+
+	BlackboardComp->InitializeBlackboard(*(GlobalVariableAccess->BlackboardAsset));
+
 }
-//OverlappedComponent, AActor*, OtherActor, UPrimitiveComponent*, OtherComp, int32, OtherBodyIndex, bool, bFromSweep, const FHitResult &, SweepResult
-/*void ALevelLoader::OnHit(UPrimitiveComponent* HitComp, AActor* Actor, UPrimitiveComponent* Other, FVector Impulse, const FHitResult & Hit)
-{
-	
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "clition");
-	//UE_LOG(LogTemp, Warning, TEXT("Your message"));
-	//UGameplayStatics::OpenLevel(this, LevelName);//"levelLoader");
-}*/
 
 void ALevelLoader::OnOverLapB(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult) {
 	
@@ -75,10 +59,45 @@ void ALevelLoader::OnOverLapB(UPrimitiveComponent* OverlappedComponent, AActor* 
 			}
 		}
 	}
-	/*if (OtherActor->IsA(Atest3Projectile::StaticClass())) {
-	health--;
-	if (health <= 0) {
-	Destroy();
-	}
-	}*/
 }
+
+
+
+/*
+Ref
+
+crap
+
+//CollisionComp->OnComponentHit.AddDynamic(this, &ALevelLoader::OnHit);
+
+//Material->BlendMode = BLEND_Translucent;
+//Material->Opacity.Constant = 0.5f;
+//LoaderMesh->SetMaterial(0 ,Material);
+
+//UGameplayStatics::OpenLevel(this, LevelName);
+//FName d = "" + NameToLoad->GetName();
+
+//if(GlobalVariableAccess)
+//{
+//}
+//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "tick");
+
+//OverlappedComponent, AActor*, OtherActor, UPrimitiveComponent*, OtherComp, int32, OtherBodyIndex, bool, bFromSweep, const FHitResult &, SweepResult
+/*void ALevelLoader::OnHit(UPrimitiveComponent* HitComp, AActor* Actor, UPrimitiveComponent* Other, FVector Impulse, const FHitResult & Hit)
+{
+
+GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "clition");
+//UE_LOG(LogTemp, Warning, TEXT("Your message"));
+//UGameplayStatics::OpenLevel(this, LevelName);//"levelLoader");
+}*
+
+/*if (OtherActor->IsA(Atest3Projectile::StaticClass())) {
+health--;
+if (health <= 0) {
+Destroy();
+}
+}*
+
+
+
+*/

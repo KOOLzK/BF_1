@@ -4,31 +4,7 @@
 
 #include "GameFramework/Actor.h"
 #include "LightManager.generated.h"
-//#include "BlueprintType.generated.h"
 
-/*UENUM()
-enum class LightState : uint8
-{
-	On			UMETA(DisplayName = "On"),
-	Blink		UMETA(DisplayName = "Blink"),
-	Off			UMETA(DisplayName = "Off")
-};*/
-/*UENUM()
-namespace LightState
-{
-	//256 entries max
-	enum Type
-	{
-		VE_Dance     UMETA(DisplayName = "Dance"),
-		VE_Rain         UMETA(DisplayName = "Rain"),
-		VE_Song        UMETA(DisplayName = "Song"),
-
-		//~~~
-
-		//256th entry
-		VE_Max        UMETA(Hidden),
-	};
-}*/
 
 UCLASS()
 class BF_1_API ALightManager : public AActor
@@ -63,22 +39,55 @@ public:
 
 	bool Light;
 
-	//enum LightState { Off, On, Blink };
-
-	//LightState currentState;
-
-	//int currentState;
-
-	/*UPROPERTY(EditAnywhere, Category = Light)
-	TEnumAsByte<LightState> stateOne;
-
-	UPROPERTY(EditAnywhere, Category = Light)
-	TEnumAsByte<LightState> stateTwo;
-
-	UPROPERTY(EditAnywhere, Category = Light)
-	int stateOne;
-
-	UPROPERTY(EditAnywhere, Category = Light)
-	int stateTwo;*/
-
 };
+
+/*
+Ref
+
+crap
+
+//#include "BlueprintType.generated.h"
+
+/*UENUM()
+enum class LightState : uint8
+{
+On			UMETA(DisplayName = "On"),
+Blink		UMETA(DisplayName = "Blink"),
+Off			UMETA(DisplayName = "Off")
+};*
+/*UENUM()
+namespace LightState
+{
+//256 entries max
+enum Type
+{
+VE_Dance     UMETA(DisplayName = "Dance"),
+VE_Rain         UMETA(DisplayName = "Rain"),
+VE_Song        UMETA(DisplayName = "Song"),
+
+//~~~
+
+//256th entry
+VE_Max        UMETA(Hidden),
+};
+}*
+
+//enum LightState { Off, On, Blink };
+
+//LightState currentState;
+
+//int currentState;
+
+/*UPROPERTY(EditAnywhere, Category = Light)
+TEnumAsByte<LightState> stateOne;
+
+UPROPERTY(EditAnywhere, Category = Light)
+TEnumAsByte<LightState> stateTwo;
+
+UPROPERTY(EditAnywhere, Category = Light)
+int stateOne;
+
+UPROPERTY(EditAnywhere, Category = Light)
+int stateTwo;*
+
+*/

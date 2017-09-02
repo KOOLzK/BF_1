@@ -20,29 +20,23 @@ EBTNodeResult::Type UBTMoveToTarget::ExecuteTask(UBehaviorTreeComponent& OwerCom
 		//CurrentPatrolPoint changed in BTSelectPatrolPoint.cpp
 		AActor* NextPatrolPoint = AvailablePatrolPoints[AICon->CurrentPatrolPoint];
 
-		
-
-		//if (AICon->GetCurrentMoveRequestID().IsValid)//IsEquivalent;//MoveToActor.GetCurrentMoveRequestID();
-		//if (AICon->GetMoveStatus()); //AICon->GetMoveGoalReachTest(AICon, , NextPatrolPoint, 5.f, 5.f
-		
-		//if(AICon->GetPawn()->GetDistanceTo(NextPatrolPoint) < 10.1f)
+		//States of the enemy
 		if (AICon->CurrentState == AAIPatrolController::State::patrol) {
 
 			//when Idle it moves to the next Patrol Point and when it has completed the move it goes Idle
 			if (AICon->GetMoveStatus() == EPathFollowingStatus::Idle)
 			{
-				//EPathFollowingStatus::Moving;
-				//AICon->GetMoveGoalOffset(AICon);
 				AICon->MoveToActor(NextPatrolPoint, 5.f, true, true, true, 0, true);
-				//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, FString::FromInt(AICon->CurrentPatrolPoint));
+				
 				return EBTNodeResult::Succeeded;
-			}
-			else {
-				//return EBTNodeResult::InProgress;
 			}
 		}
 
 		if (AICon->CurrentState == AAIPatrolController::State::spotted) {
+			//lastSeenTimer is so the BehaviorTree isn't constantly resetting the State and Particle System
+			/*i think i need this but maybe not and i don't know if there is a better way
+			becasue i think the enemy will not turn to track the player as they move sideways or go 
+			past the player then snap to them only to do it over again*/
 			AICon->lastSeenTimer--;
 			if (AICon->lastSeenTimer < 0) {
 				AICon->CurrentState = AAIPatrolController::State::lastSeen;
@@ -62,8 +56,7 @@ EBTNodeResult::Type UBTMoveToTarget::ExecuteTask(UBehaviorTreeComponent& OwerCom
 			return EBTNodeResult::Succeeded;
 		}
 
-		
-		//AICon->ReceiveMoveCompleted;
+		//add searching and think of a were to have a search pattern
 	}
 
 
@@ -71,3 +64,26 @@ EBTNodeResult::Type UBTMoveToTarget::ExecuteTask(UBehaviorTreeComponent& OwerCom
 	return EBTNodeResult::Failed;
 
 }
+
+/*
+Ref
+
+crap
+
+//if (AICon->GetCurrentMoveRequestID().IsValid)//IsEquivalent;//MoveToActor.GetCurrentMoveRequestID();
+//if (AICon->GetMoveStatus()); //AICon->GetMoveGoalReachTest(AICon, , NextPatrolPoint, 5.f, 5.f
+
+//if(AICon->GetPawn()->GetDistanceTo(NextPatrolPoint) < 10.1f)
+
+//EPathFollowingStatus::Moving;
+//AICon->GetMoveGoalOffset(AICon);
+
+//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, FString::FromInt(AICon->CurrentPatrolPoint));
+
+else { //for if (AICon->GetMoveStatus() == EPathFollowingStatus::Idle)
+//return EBTNodeResult::InProgress;
+}
+
+//AICon->ReceiveMoveCompleted;
+
+*/

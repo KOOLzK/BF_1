@@ -6,6 +6,8 @@
 #include "Engine/TextRenderActor.h"
 #include "BlinkingLight.h"
 
+/*this may have to be replaced it just turns the light on and off, i can't change the timing in editor
+, i can't have two sets of light on different times. i think i should replace it with a power system*/
 
 // Sets default values
 ALightSwitch::ALightSwitch()
@@ -15,7 +17,6 @@ ALightSwitch::ALightSwitch()
 
 	CollisionComp = CreateDefaultSubobject<UBoxComponent>(TEXT("CoiComp"));
 	CollisionComp->BodyInstance.SetCollisionProfileName("switch");
-	//CollisionComp->OnComponentHit.AddDynamic(this, &ALevelLoader::OnHit);
 	CollisionComp->OnComponentBeginOverlap.AddDynamic(this, &ALightSwitch::OnOverlapBegin);
 	CollisionComp->OnComponentEndOverlap.AddDynamic(this, &ALightSwitch::OnOverlapEnd);
 	RootComponent = CollisionComp;
@@ -23,8 +24,7 @@ ALightSwitch::ALightSwitch()
 	SwitchMesh = CreateDefaultSubobject <UStaticMeshComponent>(TEXT("SwitchMesh"));
 	SwitchMesh->AttachTo(RootComponent);
 	
-	/*ButtonPrompt = CreateDefaultSubobject <ATextRenderActor>(TEXT("ButtonPrompt"));
-	ButtonPrompt->AttachToComponent(RootComponent,);*/
+
 
 	ButtonPromptMesh = CreateDefaultSubobject <UStaticMeshComponent>(TEXT("ButtonPromptMesh"));
 	ButtonPromptMesh->AttachTo(RootComponent);
@@ -50,6 +50,8 @@ void ALightSwitch::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	SwitchMesh->SetMaterial(0, SwitchMaterial1);
+	//UMaterial* GlovesMaterialInstanceDynamic = SwitchMesh->CreateAndSetMaterialInstanceDynamic(0);
 	ButtonPromptMesh->SetMaterial(0, SeeThroughMaterial);
 
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ABlinkingLight::StaticClass(), AllLights);
@@ -66,7 +68,7 @@ void ALightSwitch::BeginPlay()
 			ABlinkingLight* temp = Cast<ABlinkingLight>(MyLights[i]);
 			if (OnOff)
 			{
-				//ABlinkingLight::LightState::Blink;
+
 				temp->currentStateNum = stateOne;
 			}
 			else
@@ -85,7 +87,6 @@ void ALightSwitch::BeginPlay()
 void ALightSwitch::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
-	//propellerAudioComponent->SetFloatParameter(FName("pitch"), 2500.f);//for runtime
 }
 
 void ALightSwitch::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -94,7 +95,6 @@ void ALightSwitch::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr))
 	{
 		if (OtherActor->IsA(APlayerCharacter::StaticClass())) {
-			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Hi Player");
 			ButtonPromptMesh->SetMaterial(0, ButtonPrompMaterial);
 		}
 	}
@@ -106,7 +106,6 @@ void ALightSwitch::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* Oth
 	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr))
 	{
 		if (OtherActor->IsA(APlayerCharacter::StaticClass())) {
-			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Bye Player");
 			ButtonPromptMesh->SetMaterial(0, SeeThroughMaterial);
 		}
 	}
@@ -123,16 +122,42 @@ void ALightSwitch::Switch()
 			ABlinkingLight* temp = Cast<ABlinkingLight>(MyLights[i]);
 			if (OnOff)
 			{
-				//ABlinkingLight::LightState::Blink;
 				temp->currentStateNum = stateOne;
+				//add SwitchMesh colour change
+				SwitchMesh->SetMaterial(0, SwitchMaterial1);
 			}
 			else
 			{
 				temp->currentStateNum = stateTwo;
+				//add SwitchMesh colour change
+				SwitchMesh->SetMaterial(0, SwitchMaterial2);
 			}
 		}
 	}
 	
-
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Black, FString::Printf(TEXT("Bool: %s"), OnOff ? TEXT("true") : TEXT("false")));
 }
+
+/*
+Ref
+
+crap
+
+//CollisionComp->OnComponentHit.AddDynamic(this, &ALevelLoader::OnHit);
+
+/*ButtonPrompt = CreateDefaultSubobject <ATextRenderActor>(TEXT("ButtonPrompt"));
+ButtonPrompt->AttachToComponent(RootComponent,);*
+
+//ABlinkingLight::LightState::Blink;
+
+//propellerAudioComponent->SetFloatParameter(FName("pitch"), 2500.f);//for runtime
+
+//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Hi Player");
+
+//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Bye Player");
+
+//ABlinkingLight::LightState::Blink;
+
+//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Black, FString::Printf(TEXT("Bool: %s"), OnOff ? TEXT("true") : TEXT("false")));
+
+
+*/

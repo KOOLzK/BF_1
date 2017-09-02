@@ -3,8 +3,10 @@
 #include "BF_1.h"
 #include "PhysicsInteract.h"
 
+// change to SpherePhysics, [currently being used for Bouncy ball and Key, 02/09/2017]
 
-// Sets default values  /// change to SpherePhysics
+
+// Sets default values  
 APhysicsInteract::APhysicsInteract()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.

@@ -6,6 +6,7 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "BehaviorTree/BehaviorTreeComponent.h"
 
+//this doesn't work well. i think it needs to be redone when the power system is implemented
 
 // Sets default values
 ASlidingDoor::ASlidingDoor()
@@ -19,14 +20,6 @@ ASlidingDoor::ASlidingDoor()
 
 	DoorMesh = CreateDefaultSubobject <UStaticMeshComponent>(TEXT("DoorMesh"));
 	DoorMesh->AttachTo(RootComponent);
-
-	/*ClosedPosition = CreateDefaultSubobject <UStaticMeshComponent>(TEXT("ClosedPosition"));
-	ClosedPosition->SetRelativeLocation(FVector(0, 100, 0));*/
-	//ClosedPosition->AttachTo(RootComponent);
-
-	/*OpenedPosition = CreateDefaultSubobject <UStaticMeshComponent>(TEXT("OpenedPosition"));
-	OpenedPosition->SetRelativeLocation(FVector(0, -100, 0));*/
-	//OpenedPosition->AttachTo(RootComponent);
 
 	BlackboardComp = CreateDefaultSubobject<UBlackboardComponent>(TEXT("BlackboardComp"));
 
@@ -53,8 +46,6 @@ void ASlidingDoor::Tick( float DeltaTime )
 	Super::Tick( DeltaTime );
 
 	DY = DoorMesh->RelativeLocation.Y;
-	/*CY = ClosedPosition->GetComponentLocation().Y;
-	OY = OpenedPosition->GetComponentLocation().Y;*/
 
 	if (BlackboardComp->GetValueAsBool(LightKey)) {
 		if (DY < ClosedY)
@@ -72,3 +63,20 @@ void ASlidingDoor::Tick( float DeltaTime )
 
 }
 
+/*
+Ref
+
+crap
+
+/*ClosedPosition = CreateDefaultSubobject <UStaticMeshComponent>(TEXT("ClosedPosition"));
+ClosedPosition->SetRelativeLocation(FVector(0, 100, 0));*
+//ClosedPosition->AttachTo(RootComponent);
+
+/*OpenedPosition = CreateDefaultSubobject <UStaticMeshComponent>(TEXT("OpenedPosition"));
+OpenedPosition->SetRelativeLocation(FVector(0, -100, 0));*
+//OpenedPosition->AttachTo(RootComponent);
+
+/*CY = ClosedPosition->GetComponentLocation().Y;
+OY = OpenedPosition->GetComponentLocation().Y;*
+
+*/

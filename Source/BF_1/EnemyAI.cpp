@@ -8,7 +8,7 @@
 #include "EnemyCharacter.h"
 #include "EnemyAI.h"
 
-
+//test class old i don't know if i still need this
 AEnemyAI::AEnemyAI() {
 	BlackboardComp = CreateDefaultSubobject<UBlackboardComponent>(TEXT("BlackboardComp"));
 

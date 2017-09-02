@@ -20,12 +20,6 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Mesh, meta = (AllowPrivateAssess = "true"))
 	class UStaticMeshComponent* LoaderMesh;
 
-	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Material)
-	UMaterial* Material;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Level)
-	ULevel* NameToLoad;*/
-
 	/*Is used to load the level by name, NOTE entering a name to a level that doesn't exist will cause a crash*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Level)
 	FName LevelName;
@@ -44,11 +38,26 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
-	//UFUNCTION()
-	//void OnHit(UPrimitiveComponent* HitComp, AActor* Actor, UPrimitiveComponent* Other, FVector Impulse, const FHitResult & Hit);
-	//void OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
-	
 	UFUNCTION()
 	void OnOverLapB(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
-	// UPrimitiveComponent*, OverlappedComponent, AActor*, OtherActor, UPrimitiveComponent*, OtherComp, int32, OtherBodyIndex, bool, bFromSweep, const FHitResult &, SweepResult)
+	
 };
+
+/*
+Ref
+
+crap
+
+/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Material)
+UMaterial* Material;
+
+UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Level)
+ULevel* NameToLoad;*
+
+//UFUNCTION()
+//void OnHit(UPrimitiveComponent* HitComp, AActor* Actor, UPrimitiveComponent* Other, FVector Impulse, const FHitResult & Hit);
+//void OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
+// UPrimitiveComponent*, OverlappedComponent, AActor*, OtherActor, UPrimitiveComponent*, OtherComp, int32, OtherBodyIndex, bool, bFromSweep, const FHitResult &, SweepResult)
+
+*/

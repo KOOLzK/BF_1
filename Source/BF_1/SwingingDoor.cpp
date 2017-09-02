@@ -4,6 +4,10 @@
 #include "SwingingDoor.h"
 #include "PlayerCharacter.h"
 
+//not tidy code, i don't think its worth it
+//this does not work, i think i need to play an animation to open and close the door
+
+
 // Sets default values
 ASwingingDoor::ASwingingDoor(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
