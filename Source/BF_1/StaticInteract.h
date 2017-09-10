@@ -28,6 +28,8 @@ public:
 	//called when the player stops looking at this actor, turns off glowing
 	virtual void Unfocused() override;
 
+	virtual void UpdateAndDelete() override;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Collision)
 	class UBoxComponent* CollisionComp;
 

@@ -60,6 +60,8 @@ APlayerCharacter::APlayerCharacter()
 	//BlackboardComp = CreateDefaultSubobject<UBlackboardComponent>(TEXT("BlackboardComp"));
 
 	Targeting = NULL;
+
+	Hidden = false;
 }
 
 
@@ -186,8 +188,9 @@ void APlayerCharacter::Use()
 		{
 			if (RightHead != NULL) {
 				if (Targeting->ItemName == RightHead->ItemName) {
-					Targeting->Destroy();
+					Targeting->UpdateAndDelete();
 					RightHead->Destroy();
+					//FStat_STAT_Navigation_RecastBuildNavigation();
 				}
 				else
 				{

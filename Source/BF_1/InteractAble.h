@@ -35,6 +35,8 @@ public:
 
 	virtual void DetachFromHead();
 
+	virtual void UpdateAndDelete();
+
 	bool HasPhysics;
 
 	UPROPERTY(EditAnywhere, Category = Camera)

@@ -49,6 +49,8 @@ public:
 	UPROPERTY(EditAnywhere, Category = Variable)
 	bool DisplayDebugMessages = false;
 
+	bool Hidden;
+
 
 	/*Ray Trace*/
 	FHitResult* HitResult;

@@ -24,13 +24,15 @@ APhysicsInteract::APhysicsInteract()
 	//InteractAbleMesh->SetRelativeLocation(FVector(0, 0, 0));
 	//InteractAbleMesh->SetCollisionResponseToChannel(EEC_InteractAble, ECollisionResponse::ECR_Block);
 	InteractAbleMesh->AttachTo(CollisionComp);
+
+	ZLevelRespone = -10000;
 }
 
 // Called when the game starts or when spawned
 void APhysicsInteract::BeginPlay()
 {
 	Super::BeginPlay();
-
+	StartLocation = GetActorLocation();//CollisionComp->GetComponentLocation();
 }
 
 // Called every frame
@@ -38,6 +40,11 @@ void APhysicsInteract::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (GetActorLocation().Z < ZLevelRespone)
+	{
+		SetActorLocation(StartLocation);
+		CollisionComp->SetPhysicsLinearVelocity(FVector(0, 0, 0));
+	}
 }
 
 void APhysicsInteract::Focused()

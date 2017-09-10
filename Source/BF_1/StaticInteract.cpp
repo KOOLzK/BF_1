@@ -50,3 +50,11 @@ void AStaticInteract::Unfocused()
 	//mesh->SetRenderCustomDepth(false);
 	InteractAbleMesh->SetRenderCustomDepth(false);
 }
+
+void AStaticInteract::UpdateAndDelete()
+{
+	CollisionComp->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
+	CollisionComp->AddWorldTransform(FTransform(FVector(0, 0, 1.0f)));//FVector(0, 0, 1.0f));
+	CollisionComp->UpdateNavigationBounds();
+	this->Destroy();
+}

@@ -32,6 +32,12 @@ public:
 	UPROPERTY(EditAnywhere, Category = Variable)
 	class UBehaviorTree* GlobalVariableAccess;
 
+	UPROPERTY(EditAnywhere, Category = Collision)
+	UBillboardComponent* EditorIcon;
+
+	UPROPERTY(EditAnywhere, Category = Collision)
+	UTexture2D* SpriteTexture;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	

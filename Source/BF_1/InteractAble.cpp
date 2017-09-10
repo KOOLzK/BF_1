@@ -54,3 +54,8 @@ void AInteractAble::DetachFromHead()
 {
 
 }
+
+void AInteractAble::UpdateAndDelete()
+{
+
+}

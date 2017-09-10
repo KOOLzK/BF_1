@@ -26,6 +26,13 @@ ALevelLoader::ALevelLoader()
 
 	//for the life of me i don't know why i have a Black board in this class
 	BlackboardComp = CreateDefaultSubobject<UBlackboardComponent>(TEXT("BlackboardComp"));
+
+
+	EditorIcon = CreateDefaultSubobject<UBillboardComponent>(TEXT("Billboard"), true);
+	static ConstructorHelpers::FObjectFinder<UTexture2D> SpriteTexture(TEXT("Texture2D'/Game/Textures/Loader.Loader'"));
+	EditorIcon->Sprite = SpriteTexture.Object;
+	EditorIcon->ScreenSize = 0.0015f;
+	EditorIcon->AttachTo(CollisionComp);
 }
 
 // Called when the game starts or when spawned

@@ -2,6 +2,7 @@
 
 #include "BF_1.h"
 #include "AIPatrol.h"
+#include "PlayerCharacter.h"
 #include "AIPatrolController.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "Perception/PawnSensingComponent.h"
@@ -68,13 +69,16 @@ void AAIPatrol::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 
 void AAIPatrol::OnPlayerCaught(APawn* Pawn)
 {
+	APlayerCharacter* temp = Cast<APlayerCharacter>(Pawn);
 
-	AAIPatrolController* AIController = Cast<AAIPatrolController>(GetController());
+	if (!temp->Hidden) {
 
-	if (AIController)
-	{
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("angry!"));
-		AIController->SetPlayerCaught(Pawn);
+		AAIPatrolController* AIController = Cast<AAIPatrolController>(GetController());
+		if (AIController)
+		{
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("angry!"));
+			AIController->SetPlayerCaught(Pawn);
+		}
 	}
 }
 
