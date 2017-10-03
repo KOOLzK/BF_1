@@ -20,13 +20,15 @@ ABoxPhysicsInteract::ABoxPhysicsInteract()
 
 	InteractAbleMesh = CreateDefaultSubobject <UStaticMeshComponent>(TEXT("InteractAbleMesh"));
 	InteractAbleMesh->AttachTo(CollisionComp);
+
+	ZLevelRespone = -10000;
 }
 
 // Called when the game starts or when spawned
 void ABoxPhysicsInteract::BeginPlay()
 {
 	Super::BeginPlay();
-
+	StartLocation = GetActorLocation();
 }
 
 // Called every frame
@@ -34,6 +36,11 @@ void ABoxPhysicsInteract::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (GetActorLocation().Z < ZLevelRespone)
+	{
+		SetActorLocation(StartLocation);
+		CollisionComp->SetPhysicsLinearVelocity(FVector(0, 0, 0));
+	}
 }
 
 void ABoxPhysicsInteract::Focused()

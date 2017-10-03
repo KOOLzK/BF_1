@@ -39,4 +39,8 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Mesh, meta = (AllowPrivateAssess = "true"))
 	class UStaticMeshComponent* InteractAbleMesh;
 
+
+	FVector StartLocation;
+
+	float ZLevelRespone;
 };

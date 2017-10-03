@@ -80,3 +80,13 @@ void AHidingSpot::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* Othe
 		}
 	}
 }
+
+
+/*
+Ref
+https://www.youtube.com/watch?v=YZ3TIqwqOWY
+https://wiki.unrealengine.com/Add_in_editor_Icon_to_your_Custom_Actor
+
+crap
+
+*/

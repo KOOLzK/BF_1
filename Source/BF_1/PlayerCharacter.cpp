@@ -10,6 +10,7 @@
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "BehaviorTree/BehaviorTreeComponent.h"
+#include "MaterialInstance.generated.h"
 
 #define EEC_InteractAble ECollisionChannel::ECC_GameTraceChannel1
 
@@ -45,6 +46,12 @@ APlayerCharacter::APlayerCharacter()
 	LeftHeadOffset->RelativeLocation = FVector(50.f, -20.f, 0);
 
 
+	PointLight = CreateDefaultSubobject<UPointLightComponent>(TEXT("PointLight"));
+	PointLight->Intensity = 3000.f;
+	PointLight->bVisible = true;
+	PointLight->AttachToComponent(GetCapsuleComponent(), FAttachmentTransformRules::KeepWorldTransform);
+
+
 
 	currentSwitch = nullptr;
 
@@ -62,6 +69,23 @@ APlayerCharacter::APlayerCharacter()
 	Targeting = NULL;
 
 	Hidden = false;
+
+	static ConstructorHelpers::FObjectFinder<UTexture2D> PS1(TEXT("Texture2D'/Engine/EditorMaterials/TargetIcon.TargetIcon'"));
+	ReticleDisplayTarget = PS1.Object;
+
+	static ConstructorHelpers::FObjectFinder<UTexture2D> PS2(TEXT("Texture2D'/Game/Textures/HandIcon2.HandIcon2'"));
+	ReticleDisplayInteract = PS2.Object;
+	
+	static ConstructorHelpers::FObjectFinder<UTexture2D> PS3(TEXT("Texture2D'/Game/Textures/SkullIcon.SkullIcon'"));
+	ReticleDisplayDeath = PS3.Object;
+	
+	ReticleDisplayCurrent = ReticleDisplayTarget;
+
+	HUDWidth = 64.0f;
+
+	HUDHeight = 64.0f;
+
+	dead = false;
 }
 
 
@@ -78,7 +102,8 @@ void APlayerCharacter::Tick( float DeltaTime )
 
 	if (GetActorLocation().Z < ZLevelRestart)
 	{
-		Death();
+		//Death(); don't work anymore, seens i added the delay, so i use ReloadLevel() directly now
+		ReloadLevel();
 	}
 
 
@@ -99,12 +124,16 @@ void APlayerCharacter::Tick( float DeltaTime )
 				Targeting->Unfocused();
 				//replace actor to ray trace storage
 				Targeting = Cast<AInteractAble>(HitResult->GetActor());
+				//change HUD
+				ReticleDisplayCurrent = ReticleDisplayTarget;
 			}
 			else {
 				//add actor to ray trace storage
 				Targeting = Cast<AInteractAble>(HitResult->GetActor());
 				//turns on glowing
 				Targeting->Focused();
+				//change HUD
+				ReticleDisplayCurrent = ReticleDisplayInteract;
 				//Debug
 				if (DisplayDebugMessages) {
 					DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor(255, 0, 0), false, 5.f);
@@ -120,9 +149,15 @@ void APlayerCharacter::Tick( float DeltaTime )
 			Targeting->Unfocused();
 			//clear ray trace storage
 			Targeting = NULL;
+			//change HUD
+			ReticleDisplayCurrent = ReticleDisplayTarget;
 		}
 	}
 
+
+	//give player location to the Material Parameter Collections
+	//FScalarParameterValue;
+	//FCollectionScalarParameter;
 
 }
 
@@ -142,26 +177,34 @@ void APlayerCharacter::SetupPlayerInputComponent(class UInputComponent* InputCom
 
 void APlayerCharacter::MoveForward(float val)
 {
-	FRotator Rotation(0 ,GetActorRotation().Yaw, 0);
-	FVector Forward = FRotationMatrix(Rotation).GetScaledAxis(EAxis::X);
-	AddMovementInput(Forward, val);
+	if (!dead) {
+		FRotator Rotation(0, GetActorRotation().Yaw, 0);
+		FVector Forward = FRotationMatrix(Rotation).GetScaledAxis(EAxis::X);
+		AddMovementInput(Forward, val);
+	}
 }
 
 void APlayerCharacter::MoveRight(float val)
 {
-	FRotator Rotation(0, GetActorRotation().Yaw, 0);
-	FVector Right = FRotationMatrix(Rotation).GetScaledAxis(EAxis::Y);
-	AddMovementInput(Right, val);
+	if (!dead) {
+		FRotator Rotation(0, GetActorRotation().Yaw, 0);
+		FVector Right = FRotationMatrix(Rotation).GetScaledAxis(EAxis::Y);
+		AddMovementInput(Right, val);
+	}
 }
 
 void APlayerCharacter::LookYaw(float val)
 {
-	AddControllerYawInput(val);
+	if (!dead) {
+		AddControllerYawInput(val);
+	}
 }
 
 void APlayerCharacter::LookPitch(float val)
 {
-	AddControllerPitchInput(val);
+	if (!dead) {
+		AddControllerPitchInput(val);
+	}
 }
 
 void APlayerCharacter::Use()
@@ -181,12 +224,22 @@ void APlayerCharacter::Use()
 	{
 		//check HasPhysics true
 		if (Targeting->HasPhysics) {
-			RightHead = Targeting;
-			RightHead->AttachToHead(RightHeadOffset);
+			if (RightHead == NULL) {
+				//empty hand so pick it up
+				RightHead = Targeting;
+				RightHead->AttachToHead(RightHeadOffset);
+			}
+			else {
+				//drop one item to pick up another
+				RightHead->DetachFromHead();
+				RightHead = Targeting;
+				RightHead->AttachToHead(RightHeadOffset);
+			}
 		}
 		else //check HasPhysics false
 		{
 			if (RightHead != NULL) {
+				//temp door and key
 				if (Targeting->ItemName == RightHead->ItemName) {
 					Targeting->UpdateAndDelete();
 					RightHead->Destroy();
@@ -272,15 +325,51 @@ void APlayerCharacter::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor*
 	
 }
 
+UTexture2D* APlayerCharacter::GetCurrentDispay()
+{
+	return ReticleDisplayCurrent;
+}
+
+float APlayerCharacter::GetHUDWidth()
+{
+	return HUDWidth;
+}
+
+float APlayerCharacter::GetHUDHeight()
+{
+	return HUDHeight;
+}
+
+UPointLightComponent* APlayerCharacter::GetLight()
+{
+	return PointLight;
+}
+
 void APlayerCharacter::Death()
 {
+	//change HUD
+	ReticleDisplayCurrent = ReticleDisplayDeath;
+	HUDWidth = 564.0f;
+	HUDHeight = 564.0f;
+	dead = true;
+
+	GetWorldTimerManager().SetTimer(ReloadLevelDelay, this, &APlayerCharacter::ReloadLevel, 2.0f);
+}
+
+void APlayerCharacter::ReloadLevel()
+{
+	//load level again to reset it
 	FString a = UGameplayStatics::GetCurrentLevelName(this);
 	UGameplayStatics::OpenLevel(this, FName(*a));
 }
 
 
+
 /*
 Ref
+
+HUD = https://www.youtube.com/watch?v=Snz99qBh9qQ
+
 
 crap
 //currentLevel = BlackboardComp->GetValueAsName(LevelKey);//GetValueAsBool(LevelKey);

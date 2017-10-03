@@ -86,6 +86,26 @@ public:
 	UFUNCTION()
 	void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
+	UFUNCTION(BlueprintPure, Category = HUD)
+	UTexture2D* GetCurrentDispay();
+
+	UFUNCTION(BlueprintPure, Category = HUD)
+	float GetHUDWidth();
+
+	UFUNCTION(BlueprintPure, Category = HUD)
+	float GetHUDHeight();
+
+	UFUNCTION(BlueprintPure, Category = Light)
+	UPointLightComponent* GetLight();
+	
+
+	/*UFUNCTION(BlueprintCallable, Category = HUD)
+	UTexture2D UpdateCurrentDispay();*/
+
+	void ReloadLevel();
+
+	FTimerHandle ReloadLevelDelay;
+
 	//stores the Interact Able the player is looking at
 	class AInteractAble* Targeting;
 
@@ -107,6 +127,36 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = Camera)
 	class USceneComponent* LeftHeadOffset;
+
+
+	UPROPERTY(EditAnywhere, Category = HUD)
+	UTexture2D* ReticleDisplayTarget;
+
+	UPROPERTY(EditAnywhere, Category = HUD)
+	UTexture2D* ReticleDisplayInteract;
+
+	UPROPERTY(EditAnywhere, Category = HUD)
+	UTexture2D* ReticleDisplayDeath;
+
+	UPROPERTY(EditAnywhere, Category = HUD)
+	UTexture2D* ReticleDisplayCurrent;
+
+
+	float HUDWidth;
+
+	float HUDHeight;
+
+	bool dead;
+
+	UPROPERTY(EditAnywhere, Category = Light)
+	class UPointLightComponent* PointLight;
+
+
+
+	//AHUD PlayerHUD;
+
+	//class UUserWidget* HUDWidget;
+
 
 	//class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex
 
