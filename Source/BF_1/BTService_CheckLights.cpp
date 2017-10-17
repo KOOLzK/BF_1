@@ -30,11 +30,26 @@ void UBTService_CheckLights::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* 
 
 		if (light == 0) {
 			//BlackboardComp->SetValueAsBool("IsInLight", false);
+
+			//maybe this should be a function in AIPatrol and this just calls it
+
+			//if the enemy is set to be invisible in the dark then make it invisible
+			if (AICharacter->HeadInvisibleInDark) {
+				AICharacter->Head->SetMaterial(0, AICharacter->SeeThroughMaterial);
+			}
+			if (AICharacter->BodyInvisibleInDark) {
+				AICharacter->Body->SetMaterial(0, AICharacter->SeeThroughMaterial);
+			}
+
+			//let enemy move
 			AICharacter->GetCharacterMovement()->MaxWalkSpeed = AICharacter->MyMaxWalkSpeed;
+
+			//play walking sound
 			if (!AICharacter->propellerAudioComponent->IsPlaying())
 			{
 				AICharacter->propellerAudioComponent->Play();
 			}
+
 			/*Spawns Foot Print when enemies walk. Note Location is lowered in the z axis to get it 
 			close enough to the ground to spawn, if enemy height changes this z axis will have to too.
 			Note Rotaton was changed in the Roll because Foot Print picture was the wrong way, if we 
@@ -44,7 +59,19 @@ void UBTService_CheckLights::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* 
 		else {
 			//BlackboardComp->SetValueAsBool("IsInLight", true);
 			//AICharacter->SetActorLocation(AICharacter->GetActorLocation());
+
+			//if the enemy is set to be invisible in the dark then make it visible in the light
+			if (AICharacter->HeadInvisibleInDark) {
+				AICharacter->Head->SetMaterial(0, AICharacter->HeadMaterial);
+			}
+			if (AICharacter->BodyInvisibleInDark) {
+				AICharacter->Body->SetMaterial(0, AICharacter->BodyMaterial);
+			}
+
+			//stop enemy from moving
 			AICharacter->GetCharacterMovement()->MaxWalkSpeed = 0;
+
+			//stop walking sound
 			AICharacter->propellerAudioComponent->Stop();
 		}
 

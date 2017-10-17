@@ -69,6 +69,27 @@ public:
 	/*UPROPERTY(EditAnywhere, Category = Effects)
 	float FootPrintLifeSpan = 5.0;*/
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Mesh, meta = (AllowPrivateAssess = "true"))
+	class UStaticMeshComponent* Body;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Mesh, meta = (AllowPrivateAssess = "true"))
+	class UStaticMeshComponent* Head;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh)
+	UMaterial* BodyMaterial;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh)
+	UMaterial* HeadMaterial;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh)
+	UMaterial* SeeThroughMaterial;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh)
+	bool BodyInvisibleInDark;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh)
+	bool HeadInvisibleInDark;
+
 private:
 
 	UFUNCTION()

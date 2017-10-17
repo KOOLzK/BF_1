@@ -10,7 +10,7 @@
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "BehaviorTree/BehaviorTreeComponent.h"
-#include "MaterialInstance.generated.h"
+//#include "MaterialInstance.generated.h"
 
 #define EEC_InteractAble ECollisionChannel::ECC_GameTraceChannel1
 
