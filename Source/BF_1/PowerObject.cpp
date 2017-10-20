@@ -1,18 +1,17 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "BF_1.h"
-#include "Plug.h"
+#include "PowerObject.h"
 
-
-Plug::Plug()
+PowerObject::PowerObject()
 {
 }
 
-Plug::~Plug()
+PowerObject::~PowerObject()
 {
 }
 
-bool Plug::getIsOn()
+bool PowerObject::isOn()
 {
 	return isOn;
 }

@@ -15,5 +15,8 @@ public:
 
 	class PowerBar Source;
 
-	bool isOn;
+	bool isOn; // as a getter
+
+	bool getIsOn();
+
 };

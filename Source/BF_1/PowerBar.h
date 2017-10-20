@@ -4,14 +4,26 @@
 
 #include "Gate.h"
 
+#include "PowerConnection.h"
+
 /**
  * 
  */
-class BF_1_API PowerBar
+ 
+ //IS A POWER OBJECT
+class BF_1_API PowerBar : public PowerObject
 {
 public:
 	PowerBar();
 	~PowerBar();
+
+	PowerConnection in;
+	PowerConnection out[5];
+
+	//in:powerConnection, PowerSource
+	//out[]:powerConnection array of connections
+
+
 
 	class Gate gate;
 };
