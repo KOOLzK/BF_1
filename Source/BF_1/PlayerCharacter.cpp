@@ -11,6 +11,7 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "BehaviorTree/BehaviorTreeComponent.h"
 //#include "MaterialInstance.generated.h"
+#include "PowerObject.h"
 
 #define EEC_InteractAble ECollisionChannel::ECC_GameTraceChannel1
 
@@ -21,7 +22,7 @@ APlayerCharacter::APlayerCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-
+	//PowerObject* Po = new PowerObject();
 	UCapsuleComponent*  CapsuleComponent = GetCapsuleComponent(); 
 	GetCapsuleComponent()->BodyInstance.SetCollisionProfileName("Player");
 	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &APlayerCharacter::OnOverlapBegin);//->OnComponentBeginOverlap(this, APlayerCharacter::BeginPlay());

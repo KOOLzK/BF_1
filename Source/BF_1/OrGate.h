@@ -1,16 +1,13 @@
 #pragma once
 #include "PowerObject.h"
-class BF_1_API AndGate : public PowerObject
-
+class BF_1_API OrGate : public PowerObject
 {
 public:
-	AndGate();
-	~AndGate();
+	OrGate();
+	~OrGate();
 
 	void PlugInTo(PowerObject* InPutOne, PowerObject* InPutTwo);
 
 	virtual void Update() override;
-
-	bool IsOn() override;
 };
 

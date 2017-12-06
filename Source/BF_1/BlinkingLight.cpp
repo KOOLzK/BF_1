@@ -5,9 +5,10 @@
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "BehaviorTree/BehaviorTreeComponent.h"
+#include "PowerObject.h"
 //#include "LightSwitch.h"
 
-//***********************************i don't think i'm using this for anything
+//light checks the light manager to see if it should be on or off
 
 // Sets default values
 ABlinkingLight::ABlinkingLight()
@@ -25,6 +26,8 @@ ABlinkingLight::ABlinkingLight()
 	LightKey = "Light";
 	currentState = LightState::Blink;
 	currentStateNum = 2;
+
+	PO = new PowerObject();
 }
 
 // Called when the game starts or when spawned

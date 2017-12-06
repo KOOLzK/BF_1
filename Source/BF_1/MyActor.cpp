@@ -3,7 +3,7 @@
 #include "BF_1.h"
 #include "MyActor.h"
 
-//This is the BlinkingLight i don't remember why it is called MyActor
+//this is the old old blinking light, it was indepentent from each other
 
 // Sets default values
 AMyActor::AMyActor()
@@ -65,4 +65,6 @@ temp2 = false;
 
 
 //GetWorldTimerManager().SetTimer(lightDelay, this, &AMyActor::toggle, 5.f, false);
+
+//This is the BlinkingLight i don't remember why it is called MyActor
 */

@@ -48,4 +48,6 @@ public:
 
 	int currentStateNum;
 
+	class PowerObject* PO;
+
 };
