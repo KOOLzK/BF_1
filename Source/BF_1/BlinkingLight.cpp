@@ -27,7 +27,10 @@ ABlinkingLight::ABlinkingLight()
 	currentState = LightState::Blink;
 	currentStateNum = 2;
 
+	//LightName = " ";
+
 	PO = new PowerObject();
+	PO->AttachLight(this);
 }
 
 // Called when the game starts or when spawned
@@ -49,7 +52,7 @@ void ABlinkingLight::Tick(float DeltaTime)
 
 	}*/
 
-
+	/*
 	if (currentStateNum == 0) {
 		LightOn = false;
 	}
@@ -61,7 +64,7 @@ void ABlinkingLight::Tick(float DeltaTime)
 	{
 		LightOn = BlackboardComp->GetValueAsBool(LightKey);
 	}
-
+*/
 
 
 	/*if (currentState == LightState::On) {
@@ -89,6 +92,10 @@ void ABlinkingLight::Tick(float DeltaTime)
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "false");
 	}*/
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, messege);
-	PointLight->SetVisibility(LightOn);
+	//PointLight->SetVisibility(LightOn);
 }
 
+void ABlinkingLight::Update()
+{
+	//this->CallFunction();
+}

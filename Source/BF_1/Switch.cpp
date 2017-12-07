@@ -27,6 +27,8 @@ void Switch::PlugInTo(PowerObject* Plug) //take this away, is the base class goo
 
 void Switch::Update()
 {
+	/*if InPut[0] is empty unreal crashes maybe put something here to not do this if it is empty and
+	throw a warning on the screen*/
 	if (InPut[0]->IsOn() && Toggle) {
 		mState = true;
 	}

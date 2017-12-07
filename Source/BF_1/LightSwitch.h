@@ -58,6 +58,8 @@ public:
 
 	UAudioComponent* propellerAudioComponent;
 
+	class Switch* S;
+
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -72,7 +74,7 @@ public:
 	void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 	UFUNCTION()
-	void Switch();
+	void Switching();
 
 	
 };

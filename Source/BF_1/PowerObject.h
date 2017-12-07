@@ -24,6 +24,14 @@ public:
 
 	float PowerPercent;
 
+	void PassUpdate(int (*func) (void));
+
+	//(*func) (*func);
+
+	class ABlinkingLight* ifLight;
+
+	void AttachLight(ABlinkingLight* AL);
+
 protected:
 	bool mState;
 	bool mPreUpdateState;

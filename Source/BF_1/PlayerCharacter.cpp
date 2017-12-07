@@ -213,7 +213,7 @@ void APlayerCharacter::Use()
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "E");
 	if (currentSwitch != nullptr)
 	{
-		currentSwitch->Switch();
+		currentSwitch->Switching();
 	}
 
 	if (currentDoor != nullptr)

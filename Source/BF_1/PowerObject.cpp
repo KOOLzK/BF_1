@@ -2,6 +2,7 @@
 
 #include "BF_1.h"
 #include "PowerObject.h"
+#include "BlinkingLight.h"
 
 using namespace std;
 
@@ -60,6 +61,10 @@ void PowerObject::Update()
 	/*for (int i = 0; OutPut.size > i; i++) {
 	OutPut[i]->Update();
 	}*/
+
+	if (ifLight != NULL) {
+		ifLight->PointLight->SetVisibility(mState);
+	}
 }
 void PowerObject::UpdateOuts()
 {
@@ -69,4 +74,12 @@ void PowerObject::UpdateOuts()
 	for (int i = 0; OutPut.size() > i; i++) {
 		OutPut[i]->Update();
 	}
+}
+void PowerObject::PassUpdate(int(*func) (void)) 
+{
+	func();
+}
+void PowerObject::AttachLight(ABlinkingLight* AL)
+{
+	ifLight = AL;
 }

@@ -5,7 +5,8 @@
 #include "PlayerCharacter.h"
 #include "Engine/TextRenderActor.h"
 #include "BlinkingLight.h"
-
+#include "Switch.h"
+#include "Generator.h"
 /*this may have to be replaced it just turns the light on and off, i can't change the timing in editor
 , i can't have two sets of light on different times. i think i should replace it with a power system*/
 
@@ -43,6 +44,10 @@ ALightSwitch::ALightSwitch()
 	propellerAudioComponent->AttachParent = RootComponent;
 
 	propellerAudioComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 100.0f));
+
+	//Generator* Gen = new Generator();
+	S = new Switch();
+	//S->PlugInTo(Gen);
 }
 
 // Called when the game starts or when spawned
@@ -60,6 +65,7 @@ void ALightSwitch::BeginPlay()
 		ABlinkingLight* temp = Cast<ABlinkingLight>(AllLights[i]);
 		if (LightName == temp->LightName) {
 			MyLights.Add(temp);
+			temp->PO->PlugInTo(S);
 		}
 	}
 	
@@ -111,12 +117,14 @@ void ALightSwitch::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* Oth
 	}
 }
 
-void ALightSwitch::Switch()
+void ALightSwitch::Switching()
 {
 	OnOff = !OnOff;
 
 	propellerAudioComponent->Play();
 
+	S->Flip();
+	/*
 	if (MyLights.Num() > 0) {
 		for (int i = 0; i < MyLights.Num(); i++) {
 			ABlinkingLight* temp = Cast<ABlinkingLight>(MyLights[i]);
@@ -133,7 +141,7 @@ void ALightSwitch::Switch()
 				SwitchMesh->SetMaterial(0, SwitchMaterial2);
 			}
 		}
-	}
+	}*/
 	
 }
 

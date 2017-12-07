@@ -39,6 +39,18 @@ public:
 
 	bool Light;
 
+	class Generator* Gen;
+
+	class Switch* Sw;
+
+	TArray<AActor*> AllLights;
+
+	TArray<AActor*> MyLights;
+
+	TArray<AActor*> AllSwitches;
+
+	TArray<AActor*> MySwitches;
+
 };
 
 /*
