@@ -52,4 +52,16 @@ public:
 
 	void Update();
 
+	UPROPERTY(EditAnywhere, Category = Navigation)
+	class UNavModifierComponent* NavMod;
+
+	/*UPROPERTY(EditAnywhere, Category = Navigation)
+	class ANavModifierVolume* Nav;*///this crashes unreal
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Navigation)
+	class USphereComponent* NavSphere;
+
+	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Navigation)
+	class ABrush* BRR; *///this crashes unreal
+
 };

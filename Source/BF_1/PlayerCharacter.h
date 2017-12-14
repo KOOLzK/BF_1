@@ -59,6 +59,12 @@ public:
 	FVector EndTrace;
 	FCollisionQueryParams* TraceParams;
 
+	//how far the ray trace goes that lets the player pick things up
+	UPROPERTY(EditAnywhere, Category = Variable)
+	float PlayerReach; 
+	//1000 is to far
+
+
 
 	/*INPUTS*/
 	void MoveForward(float val);
@@ -104,16 +110,27 @@ public:
 
 	void ReloadLevel();
 
+	void ActiveHand();
+
+	void EmptyHand();
+
+	void EmptyHandCharge();
+
+
 	FTimerHandle ReloadLevelDelay;
 
 	//stores the Interact Able the player is looking at
 	class AInteractAble* Targeting;
 
-	//stores the item the player is holding in the left head
-	class AInteractAble* LeftHead;
+	/******************i only now noticed these say "head" instead of "hand", this should be changed
+	at the same time as InteractAble cause i think its the same*/
 
 	//stores the item the player is holding in the right head
 	class AInteractAble* RightHead;
+
+	//stores the item the player is holding in the left head
+	class AInteractAble* LeftHead;
+
 
 	//don't think this is going to work, remove?
 	//UStaticMeshSocket* RightSocket;
@@ -123,11 +140,25 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = Camera)
 	class APhysicsInteract* RightHeadOffset2;
-	
 
 	UPROPERTY(EditAnywhere, Category = Camera)
 	class USceneComponent* LeftHeadOffset;
 
+	float HandOffsetDepthX;
+
+	float HandOffsetThorwX;
+
+	float HandOffsetWidthY;
+
+	float HandOffsetActiveZ;
+
+	float HandOffsetInactiveZ;
+
+	bool IsRightHandActive;
+
+	bool ChargingThrow;
+
+	float ThrowStrength;
 
 	UPROPERTY(EditAnywhere, Category = HUD)
 	UTexture2D* ReticleDisplayTarget;
