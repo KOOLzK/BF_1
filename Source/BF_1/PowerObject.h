@@ -2,11 +2,12 @@
 
 #pragma once
 #include <vector>
+#include "PG_Subject.h"
 
 /**
  * 
  */
-class BF_1_API PowerObject
+class BF_1_API PowerObject : public PG_Subject
 {
 public:
 	PowerObject();
@@ -38,5 +39,7 @@ protected:
 
 	std::vector <PowerObject*> InPut;
 	std::vector <PowerObject*> OutPut;
+
+	void SetState(bool state);
 
 };

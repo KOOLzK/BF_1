@@ -50,22 +50,37 @@ void PowerObject::Update()
 {
 	//if (mState != mPreUpdateState) {
 	if (InPut.size() > 0) {
-		mState = InPut[0]->mState;
+		//mState = InPut[0]->mState;
+		SetState(InPut[0]->mState);
 		/*if (InPut[0]->PowerPercent < 0) { //change to is a PowerBar
 		InPut[0]->Update();
 		}*/
 	}
 
+	//should mState be replaced with value????
+
+
+
+	//value = mState;
 	//}
 	//mPreUpdateState = mState;
 	/*for (int i = 0; OutPut.size > i; i++) {
 	OutPut[i]->Update();
 	}*/
 
-	if (ifLight != NULL) {
+	/*if (ifLight != NULL) {
 		ifLight->PointLight->SetVisibility(mState);
-	}
+	}*/
 }
+
+//function setState
+void PowerObject::SetState(bool state)
+{
+	mState = state;
+	SetVal(state);
+	UpdateOuts();
+}
+
 void PowerObject::UpdateOuts()
 {
 	/*for (int i = 0; OutPut.size > i; i++) { //why does this one break it

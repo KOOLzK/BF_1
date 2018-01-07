@@ -123,6 +123,8 @@ void ALightSwitch::Switching()
 
 	propellerAudioComponent->Play();
 
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "switching");
+
 	S->Flip();
 	/*
 	if (MyLights.Num() > 0) {

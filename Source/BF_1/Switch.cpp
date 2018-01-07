@@ -19,7 +19,8 @@ void Switch::PlugInTo(PowerObject* Plug) //take this away, is the base class goo
 	else {
 		InPut.push_back(Plug);
 	}
-	Update();
+	Plug->WiredOutOf(this);
+	//Update();
 	//Plug->OutPut.push_back(this);
 	
 	//mState = Plug->IsOn();
@@ -30,16 +31,24 @@ void Switch::Update()
 	/*if InPut[0] is empty unreal crashes maybe put something here to not do this if it is empty and
 	throw a warning on the screen*/
 	if (InPut[0]->IsOn() && Toggle) {
-		mState = true;
+		SetState(true); //mState = true;
 	}
 	else {
-		mState = false;
+		SetState(false); //mState = false;
 	}
+
+	if (mState) {
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "true");
+	}
+	else {
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "false");
+	}
+
 
 	/*for (int i = 0; OutPut.size() > i; i++) {
 		OutPut[i]->Update();
 	}*/
-	UpdateOuts();
+	//UpdateOuts();
 }
 bool Switch::IsOn()
 {

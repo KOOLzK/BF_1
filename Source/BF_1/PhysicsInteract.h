@@ -34,6 +34,10 @@ public:
 	virtual void DetachFromHead() override;
 	//void AttachHead2(USceneComponent* Head);
 
+
+	virtual void Throw(FVector Direction) override;
+
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Collision)
 	class USphereComponent* CollisionComp;
 

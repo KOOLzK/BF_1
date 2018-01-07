@@ -2,11 +2,11 @@
 
 #pragma once
 
-#include "GameFramework/Actor.h"
+#include "PG_Observer.h"
 #include "BlinkingLight.generated.h"
 
 UCLASS()
-class BF_1_API ABlinkingLight : public AActor
+class BF_1_API ABlinkingLight : public APG_Observer
 {
 	GENERATED_BODY()
 
@@ -19,7 +19,7 @@ class BF_1_API ABlinkingLight : public AActor
 
 public:
 	// Sets default values for this actor's properties
-	ABlinkingLight();
+	ABlinkingLight();// PG_Subject *mod, bool div) : APG_Observer(mod, div);
 
 	enum LightState { On, Blink, Off };
 
@@ -50,7 +50,7 @@ public:
 
 	class PowerObject* PO;
 
-	void Update();
+	virtual void Update() override;
 
 	UPROPERTY(EditAnywhere, Category = Navigation)
 	class UNavModifierComponent* NavMod;

@@ -45,7 +45,8 @@ AAIPatrol::AAIPatrol()
 	and HeadMaterial to get it to work, and so other don't get confused on why setting the mesh 
 	material directly does nothing*/
 	
-
+	AnimationNumber = 4;
+	AnimationToggle = false;
 }
 
 // Called when the game starts or when spawned
@@ -150,6 +151,27 @@ float AAIPatrol::GetLightingAmount()
 	}
 
 	return AllResult;
+}
+
+void AAIPatrol::AnimationPoses() 
+{
+	if (LightUpdate) {
+		AnimationToggle = !AnimationToggle;
+		LightUpdate = false;
+	}
+
+	AAIPatrolController* AIController = Cast<AAIPatrolController>(GetController());
+	if (AIController)
+	{
+		//override AnimationNumber to floating if the AI is stock if(floating){AnimationNumber = 3;}else
+		
+		if (AIController->CurrentState == AAIPatrolController::State::patrol) {
+			AnimationNumber = 0;
+		}
+		else if (AIController->CurrentState == AAIPatrolController::State::spotted) {
+			AnimationNumber = 1;
+		}
+	}
 }
 
 /*

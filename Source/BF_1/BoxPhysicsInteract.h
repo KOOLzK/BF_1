@@ -32,6 +32,8 @@ public:
 
 	virtual void DetachFromHead() override;
 
+	virtual void Throw(FVector Direction) override;
+
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Collision)
 	class UBoxComponent* CollisionComp;

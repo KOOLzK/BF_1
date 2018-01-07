@@ -71,8 +71,8 @@ void ALightManager::Tick(float DeltaTime)
 
 void ALightManager::toggle()
 {
-	Light = !Light;
-	BlackboardComp->SetValueAsBool(LightKey, Light);
+	//Light = !Light;
+	//BlackboardComp->SetValueAsBool(LightKey, Light);
 
 	Sw->Flip();
 }

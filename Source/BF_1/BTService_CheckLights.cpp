@@ -55,6 +55,19 @@ void UBTService_CheckLights::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* 
 			Note Rotaton was changed in the Roll because Foot Print picture was the wrong way, if we 
 			get a different one check this*/
 			UGameplayStatics::SpawnDecalAtLocation(GetWorld(), AICharacter->FootPrintMaterial, FVector(50, 50, 50), AICharacter->GetActorLocation() - FVector(0,0,80), FRotator(-90, AICharacter->GetActorRotation().Yaw, AICharacter->GetActorRotation().Roll + 90), 5.0f);
+
+
+			//set animtions / Poses
+			/*AICharacter->AnimationToggle = !AICharacter->AnimationToggle;
+			if (AICon->CurrentState == AAIPatrolController::State::patrol) {
+				AICharacter->AnimationNumber = 0;
+			}else if (AICon->CurrentState == AAIPatrolController::State::spotted) {
+				AICharacter->AnimationNumber = 1;
+			}*/ //moved to AIPatrol
+
+
+			//call animation
+			AICharacter->AnimationPoses();
 		}
 		else {
 			//BlackboardComp->SetValueAsBool("IsInLight", true);
@@ -73,6 +86,9 @@ void UBTService_CheckLights::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* 
 
 			//stop walking sound
 			AICharacter->propellerAudioComponent->Stop();
+
+			//
+			AICharacter->LightUpdate = true;
 		}
 
 	}

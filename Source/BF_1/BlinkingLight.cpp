@@ -18,7 +18,7 @@
 //light checks the light manager to see if it should be on or off
 
 // Sets default values
-ABlinkingLight::ABlinkingLight()
+ABlinkingLight::ABlinkingLight()//PG_Subject *mod, bool div)
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;//UNavModifierComponent
@@ -37,7 +37,8 @@ ABlinkingLight::ABlinkingLight()
 	//LightName = " ";
 
 	PO = new PowerObject();
-	PO->AttachLight(this);
+	Observer(PO, PO->IsOn());
+	//PO->AttachLight(this);
 
 	NavSphere = CreateDefaultSubobject<USphereComponent>(TEXT("CoiComp"));
 	NavSphere->BodyInstance.SetCollisionProfileName("NavigationSphere");
@@ -60,7 +61,7 @@ ABlinkingLight::ABlinkingLight()
 	//NavMod->
 
 	//Nav = new UNavModifierComponent();
-	//Nav = CreateDefaultSubobject<ANavModifierVolume>(TEXT("NavModifier"));
+	//Nav = CreateDefaultSubobject<ANavModifierVolume>(TEXT("NavModifier"));//<<jeff look at this line
 	//Nav->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepWorldTransform);
 	//Nav->BrushComponent->set
 	//Nav->SetAreaClass(UNavArea::)
@@ -142,4 +143,7 @@ void ABlinkingLight::Tick(float DeltaTime)
 void ABlinkingLight::Update()
 {
 	//this->CallFunction();
+	PointLight->SetVisibility(PO->GetVal());
+	//getSubject()->getVal()
+	//PO->GetVal();
 }

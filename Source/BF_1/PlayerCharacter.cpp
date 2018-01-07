@@ -25,14 +25,19 @@ APlayerCharacter::APlayerCharacter()
 
 	//PowerObject* Po = new PowerObject();
 	UCapsuleComponent*  CapsuleComponent = GetCapsuleComponent(); 
-	GetCapsuleComponent()->BodyInstance.SetCollisionProfileName("Player");
-	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &APlayerCharacter::OnOverlapBegin);//->OnComponentBeginOverlap(this, APlayerCharacter::BeginPlay());
-	GetCapsuleComponent()->OnComponentEndOverlap.AddDynamic(this, &APlayerCharacter::OnOverlapEnd);
-	GetCapsuleComponent()->SetCollisionResponseToChannel(EEC_InteractAble, ECollisionResponse::ECR_Ignore);
+	CapsuleComponent->BodyInstance.SetCollisionProfileName("Player");
+	CapsuleComponent->OnComponentBeginOverlap.AddDynamic(this, &APlayerCharacter::OnOverlapBegin);//->OnComponentBeginOverlap(this, APlayerCharacter::BeginPlay());
+	CapsuleComponent->OnComponentEndOverlap.AddDynamic(this, &APlayerCharacter::OnOverlapEnd);
+	CapsuleComponent->SetCollisionResponseToChannel(EEC_InteractAble, ECollisionResponse::ECR_Ignore);
 
+
+	/*i don't like ECC_WorldDynamic being ECR_Overlap because it means you can't kick anything just 
+	nudge things but changing Interactable doesn't do anything and it still makes the player get 
+	pushed around*/
+	CapsuleComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_WorldDynamic, ECollisionResponse::ECR_Overlap);
 
 	PlayerCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("GameCamera"));
-	PlayerCamera->AttachToComponent(GetCapsuleComponent(), FAttachmentTransformRules::KeepWorldTransform);
+	PlayerCamera->AttachToComponent(CapsuleComponent, FAttachmentTransformRules::KeepWorldTransform);
 	PlayerCamera->RelativeLocation = FVector(0, 0, 64.f);
 	PlayerCamera->bUsePawnControlRotation = true;
 
@@ -82,6 +87,9 @@ APlayerCharacter::APlayerCharacter()
 	//BlackboardComp = CreateDefaultSubobject<UBlackboardComponent>(TEXT("BlackboardComp"));
 
 	Targeting = NULL;
+	RightHead = NULL;
+	LeftHead = NULL;
+	BothHands = NULL;
 
 	Hidden = false;
 
@@ -178,22 +186,23 @@ void APlayerCharacter::Tick( float DeltaTime )
 	//FScalarParameterValue;
 	//FCollectionScalarParameter;
 
-
-	//add 2 second delay before increcing the force so the player can just drop the item
-	if (ChargingThrow) {
-		HandOffsetThorwX += ThrowStrength;//why does this number need to be so big for me to see an effect
-		float ThrowPullBack = HandOffsetDepthX - (HandOffsetThorwX / ThrowStrength);
-		/*maybe the number its > should take into account how big the object is so it doesn't clip 
-		through the camera or be affected be the players hitbox*/
-		if (ThrowPullBack > 15) {
-			if (IsRightHandActive) {
-				if (RightHead != NULL) {
-					RightHeadOffset->RelativeLocation = FVector(ThrowPullBack, HandOffsetWidthY, HandOffsetActiveZ);
+	if (BothHands == NULL) {
+		//add 2 second delay before increcing the force so the player can just drop the item
+		if (ChargingThrow) {
+			HandOffsetThorwX += ThrowStrength;//why does this number need to be so big for me to see an effect
+			float ThrowPullBack = HandOffsetDepthX - (HandOffsetThorwX / ThrowStrength);
+			/*maybe the number its > should take into account how big the object is so it doesn't clip
+			through the camera or be affected be the players hitbox*/
+			if (ThrowPullBack > 15) {
+				if (IsRightHandActive) {
+					if (RightHead != NULL) {// && RightHead->isHanded == AInteractAble::Handed::Small) {
+						RightHeadOffset->RelativeLocation = FVector(ThrowPullBack, HandOffsetWidthY, HandOffsetActiveZ);
+					}
 				}
-			}
-			else {
-				if (LeftHead != NULL) {
-					LeftHeadOffset->RelativeLocation = FVector(ThrowPullBack, -HandOffsetWidthY, HandOffsetActiveZ);
+				else {
+					if (LeftHead != NULL) {// && LeftHead->isHanded == AInteractAble::Handed::Small) {
+						LeftHeadOffset->RelativeLocation = FVector(ThrowPullBack, -HandOffsetWidthY, HandOffsetActiveZ);
+					}
 				}
 			}
 		}
@@ -267,35 +276,61 @@ void APlayerCharacter::Use()
 	{
 		//check HasPhysics true
 		if (Targeting->HasPhysics) {
-			if (IsRightHandActive) {
-				if (RightHead == NULL) {
-					//empty hand so pick it up
-					RightHead = Targeting;
-					RightHead->AttachToHead(RightHeadOffset);
-					RightHead->SetActorRelativeLocation(FVector(0, 0, 0));
+			if (Targeting->isHanded == AInteractAble::Handed::Small) {
+
+				//may have to replace this with just not able to pick up anything else
+				if (BothHands != NULL) {
+					BothHands->DetachFromHead();
+					BothHands = NULL;
 				}
-				else {
-					//drop one item to pick up another
-					RightHead->DetachFromHead();
-					RightHead = Targeting;
-					RightHead->AttachToHead(RightHeadOffset);
-					RightHead->SetActorRelativeLocation(FVector(0, 0, 0));
+
+				if (IsRightHandActive) {
+					if (RightHead == NULL) {
+						//empty hand so pick it up
+						RightHead = Targeting;
+						RightHead->AttachToHead(RightHeadOffset);
+						//if (RightHead->IsA(APhysicsInteract::StaticClass())) {
+							RightHead->SetActorRelativeLocation(FVector(0, 0, 0));
+						//}
+					}
+					else {
+						//drop one item to pick up another
+						RightHead->DetachFromHead();
+						RightHead = Targeting;
+						RightHead->AttachToHead(RightHeadOffset);
+						//if (RightHead->IsA(APhysicsInteract::StaticClass())) {
+							RightHead->SetActorRelativeLocation(FVector(0, 0, 0));
+						//}
+					}
+				}
+				else//is not right hand
+				{
+					if (LeftHead == NULL) {
+						//empty hand so pick it up
+						LeftHead = Targeting;
+						LeftHead->AttachToHead(LeftHeadOffset);
+						LeftHead->SetActorRelativeLocation(FVector(0, 0, 0));
+					}
+					else {
+						//drop one item to pick up another
+						LeftHead->DetachFromHead();
+						LeftHead = Targeting;
+						LeftHead->AttachToHead(LeftHeadOffset);
+						LeftHead->SetActorRelativeLocation(FVector(0, 0, 0));
+					}
 				}
 			}
-			else 
-			{
-				if (LeftHead == NULL) {
-					//empty hand so pick it up
-					LeftHead = Targeting;
-					LeftHead->AttachToHead(LeftHeadOffset);
-					LeftHead->SetActorRelativeLocation(FVector(0, 0, 0));
+
+			if (Targeting->isHanded == AInteractAble::Handed::Medium) {
+				BothHands = Targeting;
+				BothHands->AttachToHead(RightHeadOffset);
+				if (RightHead != NULL) {
+					RightHead->DetachFromHead();
+					RightHead = NULL;
 				}
-				else {
-					//drop one item to pick up another
+				if (LeftHead != NULL) {
 					LeftHead->DetachFromHead();
-					LeftHead = Targeting;
-					LeftHead->AttachToHead(LeftHeadOffset);
-					LeftHead->SetActorRelativeLocation(FVector(0, 0, 0));
+					LeftHead = NULL;
 				}
 			}
 		}
@@ -334,44 +369,52 @@ void APlayerCharacter::Use()
 
 void APlayerCharacter::ActiveHand()
 {
-	IsRightHandActive = !IsRightHandActive;
+	if (BothHands == NULL) {
+		IsRightHandActive = !IsRightHandActive;
 
-	if(IsRightHandActive){
-		RightHeadOffset->RelativeLocation = FVector(HandOffsetDepthX, HandOffsetWidthY, HandOffsetActiveZ);
-		LeftHeadOffset->RelativeLocation = FVector(HandOffsetDepthX, -HandOffsetWidthY, HandOffsetInactiveZ);
-	}else{
-		RightHeadOffset->RelativeLocation = FVector(HandOffsetDepthX, HandOffsetWidthY, HandOffsetInactiveZ);
-		LeftHeadOffset->RelativeLocation = FVector(HandOffsetDepthX, -HandOffsetWidthY, HandOffsetActiveZ);
+		if(IsRightHandActive){
+			RightHeadOffset->RelativeLocation = FVector(HandOffsetDepthX, HandOffsetWidthY, HandOffsetActiveZ);
+			LeftHeadOffset->RelativeLocation = FVector(HandOffsetDepthX, -HandOffsetWidthY, HandOffsetInactiveZ);
+		}else{
+			RightHeadOffset->RelativeLocation = FVector(HandOffsetDepthX, HandOffsetWidthY, HandOffsetInactiveZ);
+			LeftHeadOffset->RelativeLocation = FVector(HandOffsetDepthX, -HandOffsetWidthY, HandOffsetActiveZ);
+		}
 	}
 }
 
 void APlayerCharacter::EmptyHand()
 {
-	if(IsRightHandActive){
-		if (RightHead != NULL)
-		{
-			RightHead->DetachFromHead();
-			APhysicsInteract* temp = Cast<APhysicsInteract>(RightHead);
-			//temp->CollisionComp->AddForce(PlayerCamera->GetForwardVector() * 1000);
-			//RightHead->GetRootComponent()->ComponentVelocity = ForwardVector * 1000;
-			//RightHead->GetRootComponent()->SetPhysicsVolume;
-			//SetPhysicsLinearVelocity
-			RightHead = NULL;
-			temp->CollisionComp->AddForce(PlayerCamera->GetForwardVector() * HandOffsetThorwX);//*1000000
-			RightHeadOffset->RelativeLocation = FVector(HandOffsetDepthX, HandOffsetWidthY, HandOffsetActiveZ);
+	if (BothHands == NULL) {
+		if (IsRightHandActive) {
+			if (RightHead != NULL)
+			{
+				RightHead->DetachFromHead();
+				RightHead->Throw(PlayerCamera->GetForwardVector() * HandOffsetThorwX);
+				RightHead = NULL;
+				RightHeadOffset->RelativeLocation = FVector(HandOffsetDepthX, HandOffsetWidthY, HandOffsetActiveZ);
+
+			}
+		} else {
+			if (LeftHead != NULL)
+			{
+				LeftHead->DetachFromHead();
+				LeftHead->Throw(PlayerCamera->GetForwardVector() * HandOffsetThorwX);
+				LeftHead = NULL;
+				LeftHeadOffset->RelativeLocation = FVector(HandOffsetDepthX, -HandOffsetWidthY, HandOffsetActiveZ);
+
+			}
 		}
-	}else{
-		if (LeftHead != NULL)
-		{
-			LeftHead->DetachFromHead();
-			APhysicsInteract* temp = Cast<APhysicsInteract>(LeftHead);
-			temp->CollisionComp->AddForce(PlayerCamera->GetForwardVector() * HandOffsetThorwX);
-			LeftHead = NULL;
-			LeftHeadOffset->RelativeLocation = FVector(HandOffsetDepthX, -HandOffsetWidthY, HandOffsetActiveZ);
-		}
+		HandOffsetThorwX = 0.0f;//+100000
+		ChargingThrow = false;
+	} else {
+		BothHands->DetachFromHead();
+		BothHands = NULL;
+
+		//add throw for Medium?
+		HandOffsetThorwX = 0.0f;
+		ChargingThrow = false;
+
 	}
-	HandOffsetThorwX = 0.0f;//+100000
-	ChargingThrow = false;
 }
 void APlayerCharacter::EmptyHandCharge()
 {
@@ -535,6 +578,29 @@ GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "NO");
 
 //GetCapsuleComponent()->bGenerateOverlapEvents = true;
 //GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
+
+/*
+if(RightHead->IsA(APhysicsInteract::StaticClass())){
+APhysicsInteract* temp = Cast<APhysicsInteract>(RightHead);
+//temp->CollisionComp->AddForce(PlayerCamera->GetForwardVector() * 1000);
+//RightHead->GetRootComponent()->ComponentVelocity = ForwardVector * 1000;
+//RightHead->GetRootComponent()->SetPhysicsVolume;
+//SetPhysicsLinearVelocity
+RightHead = NULL;
+temp->CollisionComp->AddForce(PlayerCamera->GetForwardVector() * HandOffsetThorwX);//*1000000
+RightHeadOffset->RelativeLocation = FVector(HandOffsetDepthX, HandOffsetWidthY, HandOffsetActiveZ);
+}*
+
+
+/*
+APhysicsInteract* temp = Cast<APhysicsInteract>(LeftHead);
+temp->CollisionComp->AddForce(PlayerCamera->GetForwardVector() * HandOffsetThorwX);
+LeftHead = NULL;
+LeftHeadOffset->RelativeLocation = FVector(HandOffsetDepthX, -HandOffsetWidthY, HandOffsetActiveZ);
+*
+
+
+
 
 
 */

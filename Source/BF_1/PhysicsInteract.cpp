@@ -5,6 +5,7 @@
 
 // change to SpherePhysics, [currently being used for Bouncy ball and Key, 02/09/2017]
 
+// change name to InteractSphere 05/01/2018
 
 // Sets default values  
 APhysicsInteract::APhysicsInteract()
@@ -15,8 +16,8 @@ APhysicsInteract::APhysicsInteract()
 	CollisionComp = CreateDefaultSubobject<USphereComponent>(TEXT("CoiComp"));
 	CollisionComp->BodyInstance.SetCollisionProfileName("PhysicsInteract");
 	CollisionComp->SetCollisionResponseToChannel(EEC_InteractAble, ECollisionResponse::ECR_Block);
-	CollisionComp->SetSimulatePhysics(true);
-	HasPhysics = true;
+	
+	HasPhysics = false;
 	CollisionComp->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	RootComponent = CollisionComp;
 
@@ -26,6 +27,8 @@ APhysicsInteract::APhysicsInteract()
 	InteractAbleMesh->AttachTo(CollisionComp);
 
 	ZLevelRespone = -10000;
+
+	HandSize = 0;
 }
 
 // Called when the game starts or when spawned
@@ -33,6 +36,14 @@ void APhysicsInteract::BeginPlay()
 {
 	Super::BeginPlay();
 	StartLocation = GetActorLocation();//CollisionComp->GetComponentLocation();
+	CollisionComp->SetSimulatePhysics(HasPhysics);
+
+	if (HandSize == 0) {
+		isHanded = Handed::Small;
+	} else {
+		isHanded = Handed::Medium;
+	}
+
 }
 
 // Called every frame
@@ -64,7 +75,10 @@ void APhysicsInteract::AttachToHead(USceneComponent* Head)
 	//this->AddOwnedComponent(Head);
 	//this->AttachToComponent
 	CollisionComp->SetSimulatePhysics(false);
-	CollisionComp->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);//:NoCollision);
+	CollisionComp->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);// :NoCollision);//:PhysicsOnly);//QueryOnly
+	//CollisionComp->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Ignore);
+	//CollisionComp->SetCollisionResponseToChannel(ECollisionChannel::ECC_WorldStatic, ECollisionResponse::ECR_Ignore);
+	//CollisionComp->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
 	CollisionComp->AttachToComponent(Head, FAttachmentTransformRules::KeepWorldTransform);
 }
 
@@ -74,5 +88,13 @@ void APhysicsInteract::DetachFromHead()
 	//CollisionComp->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
 	CollisionComp->SetSimulatePhysics(true);
 	CollisionComp->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	//CollisionComp->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Overlap);
+	//CollisionComp->SetCollisionResponseToChannel(ECollisionChannel::ECC_WorldStatic, ECollisionResponse::ECR_Block);
+	//CollisionComp->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
 	/*CollisionComp->AttachToComponent(Head, FAttachmentTransformRules::KeepWorldTransform);*/
+}
+
+void APhysicsInteract::Throw(FVector Direction)
+{
+	CollisionComp->AddForce(Direction);
 }

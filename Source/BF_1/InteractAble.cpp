@@ -59,3 +59,8 @@ void AInteractAble::UpdateAndDelete()
 {
 
 }
+
+void AInteractAble::Throw(FVector Direction) 
+{
+
+}

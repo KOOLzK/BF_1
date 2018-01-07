@@ -4,9 +4,10 @@
 
 #include "GameFramework/Character.h"
 #include "AIPatrol.generated.h"
+//#include "PowerObject.h"
 
 UCLASS()
-class BF_1_API AAIPatrol : public ACharacter
+class BF_1_API AAIPatrol : public ACharacter //, public PowerObject
 {
 	GENERATED_BODY()
 
@@ -21,6 +22,8 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
 	virtual float GetLightingAmount();
+
+	void AnimationPoses();
 
 	UPROPERTY(EditAnywhere, Category = AI)
 	class UBehaviorTree* BehaviorTree;
@@ -50,6 +53,7 @@ public:
 
 	USoundCue* propellerAudioCue;
 
+	UPROPERTY(EditAnywhere, Category = Audio)
 	UAudioComponent* propellerAudioComponent;
 
 	/*when enemy is in lastSeen state, this Particle System is suppost to Maker where the enemy last saw the player*/
@@ -89,6 +93,14 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh)
 	bool HeadInvisibleInDark;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh)
+	int AnimationNumber;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh)
+	bool AnimationToggle;
+
+	bool LightUpdate;
 
 private:
 

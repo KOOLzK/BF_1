@@ -131,6 +131,8 @@ public:
 	//stores the item the player is holding in the left head
 	class AInteractAble* LeftHead;
 
+	//stores the bigger item the player is holding in the both Hands
+	class AInteractAble* BothHands;
 
 	//don't think this is going to work, remove?
 	//UStaticMeshSocket* RightSocket;

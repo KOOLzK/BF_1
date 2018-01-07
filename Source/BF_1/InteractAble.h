@@ -37,10 +37,36 @@ public:
 
 	virtual void UpdateAndDelete();
 
+	virtual void Throw(FVector Direction);
+
+	//virtual void Action();//trigger somehow and override it to do different things
+
+	UPROPERTY(EditAnywhere, Category = Physics)
 	bool HasPhysics;
 
-	UPROPERTY(EditAnywhere, Category = Camera)
+	UPROPERTY(EditAnywhere, Category = ID)
 	FName ItemName;
+
+	//struct ObjectDefinition
+
+	enum class Handed {Small, Medium};
+
+	//UPROPERTY(EditAnywhere, Category = ID)
+	Handed isHanded;
+
+	UPROPERTY(EditAnywhere, Category = ID)
+	int HandSize;
+
+
+	/********ADD
+	//string Massege; //to display when the player can't interact
+
+	//Forward Vector so it can be set the the players Forward Vector so small interactables look right 
+	while being held
+
+	//way to rotate medium interactables when held
+	*/
+
 
 	//UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Mesh, meta = (AllowPrivateAssess = "true"))
 	//class UStaticMeshComponent* InteractAbleMesh;

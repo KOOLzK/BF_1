@@ -3,6 +3,8 @@
 #include "BF_1.h"
 #include "BoxPhysicsInteract.h"
 
+// change name to InteractBox 05/01/2018
+
 
 // Sets default values  
 ABoxPhysicsInteract::ABoxPhysicsInteract()
@@ -13,8 +15,8 @@ ABoxPhysicsInteract::ABoxPhysicsInteract()
 	CollisionComp = CreateDefaultSubobject<UBoxComponent>(TEXT("CoiComp"));
 	CollisionComp->BodyInstance.SetCollisionProfileName("PhysicsInteract");
 	CollisionComp->SetCollisionResponseToChannel(EEC_InteractAble, ECollisionResponse::ECR_Block);
-	CollisionComp->SetSimulatePhysics(true);
-	HasPhysics = true;
+	
+	HasPhysics = false;
 	CollisionComp->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	RootComponent = CollisionComp;
 
@@ -22,6 +24,8 @@ ABoxPhysicsInteract::ABoxPhysicsInteract()
 	InteractAbleMesh->AttachTo(CollisionComp);
 
 	ZLevelRespone = -10000;
+
+	HandSize = 0;
 }
 
 // Called when the game starts or when spawned
@@ -29,6 +33,14 @@ void ABoxPhysicsInteract::BeginPlay()
 {
 	Super::BeginPlay();
 	StartLocation = GetActorLocation();
+	CollisionComp->SetSimulatePhysics(HasPhysics);
+
+	if (HandSize < 1) {
+		isHanded = Handed::Small;
+	}
+	else {
+		isHanded = Handed::Medium;
+	}
 }
 
 // Called every frame
@@ -67,3 +79,7 @@ void ABoxPhysicsInteract::DetachFromHead()
 	CollisionComp->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 }
 
+void ABoxPhysicsInteract::Throw(FVector Direction)
+{
+	CollisionComp->AddForce(Direction);
+}
