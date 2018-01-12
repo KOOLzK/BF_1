@@ -45,4 +45,11 @@ public:
 	FVector StartLocation;
 
 	float ZLevelRespone;
+
+	UPROPERTY(EditAnywhere, Category = ID)
+	class AActor* Attach;
+
+	UPROPERTY(EditAnywhere, Category = ID)
+	float AttachDistence;
+
 };

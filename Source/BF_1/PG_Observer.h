@@ -29,6 +29,9 @@ public:
 	
 	virtual void Update();
 
+	//doesn't bellog here but testing
+	//class PowerObject* PO;
+
 protected:
 	PG_Subject *getSubject();
 

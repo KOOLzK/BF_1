@@ -74,6 +74,14 @@ public:
 	void Use();
 	void ToggleDebugMessages();
 
+	void ActiveHand();
+	void EmptyHand();
+	void EmptyHandCharge();
+	void Use2Down();//rename
+	void Use2Up();//rename
+
+
+
 	void Death();
 
 	/*OVERRIDES*/
@@ -110,11 +118,7 @@ public:
 
 	void ReloadLevel();
 
-	void ActiveHand();
-
-	void EmptyHand();
-
-	void EmptyHandCharge();
+	
 
 
 	FTimerHandle ReloadLevelDelay;
@@ -161,6 +165,8 @@ public:
 	bool ChargingThrow;
 
 	float ThrowStrength;
+
+	bool Using;
 
 	UPROPERTY(EditAnywhere, Category = HUD)
 	UTexture2D* ReticleDisplayTarget;

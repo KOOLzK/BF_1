@@ -2,11 +2,11 @@
 
 #pragma once
 
-#include "PG_Observer.h"
+#include "PowerGirdHookUp.h"
 #include "BlinkingLight.generated.h"
 
 UCLASS()
-class BF_1_API ABlinkingLight : public APG_Observer
+class BF_1_API ABlinkingLight : public APowerGirdHookUp
 {
 	GENERATED_BODY()
 
@@ -48,7 +48,7 @@ public:
 
 	int currentStateNum;
 
-	class PowerObject* PO;
+	//class PowerObject* PO;
 
 	virtual void Update() override;
 

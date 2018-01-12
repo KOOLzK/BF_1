@@ -225,6 +225,8 @@ void APlayerCharacter::SetupPlayerInputComponent(class UInputComponent* InputCom
 	//InputComponent->BindAction("ActiveHand", IE_Released /*this is not necessary but Nice To Have, what it is supposed to do is when the player holds down the swop button both hand are active so they can drop or throw both items at the same time*/
 	InputComponent->BindAction("EmptyHand", IE_Pressed, this, &APlayerCharacter::EmptyHandCharge);
 	InputComponent->BindAction("EmptyHand", IE_Released, this, &APlayerCharacter::EmptyHand);
+	InputComponent->BindAction("Use2", IE_Pressed, this, &APlayerCharacter::Use2Down);
+	InputComponent->BindAction("Use2", IE_Released, this, &APlayerCharacter::Use2Up);
 }
 
 void APlayerCharacter::MoveForward(float val)
@@ -249,6 +251,13 @@ void APlayerCharacter::LookYaw(float val)
 {
 	if (!dead) {
 		AddControllerYawInput(val);
+		
+		if (Using) {
+			if (BothHands != NULL) {
+				float temp = FMath::Clamp(val, -0.1f, 0.1f);
+				BothHands->AddActorLocalRotation(FQuat(0.0f, 0.0f, temp / 4, 1.0f));
+			}
+		}
 	}
 }
 
@@ -256,6 +265,14 @@ void APlayerCharacter::LookPitch(float val)
 {
 	if (!dead) {
 		AddControllerPitchInput(val);
+
+		if (Using) {
+			if (BothHands != NULL) {
+				float temp = FMath::Clamp(val, -0.1f, 0.1f);
+				//i don't know if LocalRotation is the best maybe world rotation would be better
+				BothHands->AddActorLocalRotation(FQuat(0.0f, temp / 4, 0.0f, 1.0f));
+			}
+		}
 	}
 }
 
@@ -276,7 +293,7 @@ void APlayerCharacter::Use()
 	{
 		//check HasPhysics true
 		if (Targeting->HasPhysics) {
-			if (Targeting->isHanded == AInteractAble::Handed::Small) {
+			if (Targeting->isHanded == EHandedEnum::HE_Small) {
 
 				//may have to replace this with just not able to pick up anything else
 				if (BothHands != NULL) {
@@ -321,7 +338,7 @@ void APlayerCharacter::Use()
 				}
 			}
 
-			if (Targeting->isHanded == AInteractAble::Handed::Medium) {
+			if (Targeting->isHanded == EHandedEnum::HE_Medium) {
 				BothHands = Targeting;
 				BothHands->AttachToHead(RightHeadOffset);
 				if (RightHead != NULL) {
@@ -428,7 +445,19 @@ void APlayerCharacter::ToggleDebugMessages()
 	if (DisplayDebugMessages) {
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, "DebugMessagesOn");
 	}
+
 }
+
+void APlayerCharacter::Use2Down()
+{
+	Using = true;
+}
+
+void APlayerCharacter::Use2Up()
+{
+	Using = false;
+}
+
 
 void APlayerCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) 
 {

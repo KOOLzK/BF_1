@@ -23,6 +23,12 @@ public:
 
 	virtual void UpdateOuts();
 
+	int OutPutSize();
+
+	virtual void Flip();
+
+	bool Toggle;
+
 	float PowerPercent;
 
 	void PassUpdate(int (*func) (void));

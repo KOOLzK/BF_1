@@ -2,11 +2,11 @@
 
 #pragma once
 
-#include "GameFramework/Actor.h"
+#include "PowerGirdHookUp.h"
 #include "LightSwitch.generated.h"
 
 UCLASS()
-class BF_1_API ALightSwitch : public AActor
+class BF_1_API ALightSwitch : public APowerGirdHookUp
 {
 	GENERATED_BODY()
 	
@@ -60,6 +60,14 @@ public:
 
 	class Switch* S;
 
+	UPROPERTY(EditAnywhere, Category = ID)
+	TArray<AActor*> Attach;
+
+	UPROPERTY(EditAnywhere, Category = ID)
+	TArray<UBillboardComponent*> EditorIcons;
+
+	UPROPERTY(EditAnywhere, Category = ID)
+	UTexture2D* SpriteTexture;
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

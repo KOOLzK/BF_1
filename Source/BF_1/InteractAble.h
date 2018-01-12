@@ -5,7 +5,12 @@
 #include "GameFramework/Actor.h"
 #include "InteractAble.generated.h"
 
-
+UENUM(BlueprintType)		//"BlueprintType" is essential to include
+enum class EHandedEnum : uint8
+{
+	HE_Small 	UMETA(DisplayName = "Small"),
+	HE_Medium	UMETA(DisplayName = "Medium")
+};
 
 UCLASS()
 class BF_1_API AInteractAble : public AActor
@@ -39,6 +44,10 @@ public:
 
 	virtual void Throw(FVector Direction);
 
+	virtual void ZeroVelocity();
+
+	virtual void DampenVelocity(float DampenBy);
+
 	//virtual void Action();//trigger somehow and override it to do different things
 
 	UPROPERTY(EditAnywhere, Category = Physics)
@@ -49,14 +58,21 @@ public:
 
 	//struct ObjectDefinition
 
-	enum class Handed {Small, Medium};
+	//enum class Handed {Small, Medium};
 
 	//UPROPERTY(EditAnywhere, Category = ID)
-	Handed isHanded;
+	//Handed isHanded;
+
+	UPROPERTY(EditAnywhere, Category = ID)
+	EHandedEnum isHanded;
 
 	UPROPERTY(EditAnywhere, Category = ID)
 	int HandSize;
 
+	bool Held;
+
+	/*for when object is attached to another*/
+	bool LastFrameOutOfBounds;
 
 	/********ADD
 	//string Massege; //to display when the player can't interact

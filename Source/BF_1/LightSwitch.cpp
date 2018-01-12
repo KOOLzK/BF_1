@@ -7,6 +7,7 @@
 #include "BlinkingLight.h"
 #include "Switch.h"
 #include "Generator.h"
+#include "PowerGirdHookUp.h"
 /*this may have to be replaced it just turns the light on and off, i can't change the timing in editor
 , i can't have two sets of light on different times. i think i should replace it with a power system*/
 
@@ -46,8 +47,20 @@ ALightSwitch::ALightSwitch()
 	propellerAudioComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 100.0f));
 
 	//Generator* Gen = new Generator();
-	S = new Switch();
+	S =  new Switch();//PO;//
 	//S->PlugInTo(Gen);
+
+	PO = new Switch();
+
+	/*for (int i = 0; PO->OutPutSize() > i; i++) {//watch video first
+
+		EditorIcons.Add(CreateDefaultSubobject<UBillboardComponent>(TEXT("Billboard"), true));
+		static ConstructorHelpers::FObjectFinder<UTexture2D> SpriteTexture(TEXT("Texture2D'/Game/Textures/Loader.Loader'"));
+		EditorIcons[i]->Sprite = SpriteTexture.Object;
+		EditorIcons[i]->ScreenSize = 0.0015f;
+		EditorIcons[i]->AttachTo(CollisionComp);
+	}*/
+
 }
 
 // Called when the game starts or when spawned
@@ -61,15 +74,23 @@ void ALightSwitch::BeginPlay()
 
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ABlinkingLight::StaticClass(), AllLights);
 
-	for (int i = 0; i < AllLights.Num(); i++) {
+	/*for (int i = 0; i < AllLights.Num(); i++) {
 		ABlinkingLight* temp = Cast<ABlinkingLight>(AllLights[i]);
 		if (LightName == temp->LightName) {
 			MyLights.Add(temp);
-			temp->PO->PlugInTo(S);
+			temp->PO->PlugInTo(PO);
+		}
+	}*/
+	
+	for (int i = 0; Attach.Num() > i; i++) {
+		if (Attach[i]->IsA(APowerGirdHookUp::StaticClass())) {
+			APowerGirdHookUp* temp = Cast<APowerGirdHookUp>(Attach[i]);
+			temp->PO->PlugInTo(PO);
 		}
 	}
-	
-	if (MyLights.Num() > 0) {
+
+
+	/*if (MyLights.Num() > 0) {
 		for (int i = 0; i < MyLights.Num(); i++) {
 			ABlinkingLight* temp = Cast<ABlinkingLight>(MyLights[i]);
 			if (OnOff)
@@ -82,7 +103,7 @@ void ALightSwitch::BeginPlay()
 				temp->currentStateNum = stateTwo;
 			}
 		}
-	}
+	}*/
 
 	if (propellerAudioCue->IsValidLowLevelFast()) {
 		propellerAudioComponent->SetSound(propellerAudioCue);
@@ -125,7 +146,16 @@ void ALightSwitch::Switching()
 
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "switching");
 
-	S->Flip();
+	PO->Flip();
+
+	if (PO->IsOn()){
+		//add SwitchMesh colour change
+		SwitchMesh->SetMaterial(0, SwitchMaterial1);
+	} else {
+		//add SwitchMesh colour change
+		SwitchMesh->SetMaterial(0, SwitchMaterial2);
+	}
+
 	/*
 	if (MyLights.Num() > 0) {
 		for (int i = 0; i < MyLights.Num(); i++) {

@@ -37,6 +37,9 @@ public:
 
 	virtual void Throw(FVector Direction) override;
 
+	virtual void ZeroVelocity() override;
+
+	virtual void DampenVelocity(float DampenBy) override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Collision)
 	class USphereComponent* CollisionComp;

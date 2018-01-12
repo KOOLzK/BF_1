@@ -33,6 +33,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = Light)
 	float DelayLight;
 
+	UPROPERTY(EditAnywhere, Category = Light)
+	bool LightBlinking;
+
 	FTimerHandle lightDelay;
 
 	void toggle();

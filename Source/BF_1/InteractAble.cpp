@@ -64,3 +64,13 @@ void AInteractAble::Throw(FVector Direction)
 {
 
 }
+
+void AInteractAble::ZeroVelocity()
+{
+
+}
+
+void AInteractAble::DampenVelocity(float DampenBy)
+{
+
+}

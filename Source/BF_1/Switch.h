@@ -15,9 +15,9 @@ public:
 
 	bool IsOn() override;
 
-	void Flip();
+	void Flip() override;
 
-	bool Toggle;
+	//bool Toggle;
 
 };
 

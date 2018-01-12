@@ -30,6 +30,8 @@ ALightManager::ALightManager()
 	Sw = new Switch();
 	Sw->PlugInTo(Gen);
 
+	LightBlinking = true;
+
 }
 
 // Called when the game starts or when spawned
@@ -52,13 +54,16 @@ void ALightManager::BeginPlay()
 	for (int i = 0; i < AllSwitches.Num(); i++) {
 		ALightSwitch* temp = Cast<ALightSwitch>(AllSwitches[i]);
 			MySwitches.Add(temp);
-			temp->S->PlugInTo(Sw);
+			temp->PO->PlugInTo(Sw);
 		
 	}
 
 
 	BlackboardComp->InitializeBlackboard(*(BehaviorTree->BlackboardAsset));
-	GetWorldTimerManager().SetTimer(lightDelay, this, &ALightManager::toggle, DelayLight, true);
+
+	if (LightBlinking) {
+		GetWorldTimerManager().SetTimer(lightDelay, this, &ALightManager::toggle, DelayLight, true);
+	}
 
 }
 

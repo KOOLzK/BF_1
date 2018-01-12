@@ -98,3 +98,13 @@ void PowerObject::AttachLight(ABlinkingLight* AL)
 {
 	ifLight = AL;
 }
+
+void PowerObject::Flip()
+{
+	
+}
+
+int PowerObject::OutPutSize()
+{
+	return OutPut.size();
+}

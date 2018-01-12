@@ -38,11 +38,11 @@ void APhysicsInteract::BeginPlay()
 	StartLocation = GetActorLocation();//CollisionComp->GetComponentLocation();
 	CollisionComp->SetSimulatePhysics(HasPhysics);
 
-	if (HandSize == 0) {
-		isHanded = Handed::Small;
+	/*if (HandSize == 0) {
+		isHanded = EHandedEnum::HE_Small;
 	} else {
-		isHanded = Handed::Medium;
-	}
+		isHanded = EHandedEnum::HE_Medium;
+	}*/
 
 }
 
@@ -75,26 +75,47 @@ void APhysicsInteract::AttachToHead(USceneComponent* Head)
 	//this->AddOwnedComponent(Head);
 	//this->AttachToComponent
 	CollisionComp->SetSimulatePhysics(false);
+	//it is set to PhysicsOnly so it has doesn't have Query so you can't pick it again
 	CollisionComp->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);// :NoCollision);//:PhysicsOnly);//QueryOnly
-	//CollisionComp->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Ignore);
-	//CollisionComp->SetCollisionResponseToChannel(ECollisionChannel::ECC_WorldStatic, ECollisionResponse::ECR_Ignore);
-	//CollisionComp->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
+	//so it doesn't push the player around
+	InteractAbleMesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Ignore);
 	CollisionComp->AttachToComponent(Head, FAttachmentTransformRules::KeepWorldTransform);
+	Held = true;
 }
 
 void APhysicsInteract::DetachFromHead()
 {
 	CollisionComp->DetachFromParent(true);
-	//CollisionComp->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
 	CollisionComp->SetSimulatePhysics(true);
+	//it is set to QueryAndPhysics so it has Query so you can pick it later
 	CollisionComp->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-	//CollisionComp->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Overlap);
-	//CollisionComp->SetCollisionResponseToChannel(ECollisionChannel::ECC_WorldStatic, ECollisionResponse::ECR_Block);
-	//CollisionComp->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
-	/*CollisionComp->AttachToComponent(Head, FAttachmentTransformRules::KeepWorldTransform);*/
+	//so the player can push it around and stand on it
+	InteractAbleMesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Block);
+	Held = false;
 }
 
 void APhysicsInteract::Throw(FVector Direction)
 {
+	if (!Held)
 	CollisionComp->AddForce(Direction);
+	//CollisionComp->AddImpulse(Direction);
+}
+
+void APhysicsInteract::ZeroVelocity()
+{
+	CollisionComp->SetPhysicsLinearVelocity(FVector(0, 0, 0));
+}
+
+void APhysicsInteract::DampenVelocity(float DampenBy)
+{
+	if (GetVelocity().Size() > 1.0f) {
+		CollisionComp->SetPhysicsLinearVelocity(FVector(GetVelocity().X / DampenBy, GetVelocity().Y / DampenBy, GetVelocity().Z));
+	} /*else {
+		//it keeps moving slowly and i don't like that
+		CollisionComp->SetPhysicsLinearVelocity(FVector(0, 0, 0));
+		CollisionComp->SetPhysicsAngularVelocity(FVector(0, 0, 0));
+		//CollisionComp->stop
+		//UMovementComponent::sto
+		//CollisionComp->MoveComponent.
+	}*/
 }
