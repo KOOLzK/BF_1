@@ -60,8 +60,8 @@ public:
 
 	class Switch* S;
 
-	UPROPERTY(EditAnywhere, Category = ID)
-	TArray<AActor*> Attach;
+	/*UPROPERTY(EditAnywhere, Category = ID)
+	TArray<AActor*> Attach2;*/
 
 	UPROPERTY(EditAnywhere, Category = ID)
 	TArray<UBillboardComponent*> EditorIcons;

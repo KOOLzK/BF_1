@@ -29,11 +29,11 @@ void NotGate::PlugInTo(PowerObject* Plug)
 void NotGate::Update()
 {
 	if (InPut[0]->IsOn()) {
-		mState = false;
+		SetState(false);
 	}
 	else {
-		mState = true;
+		SetState(true);
 	}
 
-	UpdateOuts();
+	//UpdateOuts();
 }

@@ -6,6 +6,8 @@ public:
 	OrGate();
 	~OrGate();
 
+	void PlugInTo(PowerObject* Plug) override;
+
 	void PlugInTo(PowerObject* InPutOne, PowerObject* InPutTwo);
 
 	virtual void Update() override;

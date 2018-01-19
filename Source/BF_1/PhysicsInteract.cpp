@@ -28,7 +28,7 @@ APhysicsInteract::APhysicsInteract()
 
 	ZLevelRespone = -10000;
 
-	HandSize = 0;
+	//HandSize = 0;
 }
 
 // Called when the game starts or when spawned
@@ -70,7 +70,7 @@ void APhysicsInteract::Unfocused()
 	InteractAbleMesh->SetRenderCustomDepth(false);
 }
 
-void APhysicsInteract::AttachToHead(USceneComponent* Head)
+void APhysicsInteract::AttachToHand(USceneComponent* Hand)
 {
 	//this->AddOwnedComponent(Head);
 	//this->AttachToComponent
@@ -79,11 +79,11 @@ void APhysicsInteract::AttachToHead(USceneComponent* Head)
 	CollisionComp->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);// :NoCollision);//:PhysicsOnly);//QueryOnly
 	//so it doesn't push the player around
 	InteractAbleMesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Ignore);
-	CollisionComp->AttachToComponent(Head, FAttachmentTransformRules::KeepWorldTransform);
+	CollisionComp->AttachToComponent(Hand, FAttachmentTransformRules::KeepWorldTransform);
 	Held = true;
 }
 
-void APhysicsInteract::DetachFromHead()
+void APhysicsInteract::DetachFromHand()
 {
 	CollisionComp->DetachFromParent(true);
 	CollisionComp->SetSimulatePhysics(true);

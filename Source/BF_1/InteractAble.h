@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "GameFramework/Actor.h"
+#include "PowerGirdHookUp.h"
 #include "InteractAble.generated.h"
 
 UENUM(BlueprintType)		//"BlueprintType" is essential to include
@@ -13,13 +13,14 @@ enum class EHandedEnum : uint8
 };
 
 UCLASS()
-class BF_1_API AInteractAble : public AActor
+class BF_1_API AInteractAble : public APowerGirdHookUp
 {
 	GENERATED_BODY()
 	
 public:	
 
 	#define EEC_InteractAble ECollisionChannel::ECC_GameTraceChannel1
+	#define EEC_Wind ECollisionChannel::ECC_GameTraceChannel2
 
 	// Sets default values for this actor's properties
 	AInteractAble();
@@ -36,9 +37,9 @@ public:
 	//called when the player stops looking at this actor, turns off glowing
 	virtual void Unfocused();
 
-	virtual void AttachToHead(USceneComponent* Head);
+	virtual void AttachToHand(USceneComponent* Hand);
 
-	virtual void DetachFromHead();
+	virtual void DetachFromHand();
 
 	virtual void UpdateAndDelete();
 
@@ -47,6 +48,10 @@ public:
 	virtual void ZeroVelocity();
 
 	virtual void DampenVelocity(float DampenBy);
+
+	virtual void InteractWithPlayer();
+
+	//virtual void InteractWithItem("keycard");//FName ItemName;
 
 	//virtual void Action();//trigger somehow and override it to do different things
 
@@ -66,21 +71,31 @@ public:
 	UPROPERTY(EditAnywhere, Category = ID)
 	EHandedEnum isHanded;
 
-	UPROPERTY(EditAnywhere, Category = ID)
-	int HandSize;
+	/*UPROPERTY(EditAnywhere, Category = ID)
+	int HandSize;*/
+
+	/*UPROPERTY(EditAnywhere, Category = ID)
+	class UArrowComponent* ForwardArrow;*/
 
 	bool Held;
 
 	/*for when object is attached to another*/
 	bool LastFrameOutOfBounds;
 
+
+	UPROPERTY(EditAnywhere, Category = ID)
+	class AActor* Attach;
+
+	UPROPERTY(EditAnywhere, Category = ID)
+	float AttachDistence;
+
+
 	/********ADD
 	//string Massege; //to display when the player can't interact
 
 	//Forward Vector so it can be set the the players Forward Vector so small interactables look right 
-	while being held
-
-	//way to rotate medium interactables when held
+	while being held and so medium ones can be snap to forward if the player is rotating and presses
+	the switch active hand key //don't know if i need this anymore
 	*/
 
 

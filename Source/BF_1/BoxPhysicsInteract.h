@@ -28,9 +28,9 @@ public:
 	//called when the player stops looking at this actor, turns off glowing
 	virtual void Unfocused() override;
 
-	virtual void AttachToHead(USceneComponent* Head) override;
+	virtual void AttachToHand(USceneComponent* Hand) override;
 
-	virtual void DetachFromHead() override;
+	virtual void DetachFromHand() override;
 
 	virtual void Throw(FVector Direction) override;
 
@@ -46,10 +46,10 @@ public:
 
 	float ZLevelRespone;
 
-	UPROPERTY(EditAnywhere, Category = ID)
+	/*UPROPERTY(EditAnywhere, Category = ID)
 	class AActor* Attach;
 
 	UPROPERTY(EditAnywhere, Category = ID)
-	float AttachDistence;
+	float AttachDistence;*/
 
 };

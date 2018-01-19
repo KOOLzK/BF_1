@@ -6,7 +6,7 @@ public:
 	NotGate();
 	~NotGate();
 
-	void PlugInTo(PowerObject* Plug);
+	void PlugInTo(PowerObject* Plug) override;
 
 	virtual void Update() override;
 };

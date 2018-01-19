@@ -45,12 +45,12 @@ void AInteractAble::Unfocused()
 	//InteractAbleMesh->SetRenderCustomDepth(false);
 }
 
-void AInteractAble::AttachToHead(USceneComponent* Head)
+void AInteractAble::AttachToHand(USceneComponent* Hand)
 {
 
 }
 
-void AInteractAble::DetachFromHead()
+void AInteractAble::DetachFromHand()
 {
 
 }
@@ -71,6 +71,11 @@ void AInteractAble::ZeroVelocity()
 }
 
 void AInteractAble::DampenVelocity(float DampenBy)
+{
+
+}
+
+void AInteractAble::InteractWithPlayer()
 {
 
 }

@@ -82,10 +82,12 @@ void ALightSwitch::BeginPlay()
 		}
 	}*/
 	
-	for (int i = 0; Attach.Num() > i; i++) {
-		if (Attach[i]->IsA(APowerGirdHookUp::StaticClass())) {
-			APowerGirdHookUp* temp = Cast<APowerGirdHookUp>(Attach[i]);
-			temp->PO->PlugInTo(PO);
+	for (int i = 0; HookUp.Num() > i; i++) {
+		if (HookUp[i] != NULL) {
+			if (HookUp[i]->IsA(APowerGirdHookUp::StaticClass())) {
+				APowerGirdHookUp* temp = Cast<APowerGirdHookUp>(HookUp[i]);
+				temp->PO->PlugInTo(PO);
+			}
 		}
 	}
 

@@ -3,7 +3,7 @@
 #include "BF_1.h"
 #include "BoxPhysicsInteract.h"
 
-// change name to InteractBox 05/01/2018
+// change name to InteractBox or InteractCube  05/01/2018
 
 
 // Sets default values  
@@ -25,7 +25,7 @@ ABoxPhysicsInteract::ABoxPhysicsInteract()
 
 	ZLevelRespone = -10000;
 
-	HandSize = 0;
+	//HandSize = 0;
 
 	AttachDistence = 100;
 }
@@ -108,17 +108,17 @@ void ABoxPhysicsInteract::Unfocused()
 	InteractAbleMesh->SetRenderCustomDepth(false);
 }
 
-void ABoxPhysicsInteract::AttachToHead(USceneComponent* Head)
+void ABoxPhysicsInteract::AttachToHand(USceneComponent* Hand)
 {
 	CollisionComp->SetSimulatePhysics(false);
 	//it is set to PhysicsOnly so it has doesn't have Query so you can't pick it again
 	CollisionComp->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
 	//so it doesn't push the player around
 	InteractAbleMesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Ignore);
-	CollisionComp->AttachToComponent(Head, FAttachmentTransformRules::KeepWorldTransform);
+	CollisionComp->AttachToComponent(Hand, FAttachmentTransformRules::KeepWorldTransform);
 }
 
-void ABoxPhysicsInteract::DetachFromHead()
+void ABoxPhysicsInteract::DetachFromHand()
 {
 	CollisionComp->DetachFromParent(true);
 	CollisionComp->SetSimulatePhysics(true);

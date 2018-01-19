@@ -29,9 +29,9 @@ public:
 	virtual void Unfocused() override;
 
 
-	virtual void AttachToHead(USceneComponent* Head) override;
+	virtual void AttachToHand(USceneComponent* Hand) override;
 
-	virtual void DetachFromHead() override;
+	virtual void DetachFromHand() override;
 	//void AttachHead2(USceneComponent* Head);
 
 

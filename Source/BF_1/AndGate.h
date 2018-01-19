@@ -7,10 +7,12 @@ public:
 	AndGate();
 	~AndGate();
 
+	void PlugInTo(PowerObject* Plug) override;
+
 	void PlugInTo(PowerObject* InPutOne, PowerObject* InPutTwo);
 
 	virtual void Update() override;
 
-	bool IsOn() override;
+	//bool IsOn() override;
 };
 

@@ -127,13 +127,13 @@ public:
 	class AInteractAble* Targeting;
 
 	/******************i only now noticed these say "head" instead of "hand", this should be changed
-	at the same time as InteractAble cause i think its the same*/
+	at the same time as InteractAble cause i think its the same. done 12/01/2018*/
 
-	//stores the item the player is holding in the right head
-	class AInteractAble* RightHead;
+	//stores the item the player is holding in the right hand
+	class AInteractAble* RightHand;
 
-	//stores the item the player is holding in the left head
-	class AInteractAble* LeftHead;
+	//stores the item the player is holding in the left hand
+	class AInteractAble* LeftHand;
 
 	//stores the bigger item the player is holding in the both Hands
 	class AInteractAble* BothHands;
@@ -142,13 +142,13 @@ public:
 	//UStaticMeshSocket* RightSocket;
 
 	UPROPERTY(EditAnywhere, Category = Camera)
-	class USceneComponent* RightHeadOffset;
+	class USceneComponent* RightHandOffset;
 
 	UPROPERTY(EditAnywhere, Category = Camera)
-	class APhysicsInteract* RightHeadOffset2;
+	class APhysicsInteract* RightHandOffset2;
 
 	UPROPERTY(EditAnywhere, Category = Camera)
-	class USceneComponent* LeftHeadOffset;
+	class USceneComponent* LeftHandOffset;
 
 	float HandOffsetDepthX;
 

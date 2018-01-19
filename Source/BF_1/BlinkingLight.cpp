@@ -70,6 +70,13 @@ ABlinkingLight::ABlinkingLight()//PG_Subject *mod, bool div)
 	//Nav->SetAreaClass(UNavArea_Default::StaticClass());
 	//Nav->GetNavigationBounds();
 	//Nav->setnav
+
+
+	EditorIcon = CreateDefaultSubobject<UBillboardComponent>(TEXT("Billboard"), true);
+	static ConstructorHelpers::FObjectFinder<UTexture2D> PowerTexture(TEXT("Texture2D'/Game/Textures/PowerLight.PowerLight'"));
+	EditorIcon->Sprite = PowerTexture.Object;
+	EditorIcon->ScreenSize = 0.001f;
+	EditorIcon->AttachTo(RootComponent);
 }
 
 // Called when the game starts or when spawned
