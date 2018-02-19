@@ -76,6 +76,8 @@ void AAIPatrolController::Possess(APawn* Pawn)
 		if (PatrolPoints.Num() > 0) {
 			BehaviorComp->StartTree(*AICharacter->BehaviorTree);
 		}
+
+		MovingToLocationMakerOff();
 	}
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, "Begin2222");
 }
@@ -96,17 +98,28 @@ void AAIPatrolController::MovingToLocationMakerOn()
 {
 	AAIPatrol* AICharacter = Cast<AAIPatrol>(AICharacterRef);
 
-	AICharacter->MovingToLocationMaker->SetWorldLocation(LastLocation);
+	ResetMovingToLocationMaker();
 
-	AICharacter->MovingToLocationMaker->ActivateSystem();
+	//AICharacter->MovingToLocationMaker->ActivateSystem();
+	AICharacter->MovingToLocationMaker->Activate();
+	//AICharacter->MovingToLocationMaker->bSuppressSpawning = true;
 }
 //Particle System Off
 void AAIPatrolController::MovingToLocationMakerOff()
 {
 	AAIPatrol* AICharacter = Cast<AAIPatrol>(AICharacterRef);
 
-	AICharacter->MovingToLocationMaker->DeactivateSystem();
+	//AICharacter->MovingToLocationMaker->DeactivateSystem();bSupressSpawning
+	AICharacter->MovingToLocationMaker->Deactivate();
+	//AICharacter->MovingToLocationMaker->bSuppressSpawning = false;
 }
+
+void AAIPatrolController::ResetMovingToLocationMaker()
+{
+	AAIPatrol* AICharacter = Cast<AAIPatrol>(AICharacterRef);
+	AICharacter->MovingToLocationMaker->SetWorldLocation(LastLocation);
+}
+
 
 /*  
 Ref

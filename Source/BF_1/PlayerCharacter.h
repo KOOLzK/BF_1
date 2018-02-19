@@ -118,10 +118,14 @@ public:
 
 	void ReloadLevel();
 
-	
+	void TemporaryReticle(UTexture2D* Display, float time);
+
+	void ResetReticle();
 
 
 	FTimerHandle ReloadLevelDelay;
+
+	FTimerHandle TemporaryReticleDelay;
 
 	//stores the Interact Able the player is looking at
 	class AInteractAble* Targeting;
@@ -180,6 +184,8 @@ public:
 	UPROPERTY(EditAnywhere, Category = HUD)
 	UTexture2D* ReticleDisplayCurrent;
 
+	UPROPERTY(EditAnywhere, Category = HUD)
+	UTexture2D* ReticleDisplayOld;
 
 	float HUDWidth;
 

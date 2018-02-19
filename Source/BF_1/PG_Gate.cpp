@@ -21,6 +21,8 @@ APG_Gate::APG_Gate()
 	EditorIcon->ScreenSize = 0.001f;
 	EditorIcon->AttachTo(RootComponent);
 	
+
+	//DisplayingArrows();
 }
 
 // Called when the game starts or when spawned

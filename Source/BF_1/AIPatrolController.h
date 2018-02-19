@@ -52,6 +52,11 @@ public:
 	/*removes the Particle System where the enemy last saw the player*/
 	void MovingToLocationMakerOff();
 
+	void ResetMovingToLocationMaker();
+
+	//virtual void OnMoveCompleted(FAIRequestID RequestID, const EPathFollowingResult & Result) override;
+
+	//virtual void OnPathFinished(EPathFollowingResult::Type Result) override;
 	int32 CurrentPatrolPoint = 0;
 
 	FORCEINLINE UBlackboardComponent* GetBlackboardComp() const { return BlackboardComp; }

@@ -26,8 +26,11 @@ public:
 	UPROPERTY(EditAnywhere, Category = ID)//, AdvancedDisplay)
 	TArray<AActor*> HookUp;
 
+	TArray<UArrowComponent*> ArrowDisplay;
+
 	void HookingUp();
 
+	void DisplayingArrows();
 
 	bool BillboardVisible;
 

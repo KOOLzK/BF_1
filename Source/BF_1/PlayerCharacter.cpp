@@ -151,6 +151,8 @@ void APlayerCharacter::Tick( float DeltaTime )
 				Targeting->Unfocused();
 				//replace actor to ray trace storage
 				Targeting = Cast<AInteractAble>(HitResult->GetActor());
+				//turns on glowing
+				Targeting->Focused();
 				//change HUD
 				ReticleDisplayCurrent = ReticleDisplayTarget;
 			}
@@ -533,6 +535,18 @@ float APlayerCharacter::GetHUDWidth()
 float APlayerCharacter::GetHUDHeight()
 {
 	return HUDHeight;
+}
+
+void APlayerCharacter::TemporaryReticle(UTexture2D* Display, float time) 
+{
+	ReticleDisplayOld = ReticleDisplayCurrent;
+	ReticleDisplayCurrent = Display;
+	GetWorldTimerManager().SetTimer(TemporaryReticleDelay, this, &APlayerCharacter::ResetReticle, time);
+}
+
+void APlayerCharacter::ResetReticle()
+{
+	ReticleDisplayCurrent = ReticleDisplayOld;
 }
 
 UPointLightComponent* APlayerCharacter::GetLight()

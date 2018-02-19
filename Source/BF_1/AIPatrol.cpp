@@ -72,7 +72,7 @@ void AAIPatrol::BeginPlay()
 	all weird. the camera zooms really far back and is a pain to zoom in again so I'm doing it here 
 	in BeginPlay*/
 	MovingToLocationMaker->SetTemplate(TempPS);
-
+	MovingToLocationMaker->Deactivate();
 }
 
 // Called to bind functionality to input

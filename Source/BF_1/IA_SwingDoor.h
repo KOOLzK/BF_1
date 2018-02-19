@@ -32,6 +32,20 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Collision)
 	class USceneComponent* DoorPivot;
 
+	UPROPERTY()	
+	FRotator StartRotation;
+
+	UPROPERTY()
+	FRotator EndRotation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Timeline)
+	float ZOffSet;
+
+	UPROPERTY(EditAnywhere, Category = ID)
+	UTexture2D* ReticleDisplayLocked;
+
+	UPROPERTY(EditAnywhere, Category = ID)
+	bool Locked;
 
 	//FOnTimelineVector InterpFunction{};
 

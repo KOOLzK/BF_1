@@ -22,12 +22,16 @@ EBTNodeResult::Type UBTMoveToTarget::ExecuteTask(UBehaviorTreeComponent& OwerCom
 
 		//States of the enemy
 		if (AICon->CurrentState == AAIPatrolController::State::patrol) {
-
+			//AICon->MovingToLocationMakerOff();
 			//when Idle it moves to the next Patrol Point and when it has completed the move it goes Idle
 			if (AICon->GetMoveStatus() == EPathFollowingStatus::Idle)
 			{
 				AICon->MoveToActor(NextPatrolPoint, 5.f, true, true, true, 0, true);
 				
+				/*SpinDone = false;
+				BackFromSearch = false;
+				StartNotSet = true;*/
+
 				return EBTNodeResult::Succeeded;
 			}
 		}
@@ -41,22 +45,77 @@ EBTNodeResult::Type UBTMoveToTarget::ExecuteTask(UBehaviorTreeComponent& OwerCom
 			if (AICon->lastSeenTimer < 0) {
 				AICon->CurrentState = AAIPatrolController::State::lastSeen;
 				AICon->MovingToLocationMakerOn();
+				//getplayers forward vector
+				//Playerforward = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0)->GetActorLocation();
 			}
+			AICon->ResetMovingToLocationMaker();
 			AICon->MoveToLocation(AICon->LastLocation);
 			return EBTNodeResult::Succeeded;
 		}
 
 		if (AICon->CurrentState == AAIPatrolController::State::lastSeen) {
+			AICon->ResetMovingToLocationMaker();
 			if (AICon->GetMoveStatus() == EPathFollowingStatus::Idle)
 			{
-				AICon->CurrentState = AAIPatrolController::State::patrol;
 				AICon->MovingToLocationMakerOff();
+				AICon->CurrentState = AAIPatrolController::State::patrol;
+				/*go to search pattern instead of patrol
+				use players LastLocation and forward vector to do a raycast then uses the location
+				to give to search pattern*/
+				//Ray Trace
+				/*HitResult = new FHitResult();
+				StartTrace = AICon->LastLocation;
+				ForwardVector = Playerforward;
+				EndTrace = ((ForwardVector * 1000) + StartTrace); //1000 is to far?
+				TraceParams = new FCollisionQueryParams();
+
+				if (GetWorld()->LineTraceSingleByChannel(*HitResult, StartTrace, EndTrace, ECollisionChannel::ECC_WorldStatic, *TraceParams))
+				{
+					SearchLocation = HitResult->Location;
+				}*/
 			}
+			//EPathFollowingResult 
+			//EPathFollowingResult::Invalid;
+			
+			//AICon->OnMoveCompleted(AICon->GetCurrentMoveRequestID(), EPathFollowingResult::Invalid);
+			/*if (AICon->GetMoveStatus() == EPathFollowingResult::Blocked) {
+				AICon->MovingToLocationMakerOff();
+			}*/
 			AICon->MoveToLocation(AICon->LastLocation);
 			return EBTNodeResult::Succeeded;
 		}
 
 		//add searching and think of a were to have a search pattern
+		/*if (AICon->CurrentState == AAIPatrolController::State::searching) {
+			if (AICon->GetMoveStatus() == EPathFollowingStatus::Idle)
+			{
+				if (BackFromSearch) {
+					AICon->CurrentState = AAIPatrolController::State::patrol;
+					AICon->MovingToLocationMakerOff();
+				} else {
+					if (SpinDone) {
+						BackFromSearch = true;
+					} else {
+						if (StartNotSet) {
+							RotationStart = AICon->GetPawn()->GetActorRotation();
+							StartNotSet = false;
+						} else {
+							if (RotationStart.Yaw +5 >= AICon->GetPawn()->GetActorRotation().Yaw && RotationStart.Yaw - 5 <= AICon->GetPawn()->GetActorRotation().Yaw) {
+								SpinDone = true;
+							} else {
+								AICon->AddActorLocalRotation(FQuat(0.0f, 0.0f, 0.01f, 1.0f));
+							}
+						}
+						
+					}
+					AICon->MoveToLocation(SearchLocation);
+				}
+				
+				//AICon->AddActorLocalRotation(FQuat(0.0f,0.0f,1.0f,1.0f));
+			}
+			AICon->MoveToLocation(SearchLocation);
+			return EBTNodeResult::Succeeded;
+		}*/
 	}
 
 
