@@ -53,6 +53,19 @@ void AIA_Switch::BeginPlay()
 	if (propellerAudioCue->IsValidLowLevelFast()) {
 		propellerAudioComponent->SetSound(propellerAudioCue);
 	}
+
+	if (StartState) {
+		PO->Flip();
+	}
+
+	if (PO->Toggle) {
+		//add SwitchMesh colour change
+		InteractAbleMesh->SetMaterial(0, SwitchMaterial1);
+	}
+	else {
+		//add SwitchMesh colour change
+		InteractAbleMesh->SetMaterial(0, SwitchMaterial2);
+	}
 }
 
 // Called every frame

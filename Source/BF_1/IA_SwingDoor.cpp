@@ -29,6 +29,7 @@ AIA_SwingDoor::AIA_SwingDoor()
 	ZOffSet = 90;
 
 	Locked = false;
+	DeleteUnlockItem = false;
 }
 
 // Called when the game starts or when spawned
@@ -91,4 +92,16 @@ void AIA_SwingDoor::InteractWithPlayer()
 			RotateTimeline->Reverse();
 		}
 	}
+}
+
+void AIA_SwingDoor::InteractWithItem(AInteractAble* Item)
+{
+	if (ItemName == Item->ItemName) {
+		Locked = false;
+		if (DeleteUnlockItem) {
+			Item->DetachFromHand();
+			Item->Destroy();
+		}
+	}
+	//else play sound?
 }

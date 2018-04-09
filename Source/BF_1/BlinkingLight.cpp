@@ -36,8 +36,8 @@ ABlinkingLight::ABlinkingLight()//PG_Subject *mod, bool div)
 
 	//LightName = " ";
 
-	PO = new PowerObject();
-	Observer(PO, PO->IsOn());
+	PO = new PowerObject();//update this code HookingUp
+	Observer(PO, PO->IsOn());//and get rid of this line maybe, what does it do?
 	//PO->AttachLight(this);
 
 	NavSphere = CreateDefaultSubobject<USphereComponent>(TEXT("CoiComp"));

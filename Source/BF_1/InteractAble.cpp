@@ -79,3 +79,8 @@ void AInteractAble::InteractWithPlayer()
 {
 
 }
+
+void AInteractAble::InteractWithItem(AInteractAble* Item)
+{
+
+}

@@ -30,6 +30,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh)
 	UMaterial* SwitchMaterial2;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ID)
+	bool StartState;
+
 	USoundCue* propellerAudioCue;
 
 	UAudioComponent* propellerAudioComponent;

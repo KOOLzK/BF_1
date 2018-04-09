@@ -51,7 +51,7 @@ public:
 
 	virtual void InteractWithPlayer();
 
-	//virtual void InteractWithItem("keycard");//FName ItemName;
+	virtual void InteractWithItem(AInteractAble* Item);//FName ItemName;
 
 	//virtual void Action();//trigger somehow and override it to do different things
 

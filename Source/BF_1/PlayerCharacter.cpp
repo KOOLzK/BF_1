@@ -466,6 +466,27 @@ void APlayerCharacter::ToggleDebugMessages()
 void APlayerCharacter::Use2Down()
 {
 	Using = true;
+	if (Targeting != NULL)
+	{
+		//check HasPhysics true
+		if (Targeting->HasPhysics) {
+		}
+		else {
+			if (BothHands != NULL) {
+				Targeting->InteractWithItem(BothHands);
+			}
+			if (IsRightHandActive) {
+				if (RightHand != NULL) {
+					Targeting->InteractWithItem(RightHand);
+				}
+			}
+			else {
+				if (LeftHand != NULL) {
+					Targeting->InteractWithItem(LeftHand);
+				}
+			}
+		}
+	}
 }
 
 void APlayerCharacter::Use2Up()

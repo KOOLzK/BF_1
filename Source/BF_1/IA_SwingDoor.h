@@ -22,6 +22,8 @@ public:
 	virtual void BeginPlay() override;
 
 	virtual void InteractWithPlayer() override;
+
+	virtual void InteractWithItem(AInteractAble* Item) override;
 	
 	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Timeline)
 	class UCurveVector* VCurve;*/
@@ -46,6 +48,9 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = ID)
 	bool Locked;
+
+	UPROPERTY(EditAnywhere, Category = ID)
+	bool DeleteUnlockItem;
 
 	//FOnTimelineVector InterpFunction{};
 

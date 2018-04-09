@@ -38,6 +38,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = Collision)
 	UTexture2D* SpriteTexture;
 
+	UPROPERTY(EditAnywhere, Category = ID)
+	UTexture2D* ReticleDisplayLoading;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	

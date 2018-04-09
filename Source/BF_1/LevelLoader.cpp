@@ -33,6 +33,10 @@ ALevelLoader::ALevelLoader()
 	EditorIcon->Sprite = SpriteTexture.Object;
 	EditorIcon->ScreenSize = 0.0015f;
 	EditorIcon->AttachTo(CollisionComp);
+
+	static ConstructorHelpers::FObjectFinder<UTexture2D> PS(TEXT("Texture2D'/Game/Textures/game-loading2.game-loading2'"));
+	ReticleDisplayLoading = PS.Object;
+
 }
 
 // Called when the game starts or when spawned
@@ -59,6 +63,13 @@ void ALevelLoader::OnOverLapB(UPrimitiveComponent* OverlappedComponent, AActor* 
 				BlackboardComp->SetValueAsName(LevelKey, LevelName);
 				/*APlayerCharacter* temp = Cast<APlayerCharacter>(OtherActor);
 				temp->currentLevel = LevelName;*/
+
+				ACharacter* cc = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
+				APlayerCharacter* temp = Cast<APlayerCharacter>(cc);
+				temp->TemporaryReticle(ReticleDisplayLoading, 2.0f);
+				temp->HUDHeight = 564.0f;
+				temp->HUDWidth = 564.0f;
+
 				UGameplayStatics::OpenLevel(this, LevelName);
 			}
 			else {
