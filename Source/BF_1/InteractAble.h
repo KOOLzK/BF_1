@@ -55,7 +55,7 @@ public:
 
 	//virtual void Action();//trigger somehow and override it to do different things
 
-	UPROPERTY(EditAnywhere, Category = Physics)
+	UPROPERTY(EditAnywhere, Category = ID)
 	bool HasPhysics;
 
 	UPROPERTY(EditAnywhere, Category = ID)

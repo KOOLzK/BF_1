@@ -30,6 +30,8 @@ public:
 
 	FVector WindDirection;
 
+	void Destroyed();
+
 	UFUNCTION()
 	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
@@ -64,8 +66,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Particle)
 	FVector FireStartSize;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Particle)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ID)
 	bool OnFire;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ID)
+	bool DestroyAble;
 
 	int WarmUp;
 
@@ -76,4 +81,5 @@ public:
 	bool OneCal;
 
 	FVector MinsScale;
+
 };

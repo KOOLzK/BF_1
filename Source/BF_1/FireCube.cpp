@@ -91,6 +91,12 @@ void AFireCube::Tick(float DeltaTime)
 		}
 
 		FirePS->Activate();
+
+		if (DestroyAble) {
+			FTimerHandle DestroyDelay;
+			GetWorldTimerManager().SetTimer(DestroyDelay, this, &AFireCube::Destroyed, 5.5f, false);
+		}
+
 		if (TimeDelay > 1.0f) {
 			if (FireScale < 1.0f) {
 				FireScale += 0.1f;
@@ -226,4 +232,9 @@ void AFireCube::SetFireStart(FVector Location)
 		//CollisionFireStart->SetRelativeLocation(Location);
 		CollisionFireStart->SetWorldLocation(Location);
 	}
+}
+
+void AFireCube::Destroyed()
+{
+	Destroy();
 }
