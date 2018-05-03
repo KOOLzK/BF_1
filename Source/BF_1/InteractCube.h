@@ -32,7 +32,7 @@ public:
 
 	virtual void AttachToHand(USceneComponent* Hand) override;
 
-	virtual void DetachFromHand() override;
+	virtual void DetachFromHand() override; //AInteractAble* MakeHandNull
 
 	virtual void Throw(FVector Direction) override;
 
@@ -40,6 +40,7 @@ public:
 
 	virtual void DampenVelocity(float DampenBy) override;
 
+	void PhysicsOn();//remove
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Collision)
 	class UBoxComponent* CollisionComp;

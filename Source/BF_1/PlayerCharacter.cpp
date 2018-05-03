@@ -210,6 +210,13 @@ void APlayerCharacter::Tick( float DeltaTime )
 		}
 	}
 
+
+	//death camera turn
+	if (dead) {
+		FVector dir = DeathTrun - GetActorLocation();
+		dir.DotProduct(dir, ForwardVector);
+		//dir; DeathTrun.;
+	}
 }
 
 // Called to bind functionality to input
@@ -420,32 +427,35 @@ void APlayerCharacter::EmptyHand()
 		if (IsRightHandActive) {
 			if (RightHand != NULL)
 			{
-				RightHand->DetachFromHand();
-				RightHand->Throw(PlayerCamera->GetForwardVector() * HandOffsetThorwX);
-				RightHand = NULL;
-				RightHandOffset->RelativeLocation = FVector(HandOffsetDepthX, HandOffsetWidthY, HandOffsetActiveZ);
-
+				if (RightHand->IsValidLowLevel()) {
+					RightHand->DetachFromHand();
+					RightHand->Throw(PlayerCamera->GetForwardVector() * HandOffsetThorwX);
+					RightHand = NULL;
+					RightHandOffset->RelativeLocation = FVector(HandOffsetDepthX, HandOffsetWidthY, HandOffsetActiveZ);
+				}
 			}
 		} else {
 			if (LeftHand != NULL)
 			{
-				LeftHand->DetachFromHand();
-				LeftHand->Throw(PlayerCamera->GetForwardVector() * HandOffsetThorwX);
-				LeftHand = NULL;
-				LeftHandOffset->RelativeLocation = FVector(HandOffsetDepthX, -HandOffsetWidthY, HandOffsetActiveZ);
-
+				if (LeftHand->IsValidLowLevel()) {
+					LeftHand->DetachFromHand();
+					LeftHand->Throw(PlayerCamera->GetForwardVector() * HandOffsetThorwX);
+					LeftHand = NULL;
+					LeftHandOffset->RelativeLocation = FVector(HandOffsetDepthX, -HandOffsetWidthY, HandOffsetActiveZ);
+				}
 			}
 		}
 		HandOffsetThorwX = 0.0f;//+100000
 		ChargingThrow = false;
 	} else {
-		BothHands->DetachFromHand();
-		BothHands = NULL;
+		if (BothHands->IsValidLowLevel()) {
+			BothHands->DetachFromHand();
+			BothHands = NULL;
 
-		//add throw for Medium?
-		HandOffsetThorwX = 0.0f;
-		ChargingThrow = false;
-
+			//add throw for Medium?
+			HandOffsetThorwX = 0.0f;
+			ChargingThrow = false;
+		}
 	}
 }
 void APlayerCharacter::EmptyHandCharge()
@@ -513,6 +523,9 @@ void APlayerCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActo
 
 		if (OtherActor->IsA(AAIPatrol::StaticClass())) {
 			Death();
+			DeathTrun = OtherActor->GetActorLocation();
+			//FMath::vector;
+
 			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, "Dead");
 		}
 	}

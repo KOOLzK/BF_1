@@ -41,6 +41,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = ID)
 	UTexture2D* ReticleDisplayLoading;
 
+	UPROPERTY(EditAnywhere, Category = ID)
+	bool AddLevelNumOnLoad;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	

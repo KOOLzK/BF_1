@@ -32,7 +32,7 @@ public:
 
 	virtual void AttachToHand(USceneComponent* Hand) override;
 
-	virtual void DetachFromHand() override;
+	virtual void DetachFromHand() override; // AInteractAble* MakeHandNull
 
 	virtual void Throw(FVector Direction) override;
 

@@ -42,6 +42,9 @@ AFireCube::AFireCube()
 	TimeDelay = 0;
 
 	OneCal = false;
+
+	DestroyTimer = 5.5f;
+
 }
 
 void AFireCube::BeginPlay()
@@ -94,7 +97,7 @@ void AFireCube::Tick(float DeltaTime)
 
 		if (DestroyAble) {
 			FTimerHandle DestroyDelay;
-			GetWorldTimerManager().SetTimer(DestroyDelay, this, &AFireCube::Destroyed, 5.5f, false);
+			GetWorldTimerManager().SetTimer(DestroyDelay, this, &AFireCube::Destroyed, DestroyTimer, false);
 		}
 
 		if (TimeDelay > 1.0f) {

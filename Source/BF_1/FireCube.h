@@ -72,6 +72,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ID)
 	bool DestroyAble;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ID)
+	float DestroyTimer;
+
 	int WarmUp;
 
 	float FireScale;

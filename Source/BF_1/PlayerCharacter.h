@@ -193,6 +193,8 @@ public:
 
 	bool dead;
 
+	FVector DeathTrun;
+
 	UPROPERTY(EditAnywhere, Category = Light)
 	class UPointLightComponent* PointLight;
 

@@ -70,6 +70,19 @@ void ALevelLoader::OnOverLapB(UPrimitiveComponent* OverlappedComponent, AActor* 
 				temp->HUDHeight = 564.0f;
 				temp->HUDWidth = 564.0f;
 
+				if (AddLevelNumOnLoad) {
+					FString FileNameA = "level.txt";
+					FString SaveTextA;
+					FFileHelper::LoadFileToString(SaveTextA, *(FPaths::GameDir() + FileNameA));
+
+
+					float adding = FCString::Atof(*SaveTextA);
+					adding += 1.0f;
+					FString SaveTextB = FString::SanitizeFloat(adding);
+					FString FileNameB = "level.txt";
+					FFileHelper::SaveStringToFile(SaveTextB, *(FPaths::GameDir() + FileNameB));
+				}
+
 				UGameplayStatics::OpenLevel(this, LevelName);
 			}
 			else {

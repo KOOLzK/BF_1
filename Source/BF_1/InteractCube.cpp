@@ -31,9 +31,11 @@ AInteractCube::AInteractCube()
 // Called when the game starts or when spawned
 void AInteractCube::BeginPlay()
 {
-	Super::BeginPlay();
+	Super::BeginPlay();//AddCustomPhysics
 	StartLocation = GetActorLocation();
 	CollisionComp->SetSimulatePhysics(HasPhysics);
+	//CollisionComp->AddCustom;
+	//this->CC;
 }
 
 // Called every frame
@@ -89,7 +91,7 @@ void AInteractCube::AttachToHand(USceneComponent* Hand)
 	CollisionComp->SetSimulatePhysics(false);
 
 	//it is set to PhysicsOnly so it has doesn't have Query so you can't pick it again
-	CollisionComp->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
+	//CollisionComp->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly);
 
 	//so it doesn't push the player around
 	InteractAbleMesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Ignore);
@@ -98,23 +100,29 @@ void AInteractCube::AttachToHand(USceneComponent* Hand)
 	Held = true;
 }
 
-void AInteractCube::DetachFromHand()
+void AInteractCube::DetachFromHand() //AInteractAble* MakeHandNull)
 {
-	CollisionComp->DetachFromParent(true);
-	CollisionComp->SetSimulatePhysics(true);
+	//if (MakeHandNull != NULL) {
+		CollisionComp->DetachFromParent(true);
+		CollisionComp->SetSimulatePhysics(true);
+		//MakeHandNull = NULL;
 
-	//it is set to QueryAndPhysics so it has Query so you can pick it later
-	CollisionComp->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+		/*FTimerHandle PhysicsDelay;
+		GetWorldTimerManager().SetTimer(PhysicsDelay, this, &AInteractCube::PhysicsOn, 0.5f, false);*/
 
-	//so the player can push it around and stand on it
-	InteractAbleMesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Block);
-	
-	Held = false;
+		//it is set to QueryAndPhysics so it has Query so you can pick it later
+		//CollisionComp->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 
-	if (isHanded == EHandedEnum::HE_Medium) {
-		CollisionComp->SetPhysicsLinearVelocity(FVector(0, 0, 0));
-		CollisionComp->SetPhysicsAngularVelocity(FVector(0, 0, 0));
-	}
+		//so the player can push it around and stand on it
+		InteractAbleMesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Block);
+
+		Held = false;
+
+		if (isHanded == EHandedEnum::HE_Medium) {
+			CollisionComp->SetPhysicsLinearVelocity(FVector(0, 0, 0));//FVector(0, 0, 100)
+			CollisionComp->SetPhysicsAngularVelocity(FVector(0, 0, 0));
+		}
+	//}
 }
 
 void AInteractCube::Throw(FVector Direction)
@@ -133,4 +141,9 @@ void AInteractCube::DampenVelocity(float DampenBy)
 		CollisionComp->SetPhysicsLinearVelocity(FVector(GetVelocity().X / DampenBy, GetVelocity().Y / DampenBy, GetVelocity().Z));
 	}
 	//needs to stop intirally
+}
+
+void AInteractCube::PhysicsOn() 
+{
+	CollisionComp->SetSimulatePhysics(true);
 }

@@ -39,7 +39,7 @@ public:
 
 	virtual void AttachToHand(USceneComponent* Hand);
 
-	virtual void DetachFromHand();
+	virtual void DetachFromHand(); //AInteractAble* MakeHandNull
 
 	virtual void UpdateAndDelete();
 

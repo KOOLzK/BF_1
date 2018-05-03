@@ -95,23 +95,26 @@ void AInteractSphere::AttachToHand(USceneComponent* Hand)
 	Held = true;
 }
 
-void AInteractSphere::DetachFromHand()
+void AInteractSphere::DetachFromHand() // AInteractAble* MakeHandNull)
 {
-	CollisionComp->DetachFromParent(true);
-	CollisionComp->SetSimulatePhysics(true);
+	//if (MakeHandNull != NULL) {
+		CollisionComp->DetachFromParent(true);
+		CollisionComp->SetSimulatePhysics(true);
+		//MakeHandNull = NULL;
 
-	//it is set to QueryAndPhysics so it has Query so you can pick it later
-	CollisionComp->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+		//it is set to QueryAndPhysics so it has Query so you can pick it later
+		CollisionComp->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 
-	//so the player can push it around and stand on it
-	InteractAbleMesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Block);
-	
-	Held = false;
+		//so the player can push it around and stand on it
+		InteractAbleMesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Block);
 
-	if (isHanded == EHandedEnum::HE_Medium) {
-		CollisionComp->SetPhysicsLinearVelocity(FVector(0, 0, 0));
-		CollisionComp->SetPhysicsAngularVelocity(FVector(0, 0, 0));
-	}
+		Held = false;
+
+		if (isHanded == EHandedEnum::HE_Medium) {
+			CollisionComp->SetPhysicsLinearVelocity(FVector(0, 0, 0));
+			CollisionComp->SetPhysicsAngularVelocity(FVector(0, 0, 0));
+		}
+	//}
 }
 
 void AInteractSphere::Throw(FVector Direction)

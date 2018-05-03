@@ -50,7 +50,7 @@ void AInteractAble::AttachToHand(USceneComponent* Hand)
 
 }
 
-void AInteractAble::DetachFromHand()
+void AInteractAble::DetachFromHand()// AInteractAble* MakeHandNull)
 {
 
 }
