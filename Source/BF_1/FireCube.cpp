@@ -30,7 +30,7 @@ AFireCube::AFireCube()
 
 	CollisionFireReach->AttachTo(CollisionFireStart);
 
-	static ConstructorHelpers::FObjectFinder<UParticleSystem> PS(TEXT("ParticleSystem'/Game/Effects/ShapeFire.ShapeFire'"));
+	static ConstructorHelpers::FObjectFinder<UParticleSystem> PS(TEXT("ParticleSystem'/Game/Effects/P_FireForInteractAble.P_FireForInteractAble'"));
 	TempPS = PS.Object;
 	FirePS = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("FirePSC"));
 	FirePS->AttachTo(CollisionFireStart);

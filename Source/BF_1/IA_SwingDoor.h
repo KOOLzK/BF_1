@@ -24,6 +24,8 @@ public:
 	virtual void InteractWithPlayer() override;
 
 	virtual void InteractWithItem(AInteractAble* Item) override;
+
+	void StopParticle();
 	
 	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Timeline)
 	class UCurveVector* VCurve;*/
@@ -51,6 +53,12 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = ID)
 	bool DeleteUnlockItem;
+
+	UPROPERTY()
+	class UParticleSystemComponent* DeleteItemParticle;
+
+	/*temporary holds Particle System so it can be set MovingToLocationMaker in BeginPlay*/
+	UParticleSystem* TempPS;
 
 	//FOnTimelineVector InterpFunction{};
 

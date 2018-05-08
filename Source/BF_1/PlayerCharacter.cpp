@@ -154,7 +154,7 @@ void APlayerCharacter::Tick( float DeltaTime )
 				//turns on glowing
 				Targeting->Focused();
 				//change HUD
-				ReticleDisplayCurrent = ReticleDisplayTarget;
+				//ReticleDisplayCurrent = ReticleDisplayTarget;//don't need, going for a interact to another
 			}
 			else {
 				//add actor to ray trace storage
@@ -348,6 +348,10 @@ void APlayerCharacter::Use()
 			}
 
 			if (Targeting->isHanded == EHandedEnum::HE_Medium) {
+				if (BothHands != NULL) {
+					BothHands->DetachFromHand();
+					//BothHands = NULL;
+				}
 				BothHands = Targeting;
 				BothHands->AttachToHand(RightHandOffset);
 				if (RightHand != NULL) {
@@ -580,7 +584,9 @@ void APlayerCharacter::TemporaryReticle(UTexture2D* Display, float time)
 
 void APlayerCharacter::ResetReticle()
 {
-	ReticleDisplayCurrent = ReticleDisplayOld;
+	if (ReticleDisplayCurrent != ReticleDisplayTarget) {
+		ReticleDisplayCurrent = ReticleDisplayOld;
+	}
 }
 
 UPointLightComponent* APlayerCharacter::GetLight()
