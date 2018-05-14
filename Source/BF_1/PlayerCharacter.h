@@ -112,6 +112,8 @@ public:
 	UFUNCTION(BlueprintPure, Category = Light)
 	UPointLightComponent* GetLight();
 	
+	UFUNCTION(BlueprintCallable, Category = DeathOfPlayer)
+	float DeathLook(float X, float Y, float Z);//FRotator* FoundLook
 
 	/*UFUNCTION(BlueprintCallable, Category = HUD)
 	UTexture2D UpdateCurrentDispay();*/
@@ -191,14 +193,20 @@ public:
 
 	float HUDHeight;
 
+	UPROPERTY(BlueprintReadOnly, Category = DeathOfPlayer)
 	bool dead;
 
+	UPROPERTY(BlueprintReadWrite, Category = DeathOfPlayer)
 	FVector DeathTrun;
+
+	FRotator FoundLook;
 
 	UPROPERTY(EditAnywhere, Category = Light)
 	class UPointLightComponent* PointLight;
 
+	bool LoadCheckPoint;
 
+	FVector CheckPointVector;
 
 	//AHUD PlayerHUD;
 

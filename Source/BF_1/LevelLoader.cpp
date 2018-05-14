@@ -15,7 +15,7 @@ ALevelLoader::ALevelLoader()
 
 
 	CollisionComp = CreateDefaultSubobject<UBoxComponent>(TEXT("CoiComp"));
-	CollisionComp->BodyInstance.SetCollisionProfileName("enemy");
+	CollisionComp->BodyInstance.SetCollisionProfileName("levelloader");
 	CollisionComp->OnComponentBeginOverlap.AddDynamic(this, &ALevelLoader::OnOverLapB);
 	RootComponent = CollisionComp;
 

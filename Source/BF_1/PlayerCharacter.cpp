@@ -13,6 +13,7 @@
 //#include "MaterialInstance.generated.h"
 #include "PhysicsInteract.h"
 #include "PowerObject.h"
+#include "CheckPoint.h"
 
 #define EEC_InteractAble ECollisionChannel::ECC_GameTraceChannel1
 
@@ -113,6 +114,8 @@ APlayerCharacter::APlayerCharacter()
 	PlayerReach = 500.0f;
 
 	ThrowStrength = 10000.0f;
+
+	LoadCheckPoint = false;
 }
 
 
@@ -212,11 +215,51 @@ void APlayerCharacter::Tick( float DeltaTime )
 
 
 	//death camera turn
-	if (dead) {
+	/*if (dead) {
 		FVector dir = DeathTrun - GetActorLocation();
-		dir.DotProduct(dir, ForwardVector);
+		//UKismetMathLibrary::FindLookAtRotation
+		//dir.Rotation().
+		//dir.DotProduct(dir, ForwardVector);
+		//FaceRotation(dir.Rotation(), 2.0f);
+		//if(dir > ForwardVector)
+		dir.Normalize();
+		ForwardVector.Normalize();
+		float tt = dir.DotProduct(dir, ForwardVector);
+		//acosh(dir.DotProduct(dir, ForwardVector));
+		float tttt = acos(tt);
+		if (tt < 0) {
+			AddControllerYawInput(tttt);
+		}else{
+			AddControllerYawInput(-tttt);
+		}
 		//dir; DeathTrun.;
-	}
+		//AddControllerYawInput(val);
+		
+	}*/
+	//FaceRotation()
+	//UKismetMathLibrary::FindLookAtRotation
+	//atan2()
+	/*if (dead) {
+		// Look toward focus
+		FVector FocalPoint = DeathTrun;
+		if (!FocalPoint.IsZero() && this)
+		{
+			FVector Direction = FocalPoint - this->GetActorLocation();
+			FRotator NewControlRotation = Direction.Rotation();
+
+			NewControlRotation.Yaw = FRotator::ClampAxis(NewControlRotation.Yaw);
+
+			//SetControlRotation(NewControlRotation);
+
+			APawn* const P = this;
+			if (P)
+			{
+				this->FaceRotation(NewControlRotation, 2.0f);
+				//P->FaceRotation(NewControlRotation, DeltaTime);
+			}
+
+		}
+	}*/
 }
 
 // Called to bind functionality to input
@@ -288,15 +331,15 @@ void APlayerCharacter::LookPitch(float val)
 void APlayerCharacter::Use()
 {
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "E");
-	if (currentSwitch != nullptr)
+	/*if (currentSwitch != nullptr)//old
 	{
 		currentSwitch->Switching();
 	}
 
-	if (currentDoor != nullptr)
+	if (currentDoor != nullptr)//old
 	{
 		currentDoor->Use();
-	}
+	}*/
 
 	if (Targeting != NULL) 
 	{
@@ -515,14 +558,20 @@ void APlayerCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActo
 	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr))
 	{
 		//probably replace this with a ray trace so the player can't hit a light switch behind them
-		if (OtherActor->IsA(ALightSwitch::StaticClass())) {
+		/*if (OtherActor->IsA(ALightSwitch::StaticClass())) {//old
 			ALightSwitch* temp = Cast<ALightSwitch>(OtherActor);
 			currentSwitch = temp;
 		}
 
-		if (OtherActor->IsA(ASwingingDoor::StaticClass())) {
+		if (OtherActor->IsA(ASwingingDoor::StaticClass())) {//old
 			ASwingingDoor* temp = Cast<ASwingingDoor>(OtherActor);
-			currentDoor = temp;
+			currentDoor = temp;ACheckPoint
+		}*/
+
+		if (OtherActor->IsA(ACheckPoint::StaticClass())) {//old
+			ACheckPoint* temp = Cast<ACheckPoint>(OtherActor);
+			CheckPointVector = temp->GetActorLocation();
+			LoadCheckPoint = true;
 		}
 
 		if (OtherActor->IsA(AAIPatrol::StaticClass())) {
@@ -545,13 +594,13 @@ void APlayerCharacter::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor*
 	// Other Actor is the actor that triggered the event. Check that is not ourself.
 	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr))
 	{
-		if (OtherActor->IsA(ALightSwitch::StaticClass())) {
+		/*if (OtherActor->IsA(ALightSwitch::StaticClass())) {//old
 			currentSwitch = nullptr;
 		}
 
-		if (OtherActor->IsA(ASwingingDoor::StaticClass())) {
+		if (OtherActor->IsA(ASwingingDoor::StaticClass())) {//old
 			currentDoor = nullptr;
-		}
+		}*/
 
 	}
 	if (DisplayDebugMessages) {
@@ -594,6 +643,15 @@ UPointLightComponent* APlayerCharacter::GetLight()
 	return PointLight;
 }
 
+float APlayerCharacter::DeathLook(float X, float Y, float Z)
+{
+	FoundLook = FRotator(X, Y, 0.0f);
+	//FRotator temp = *FoundLook;
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, "face");
+	FaceRotation(FoundLook, 2.0f);
+	return 0.0f;
+}
+
 void APlayerCharacter::Death()
 {
 	//change HUD
@@ -607,9 +665,14 @@ void APlayerCharacter::Death()
 
 void APlayerCharacter::ReloadLevel()
 {
-	//load level again to reset it
-	FString a = UGameplayStatics::GetCurrentLevelName(this);
-	UGameplayStatics::OpenLevel(this, FName(*a));
+	if (LoadCheckPoint) {
+		//load position in sublevel
+		SetActorLocation(CheckPointVector);
+	}else{
+		//load level again to reset it
+		FString a = UGameplayStatics::GetCurrentLevelName(this);
+		UGameplayStatics::OpenLevel(this, FName(*a));
+	}
 }
 
 
