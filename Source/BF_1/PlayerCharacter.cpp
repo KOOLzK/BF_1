@@ -215,6 +215,34 @@ void APlayerCharacter::Tick( float DeltaTime )
 
 
 	//death camera turn
+	/*public bool isLeft(Point a, Point b, Point c){
+     return ((b.X - a.X)*(c.Y - a.Y) - (b.Y - a.Y)*(c.X - a.X)) > 0;
+	}
+	//EndTrace = ((ForwardVector * PlayerReach) + StartTrace);
+
+
+	//GetActorLocation()
+	//FVector EndLine = ((ForwardVector * 100) + GetActorLocation());
+	//DeathTrun = enemy position
+	
+	*/
+	if (dead) {
+		FVector EndLine = ((ForwardVector * 100) + GetActorLocation());
+		float RightLeft = ((EndLine.X - GetActorLocation().X)*(DeathTrun.Y - GetActorLocation().Y) - (EndLine.Y - GetActorLocation().Y)*(DeathTrun.X - GetActorLocation().X));
+		if (RightLeft < 0) {
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, "true");
+			AddControllerYawInput(-0.5f);
+		}
+		else
+		{
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, "false");
+			AddControllerYawInput(0.5f);
+		}
+		/*GetActorLocation().Y;
+		EndLine.Y;
+		DeathTrun.Y;*/
+	}
+
 	/*if (dead) {
 		FVector dir = DeathTrun - GetActorLocation();
 		//UKismetMathLibrary::FindLookAtRotation
@@ -577,6 +605,8 @@ void APlayerCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActo
 		if (OtherActor->IsA(AAIPatrol::StaticClass())) {
 			Death();
 			DeathTrun = OtherActor->GetActorLocation();
+			AAIPatrol* temp = Cast<AAIPatrol>(OtherActor);
+			temp->MyMaxWalkSpeed = 0.0f;
 			//FMath::vector;
 
 			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, "Dead");

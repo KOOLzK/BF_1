@@ -165,6 +165,7 @@ void AAIPatrol::AnimationPoses()
 	{
 		//override AnimationNumber to floating if the AI is stock if(floating){AnimationNumber = 3;}else
 		
+		//added a player dead Poses to over ride all other animations, so player can see enemy
 		if (AIController->CurrentState == AAIPatrolController::State::patrol) {
 			AnimationNumber = 0;
 		}
