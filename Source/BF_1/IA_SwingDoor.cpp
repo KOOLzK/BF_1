@@ -31,9 +31,9 @@ AIA_SwingDoor::AIA_SwingDoor()
 	Locked = false;
 	DeleteUnlockItem = false;
 
-	static ConstructorHelpers::FObjectFinder<UParticleSystem> PS2(TEXT("ParticleSystem'/Game/Effects/P_Moving_Spin_Untyped_00.P_Moving_Spin_Untyped_00'"));
+	/*static ConstructorHelpers::FObjectFinder<UParticleSystem> PS2(TEXT("ParticleSystem'/Game/Effects/P_Moving_Spin_Untyped_00.P_Moving_Spin_Untyped_00'"));
 	TempPS = PS2.Object;
-	DeleteItemParticle = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("DeleteItemPSC"));
+	DeleteItemParticle = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("DeleteItemPSC"));*/
 }
 
 // Called when the game starts or when spawned
@@ -58,9 +58,9 @@ void AIA_SwingDoor::BeginPlay()
 	/*if the Particle System(MovingToLocationMaker) is set in the constructor then the blueprint gets
 	all weird. the camera zooms really far back and is a pain to zoom in again so I'm doing it here
 	in BeginPlay*/
-	DeleteItemParticle->SetTemplate(TempPS);
+	/*DeleteItemParticle->SetTemplate(TempPS);
 	//DeleteItemParticle->setrep;
-	DeleteItemParticle->Deactivate();
+	DeleteItemParticle->Deactivate();*/
 }
 
 void AIA_SwingDoor::TimelineVectorReturn(float value)
@@ -111,8 +111,8 @@ void AIA_SwingDoor::InteractWithItem(AInteractAble* Item)
 		Locked = false;
 		if (DeleteUnlockItem) {
 			Item->DetachFromHand();
-			DeleteItemParticle->SetWorldLocation(Item->GetActorLocation());
-			DeleteItemParticle->Activate();
+			//DeleteItemParticle->SetWorldLocation(Item->GetActorLocation());
+			//DeleteItemParticle->Activate();
 			FTimerHandle StopDelay;
 			GetWorldTimerManager().SetTimer(StopDelay, this, &AIA_SwingDoor::StopParticle, 1.0f, false);
 			Item->Destroy();
@@ -123,5 +123,5 @@ void AIA_SwingDoor::InteractWithItem(AInteractAble* Item)
 
 void AIA_SwingDoor::StopParticle()
 {
-	DeleteItemParticle->Deactivate();
+	//DeleteItemParticle->Deactivate();
 }

@@ -38,7 +38,8 @@ APlayerCharacter::APlayerCharacter()
 	CapsuleComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_WorldDynamic, ECollisionResponse::ECR_Overlap);
 
 	PlayerCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("GameCamera"));
-	PlayerCamera->AttachToComponent(CapsuleComponent, FAttachmentTransformRules::KeepWorldTransform);
+	//PlayerCamera->AttachToComponent(CapsuleComponent, FAttachmentTransformRules::KeepWorldTransform);
+	PlayerCamera->SetupAttachment(CapsuleComponent);
 	PlayerCamera->RelativeLocation = FVector(0, 0, 64.f);
 	PlayerCamera->bUsePawnControlRotation = true;
 
@@ -59,18 +60,21 @@ APlayerCharacter::APlayerCharacter()
 
 	//attach hands to Camera
 	RightHandOffset = CreateDefaultSubobject<USceneComponent>(TEXT("RightHandOffset"));
-	RightHandOffset->AttachToComponent(PlayerCamera, FAttachmentTransformRules::KeepWorldTransform);
+	//RightHandOffset->AttachToComponent(PlayerCamera, FAttachmentTransformRules::KeepWorldTransform);
+	RightHandOffset->SetupAttachment(PlayerCamera);
 	RightHandOffset->RelativeLocation = FVector(HandOffsetDepthX, HandOffsetWidthY, HandOffsetActiveZ);
 
 	LeftHandOffset = CreateDefaultSubobject<USceneComponent>(TEXT("LeftHandOffset"));
-	LeftHandOffset->AttachToComponent(PlayerCamera, FAttachmentTransformRules::KeepWorldTransform);
+	//LeftHandOffset->AttachToComponent(PlayerCamera, FAttachmentTransformRules::KeepWorldTransform);
+	LeftHandOffset->SetupAttachment(PlayerCamera);
 	LeftHandOffset->RelativeLocation = FVector(HandOffsetDepthX, -HandOffsetWidthY, HandOffsetInactiveZ);
 
 
 	PointLight = CreateDefaultSubobject<UPointLightComponent>(TEXT("PointLight"));
 	PointLight->Intensity = 3000.f;
 	PointLight->bVisible = true;
-	PointLight->AttachToComponent(GetCapsuleComponent(), FAttachmentTransformRules::KeepWorldTransform);
+	//PointLight->AttachToComponent(GetCapsuleComponent(), FAttachmentTransformRules::KeepWorldTransform);
+	PointLight->SetupAttachment(GetCapsuleComponent());
 
 
 

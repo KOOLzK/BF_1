@@ -24,17 +24,21 @@ ASwingingDoor::ASwingingDoor(const FObjectInitializer& ObjectInitializer)
 
 	HingeComp = CreateDefaultSubobject<USphereComponent>(TEXT("HingeComp"));
 	HingeComp->BodyInstance.SetCollisionProfileName("Hinge");
-	HingeComp->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	//HingeComp->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	HingeComp->SetupAttachment(RootComponent);
 
 	DoorMesh = CreateDefaultSubobject <UStaticMeshComponent>(TEXT("SwitchMesh"));
-	DoorMesh->AttachToComponent(HingeComp, FAttachmentTransformRules::KeepRelativeTransform);
+	//DoorMesh->AttachToComponent(HingeComp, FAttachmentTransformRules::KeepRelativeTransform);
+	DoorMesh->SetupAttachment(HingeComp);
 
 
 	ButtonPromptMesh1 = CreateDefaultSubobject <UStaticMeshComponent>(TEXT("ButtonPromptMesh1"));
-	ButtonPromptMesh1->AttachToComponent(DoorMesh, FAttachmentTransformRules::KeepRelativeTransform);
+	//ButtonPromptMesh1->AttachToComponent(DoorMesh, FAttachmentTransformRules::KeepRelativeTransform);
+	ButtonPromptMesh1->SetupAttachment(DoorMesh);
 
 	ButtonPromptMesh2 = CreateDefaultSubobject <UStaticMeshComponent>(TEXT("ButtonPromptMesh2"));
-	ButtonPromptMesh2->AttachToComponent(DoorMesh, FAttachmentTransformRules::KeepRelativeTransform);
+	//ButtonPromptMesh2->AttachToComponent(DoorMesh, FAttachmentTransformRules::KeepRelativeTransform);
+	ButtonPromptMesh2->SetupAttachment(DoorMesh);
 
 	openState = false;
 

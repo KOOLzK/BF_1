@@ -36,10 +36,12 @@ AAIPatrol::AAIPatrol()
 	MovingToLocationMaker = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("EnemyMakerPSC"));
 	
 	Body = CreateDefaultSubobject <UStaticMeshComponent>(TEXT("BodyMesh"));
-	Body->AttachTo(RootComponent);
+	//Body->AttachTo(RootComponent);
+	Body->SetupAttachment(RootComponent);
 
 	Head = CreateDefaultSubobject <UStaticMeshComponent>(TEXT("HeadMesh"));
-	Head->AttachTo(RootComponent);
+	//Head->AttachTo(RootComponent);
+	Head->SetupAttachment(RootComponent);
 
 	/*maybe get the Material that is set to the mesh so i and other don't have to set BodyMaterial
 	and HeadMaterial to get it to work, and so other don't get confused on why setting the mesh 

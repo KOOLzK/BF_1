@@ -54,8 +54,11 @@ public:
 	UPROPERTY(EditAnywhere, Category = ID)
 	bool DeleteUnlockItem;
 
-	UPROPERTY()
-	class UParticleSystemComponent* DeleteItemParticle;
+	/*UPROPERTY(EditAnywhere, Category = Collision)
+	UTexture2D* SpriteTexture;*/
+
+	/*UPROPERTY()
+	class UParticleSystemComponent* DeleteItemParticle;*/
 
 	/*temporary holds Particle System so it can be set MovingToLocationMaker in BeginPlay*/
 	UParticleSystem* TempPS;
@@ -72,4 +75,5 @@ public:
 	UFUNCTION()
 	void OnTimelineFinished();/**/
 	
+
 };

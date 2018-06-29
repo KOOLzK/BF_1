@@ -5,7 +5,7 @@
 #include "PowerGirdHookUp.h"
 #include "BlinkingLight.generated.h"
 
-UCLASS()
+UCLASS()//ClassGroup = Custom, meta = (BlueprintSpawnableComponent))
 class BF_1_API ABlinkingLight : public APowerGirdHookUp
 {
 	GENERATED_BODY()
@@ -64,4 +64,15 @@ public:
 	/*UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Navigation)
 	class ABrush* BRR; *///this crashes unreal
 
+	UPROPERTY(EditAnywhere, Category = Collision)
+	UBillboardComponent* EditorIcon2;
+
+	/*UPROPERTY(VisibleAnywhere)
+	UBillboardComponent* EditorIcon;
+
+	UPROPERTY(VisibleAnywhere)
+	UTexture2D* PowerTexture;*/
+
+	UPROPERTY(EditAnywhere, Category = Collision)
+	UTexture2D* PowerTexture2;
 };

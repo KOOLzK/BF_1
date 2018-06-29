@@ -19,7 +19,8 @@ AInteractCube::AInteractCube()
 	RootComponent = CollisionComp;
 
 	InteractAbleMesh = CreateDefaultSubobject <UStaticMeshComponent>(TEXT("InteractAbleMesh"));
-	InteractAbleMesh->AttachTo(CollisionComp);
+	//InteractAbleMesh->AttachTo(CollisionComp);
+	InteractAbleMesh->SetupAttachment(CollisionComp);
 
 	ZLevelRespone = -10000;
 

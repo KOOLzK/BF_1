@@ -14,6 +14,7 @@
 #include "AI/Navigation/NavModifierComponent.h"
 #include "AI/Navigation/NavAreas/NavArea_Default.h"
 #include "AI/Navigation/NavAreas/NavArea_Null.h"
+#include "Components/BillboardComponent.h"
 
 //light checks the light manager to see if it should be on or off
 
@@ -23,7 +24,7 @@ ABlinkingLight::ABlinkingLight()//PG_Subject *mod, bool div)
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;//UNavModifierComponent
 	//NavModifierComponent
-	BlackboardComp = CreateDefaultSubobject<UBlackboardComponent>(TEXT("BlackboardComp"));
+	//BlackboardComp = CreateDefaultSubobject<UBlackboardComponent>(TEXT("BlackboardComp"));
 
 	PointLight = CreateDefaultSubobject<UPointLightComponent>(TEXT("PointLight1"));
 	PointLight->Intensity = 3000.f;//DesiredIntensity;
@@ -40,15 +41,15 @@ ABlinkingLight::ABlinkingLight()//PG_Subject *mod, bool div)
 	Observer(PO, PO->IsOn());//and get rid of this line maybe, what does it do?
 	//PO->AttachLight(this);
 
-	NavSphere = CreateDefaultSubobject<USphereComponent>(TEXT("CoiComp"));
+	/*NavSphere = CreateDefaultSubobject<USphereComponent>(TEXT("CoiComp"));
 	NavSphere->BodyInstance.SetCollisionProfileName("NavigationSphere");
 	NavSphere->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepWorldTransform);
 	NavSphere->AreaClass = UNavArea_Null::StaticClass();
 	NavSphere->SetCanEverAffectNavigation(true); //Set Can Affect Navigation Generation
-	
+	*/
 	//NavSphere->SetPhysicsVolume()
 
-	NavMod = CreateDefaultSubobject<UNavModifierComponent>(TEXT("NavModifier"));
+	//NavMod = CreateDefaultSubobject<UNavModifierComponent>(TEXT("NavModifier"));
 	//NavMod->
 	//NavSphere->AttachChildren.Add(NavMod);
 	//NavMod->AreaClass = UNavArea_Null::StaticClass();//BrushType
@@ -72,11 +73,11 @@ ABlinkingLight::ABlinkingLight()//PG_Subject *mod, bool div)
 	//Nav->setnav
 
 
-	EditorIcon = CreateDefaultSubobject<UBillboardComponent>(TEXT("Billboard"), true);
-	static ConstructorHelpers::FObjectFinder<UTexture2D> PowerTexture(TEXT("Texture2D'/Game/Textures/PowerLight.PowerLight'"));
-	EditorIcon->Sprite = PowerTexture.Object;
-	EditorIcon->ScreenSize = 0.001f;
-	EditorIcon->AttachTo(RootComponent);
+	EditorIcon2 = CreateDefaultSubobject<UBillboardComponent>(TEXT("BillBoard"));
+	static ConstructorHelpers::FObjectFinder<UTexture2D> PowerTexture2(TEXT("Texture2D'/Game/Textures/PowerLight.PowerLight'"));
+	EditorIcon2->Sprite = PowerTexture2.Object;
+	EditorIcon2->ScreenSize = 0.001f;
+	EditorIcon2->AttachTo(RootComponent);
 }
 
 // Called when the game starts or when spawned
@@ -85,7 +86,7 @@ void ABlinkingLight::BeginPlay()
 	Super::BeginPlay();
 	//if (BehaviorTree)
 	//{
-		BlackboardComp->InitializeBlackboard(*(BehaviorTree->BlackboardAsset));
+		//BlackboardComp->InitializeBlackboard(*(BehaviorTree->BlackboardAsset));
 	//}
 }
 
@@ -139,12 +140,12 @@ void ABlinkingLight::Tick(float DeltaTime)
 	}*/
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, messege);
 	//PointLight->SetVisibility(LightOn);
-	if (PO->IsOn()) {
+	/*if (PO->IsOn()) {
 		NavSphere->AreaClass = UNavArea_Null::StaticClass();
 	}
 	else {
 		NavSphere->AreaClass = UNavArea_Default::StaticClass();
-	}
+	}*/
 }
 
 void ABlinkingLight::Update()
