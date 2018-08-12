@@ -33,7 +33,8 @@ APG_PoweredDoor::APG_PoweredDoor()
 	PoweredLocked = true;
 	DeleteUnlockItem = false;
 
-	PO = new FlipGate();
+	//PO = new FlipGate();
+	PO = new PowerObject();
 }
 
 // Called when the game starts or when spawned

@@ -81,7 +81,7 @@ public:
 	void Use2Up();//rename
 
 
-
+	
 	void Death();
 
 	/*OVERRIDES*/
@@ -123,6 +123,9 @@ public:
 	void TemporaryReticle(UTexture2D* Display, float time);
 
 	void ResetReticle();
+
+	UFUNCTION(BlueprintCallable, Category = DeathOfPlayer)
+	void PressToDie();
 
 
 	FTimerHandle ReloadLevelDelay;

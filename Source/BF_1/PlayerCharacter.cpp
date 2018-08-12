@@ -697,6 +697,11 @@ void APlayerCharacter::Death()
 	GetWorldTimerManager().SetTimer(ReloadLevelDelay, this, &APlayerCharacter::ReloadLevel, 2.0f);
 }
 
+void APlayerCharacter::PressToDie()
+{
+	Death();
+}
+
 void APlayerCharacter::ReloadLevel()
 {
 	if (LoadCheckPoint) {
