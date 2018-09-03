@@ -37,6 +37,7 @@ ALevelLoader::ALevelLoader()
 	static ConstructorHelpers::FObjectFinder<UTexture2D> PS(TEXT("Texture2D'/Game/Textures/game-loading2.game-loading2'"));
 	ReticleDisplayLoading = PS.Object;
 
+	//AddLevelComplete.Empty();
 }
 
 // Called when the game starts or when spawned
@@ -70,7 +71,7 @@ void ALevelLoader::OnOverLapB(UPrimitiveComponent* OverlappedComponent, AActor* 
 				temp->HUDHeight = 564.0f;
 				temp->HUDWidth = 564.0f;
 
-				if (AddLevelNumOnLoad) {
+				/*if (AddLevelNumOnLoad) {
 					FString FileNameA = "level.txt";
 					FString SaveTextA;
 					FFileHelper::LoadFileToString(SaveTextA, *(FPaths::GameDir() + FileNameA));
@@ -81,7 +82,25 @@ void ALevelLoader::OnOverLapB(UPrimitiveComponent* OverlappedComponent, AActor* 
 					FString SaveTextB = FString::SanitizeFloat(adding);
 					FString FileNameB = "level.txt";
 					FFileHelper::SaveStringToFile(SaveTextB, *(FPaths::GameDir() + FileNameB));
+				}*/
+
+
+				if (AddLevelComplete.IsEmpty() == false) {
+					FString FileNameA = "level.txt";
+					FString SaveTextA;
+					FFileHelper::LoadFileToString(SaveTextA, *(FPaths::GameDir() + FileNameA));
+
+					//SaveTextA + AddLevelComplete + ".1.";
+					
+					//float adding = FCString::Atof(*SaveTextA);
+					//adding += 1.0f;
+					FString SaveTextB = SaveTextA + AddLevelComplete + "=1 "; //SaveTextA;//"box .1.";//
+					FString FileNameB = "level.txt";
+					FFileHelper::SaveStringToFile(SaveTextB, *(FPaths::GameDir() + FileNameB));
+
+					//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Level Saved");
 				}
+
 
 				UGameplayStatics::OpenLevel(this, LevelName);
 			}

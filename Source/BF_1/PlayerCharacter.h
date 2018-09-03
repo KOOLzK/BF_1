@@ -109,11 +109,17 @@ public:
 	UFUNCTION(BlueprintPure, Category = HUD)
 	float GetHUDHeight();
 
+	UFUNCTION(BlueprintCallable, Category = HUD)
+	void ResetHUD();
+
 	UFUNCTION(BlueprintPure, Category = Light)
 	UPointLightComponent* GetLight();
 	
 	UFUNCTION(BlueprintCallable, Category = DeathOfPlayer)
 	float DeathLook(float X, float Y, float Z);//FRotator* FoundLook
+
+	UFUNCTION(BlueprintCallable, Category = test)
+	void TestCodeButten();
 
 	/*UFUNCTION(BlueprintCallable, Category = HUD)
 	UTexture2D UpdateCurrentDispay();*/
@@ -195,6 +201,8 @@ public:
 	float HUDWidth;
 
 	float HUDHeight;
+
+	float HUDDefault;
 
 	UPROPERTY(BlueprintReadOnly, Category = DeathOfPlayer)
 	bool dead;

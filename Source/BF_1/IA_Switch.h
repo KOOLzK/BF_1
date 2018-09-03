@@ -23,7 +23,9 @@ public:
 	virtual void Tick(float DeltaSeconds) override;
 	
 	virtual void InteractWithPlayer() override;
-	
+
+	virtual void HookingUp() override;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Mesh)
 	UMaterial* SwitchMaterial1;
 

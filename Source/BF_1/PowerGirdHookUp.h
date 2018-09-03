@@ -28,7 +28,7 @@ public:
 
 	TArray<UArrowComponent*> ArrowDisplay;
 
-	void HookingUp();
+	virtual void HookingUp();
 
 	void DisplayingArrows();
 

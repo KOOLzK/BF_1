@@ -44,6 +44,9 @@ public:
 	UPROPERTY(EditAnywhere, Category = ID)
 	bool AddLevelNumOnLoad;
 
+	UPROPERTY(EditAnywhere, Category = ID)
+	FString AddLevelComplete;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	

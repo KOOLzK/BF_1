@@ -14,6 +14,8 @@
 #include "PhysicsInteract.h"
 #include "PowerObject.h"
 #include "CheckPoint.h"
+#include "VariableTypeConverter.h"
+
 
 #define EEC_InteractAble ECollisionChannel::ECC_GameTraceChannel1
 
@@ -109,9 +111,11 @@ APlayerCharacter::APlayerCharacter()
 	
 	ReticleDisplayCurrent = ReticleDisplayTarget;
 
-	HUDWidth = 64.0f;
+	HUDDefault = 64.0f;
 
-	HUDHeight = 64.0f;
+	HUDWidth = HUDDefault;
+
+	HUDHeight = HUDDefault;
 
 	dead = false;
 
@@ -166,10 +170,13 @@ void APlayerCharacter::Tick( float DeltaTime )
 			else {
 				//add actor to ray trace storage
 				Targeting = Cast<AInteractAble>(HitResult->GetActor());
+
+				//change HUD, has to come before 'turns on glowing' incase of an override
+				ReticleDisplayCurrent = ReticleDisplayInteract;
+
 				//turns on glowing
 				Targeting->Focused();
-				//change HUD
-				ReticleDisplayCurrent = ReticleDisplayInteract;
+
 				//Debug
 				if (DisplayDebugMessages) {
 					DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor(255, 0, 0), false, 5.f);
@@ -187,6 +194,7 @@ void APlayerCharacter::Tick( float DeltaTime )
 			Targeting = NULL;
 			//change HUD
 			ReticleDisplayCurrent = ReticleDisplayTarget;
+			//ReticleDisplayOld = ReticleDisplayTarget; //test this - 02/09/2018
 		}
 	}
 
@@ -658,11 +666,22 @@ float APlayerCharacter::GetHUDHeight()
 	return HUDHeight;
 }
 
+void APlayerCharacter::ResetHUD()
+{
+	HUDWidth = HUDDefault;
+	HUDHeight = HUDDefault;
+}
+
 void APlayerCharacter::TemporaryReticle(UTexture2D* Display, float time) 
 {
-	ReticleDisplayOld = ReticleDisplayCurrent;
-	ReticleDisplayCurrent = Display;
-	GetWorldTimerManager().SetTimer(TemporaryReticleDelay, this, &APlayerCharacter::ResetReticle, time);
+	if (time == 0.0f) {
+		ReticleDisplayCurrent = Display;
+	}
+	else {
+		ReticleDisplayOld = ReticleDisplayCurrent;
+		ReticleDisplayCurrent = Display;
+		GetWorldTimerManager().SetTimer(TemporaryReticleDelay, this, &APlayerCharacter::ResetReticle, time);
+	}
 }
 
 void APlayerCharacter::ResetReticle()
@@ -695,6 +714,15 @@ void APlayerCharacter::Death()
 	dead = true;
 
 	GetWorldTimerManager().SetTimer(ReloadLevelDelay, this, &APlayerCharacter::ReloadLevel, 2.0f);
+}
+
+void APlayerCharacter::TestCodeButten()
+{
+	FString nummm = "0";
+	VariableTypeConverter Var;
+	int numtemp = Var.FStringToInt(nummm);
+	FString stringtemp = "test button " + FString::FromInt(numtemp);
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, stringtemp); //);//
 }
 
 void APlayerCharacter::PressToDie()

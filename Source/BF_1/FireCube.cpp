@@ -137,6 +137,8 @@ void AFireCube::Tick(float DeltaTime)
 
 	//if (CollisionFireReach->RelativeLocation.Size() < 2500){//LifeTime * 40) {
 	if (distance > 100) {
+		FVector Len = CollisionFireReach->GetComponentVelocity();
+		Len;
 		CollisionFireReach->AddForce(-direction * direction.Size());
 	} else {
 		//CollisionFireReach->AddForce(InitalVeloctiy);

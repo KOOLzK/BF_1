@@ -54,18 +54,6 @@ void AIA_Switch::BeginPlay()
 		propellerAudioComponent->SetSound(propellerAudioCue);
 	}
 
-	if (StartState) {
-		PO->Flip();
-	}
-
-	if (PO->Toggle) {
-		//add SwitchMesh colour change
-		InteractAbleMesh->SetMaterial(0, SwitchMaterial1);
-	}
-	else {
-		//add SwitchMesh colour change
-		InteractAbleMesh->SetMaterial(0, SwitchMaterial2);
-	}
 }
 
 // Called every frame
@@ -85,6 +73,24 @@ void AIA_Switch::InteractWithPlayer()
 		//add SwitchMesh colour change
 		InteractAbleMesh->SetMaterial(0, SwitchMaterial1);
 	} else {
+		//add SwitchMesh colour change
+		InteractAbleMesh->SetMaterial(0, SwitchMaterial2);
+	}
+}
+
+void AIA_Switch::HookingUp()
+{
+	Super::HookingUp();
+
+	if (StartState) {
+		PO->Flip();
+	}
+
+	if (PO->Toggle) {
+		//add SwitchMesh colour change
+		InteractAbleMesh->SetMaterial(0, SwitchMaterial1);
+	}
+	else {
 		//add SwitchMesh colour change
 		InteractAbleMesh->SetMaterial(0, SwitchMaterial2);
 	}
