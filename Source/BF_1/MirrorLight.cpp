@@ -16,7 +16,8 @@ AMirrorLight::AMirrorLight()
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> PS(TEXT("ParticleSystem'/Game/Effects/P_LightRay.P_LightRay'"));
 	TempPS = PS.Object;
 	LightPS = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("LightPSC"));
-	LightPS->AttachTo(RootComponent);
+	//LightPS->AttachTo(RootComponent);
+	LightPS->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned

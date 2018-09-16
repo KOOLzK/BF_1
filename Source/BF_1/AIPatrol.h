@@ -102,6 +102,8 @@ public:
 
 	bool LightUpdate;
 
+	float Result;
+
 private:
 
 	UFUNCTION()

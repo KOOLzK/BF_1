@@ -12,7 +12,8 @@ AIA_SwingDoor::AIA_SwingDoor()
 	PrimaryActorTick.bCanEverTick = true;
 
 	DoorPivot = CreateDefaultSubobject<USceneComponent>(TEXT("Pivot"));
-	CollisionComp->AttachTo(DoorPivot);
+	//CollisionComp->AttachTo(DoorPivot);
+	CollisionComp->SetupAttachment(DoorPivot);
 	RootComponent = DoorPivot;
 
 	RotateTimeline = CreateDefaultSubobject<UTimelineComponent>(TEXT("Timeline"));

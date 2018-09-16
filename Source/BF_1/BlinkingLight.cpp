@@ -77,7 +77,8 @@ ABlinkingLight::ABlinkingLight()//PG_Subject *mod, bool div)
 	static ConstructorHelpers::FObjectFinder<UTexture2D> PowerTexture2(TEXT("Texture2D'/Game/Textures/PowerLight.PowerLight'"));
 	EditorIcon2->Sprite = PowerTexture2.Object;
 	EditorIcon2->ScreenSize = 0.001f;
-	EditorIcon2->AttachTo(RootComponent);
+	//EditorIcon2->AttachTo(RootComponent);
+	EditorIcon2->SetupAttachment(RootComponent);
 }
 
 // Called when the game starts or when spawned

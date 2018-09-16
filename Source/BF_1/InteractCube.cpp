@@ -104,7 +104,8 @@ void AInteractCube::AttachToHand(USceneComponent* Hand)
 void AInteractCube::DetachFromHand() //AInteractAble* MakeHandNull)
 {
 	//if (MakeHandNull != NULL) {
-		CollisionComp->DetachFromParent(true);
+		//CollisionComp->DetachFromParent(true);
+		CollisionComp->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
 		CollisionComp->SetSimulatePhysics(true);
 		//MakeHandNull = NULL;
 

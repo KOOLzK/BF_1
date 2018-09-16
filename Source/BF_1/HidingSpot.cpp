@@ -22,12 +22,14 @@ AHidingSpot::AHidingSpot()
 	//SpriteTexture = ConstructorStatics.MarkerTextureObject.Get();
 	static ConstructorHelpers::FObjectFinder<UTexture2D> SpriteTexture(TEXT("Texture2D'/Engine/EditorMaterials/TargetIcon.TargetIcon'"));
 	EditorIcon->Sprite = SpriteTexture.Object;
-	EditorIcon->AttachTo(CollisionComp);
+	//EditorIcon->AttachTo(CollisionComp);
+	EditorIcon->SetupAttachment(CollisionComp);
 
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> PS(TEXT("ParticleSystem'/Game/Effects/Smoke.Smoke'"));
 	TempPS = PS.Object;
 	Smoke = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("SmokePSC"));
-	Smoke->AttachTo(CollisionComp);
+	//Smoke->AttachTo(CollisionComp);
+	Smoke->SetupAttachment(CollisionComp);
 	Smoke->SetRelativeLocation(FVector(0.0f, 0.0f, -0.5f));
 }
 

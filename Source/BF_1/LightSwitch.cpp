@@ -24,12 +24,13 @@ ALightSwitch::ALightSwitch()
 	RootComponent = CollisionComp;
 
 	SwitchMesh = CreateDefaultSubobject <UStaticMeshComponent>(TEXT("SwitchMesh"));
-	SwitchMesh->AttachTo(RootComponent);
-	
+	//SwitchMesh->AttachTo(RootComponent);
+	SwitchMesh->SetupAttachment(RootComponent);
 
 
 	ButtonPromptMesh = CreateDefaultSubobject <UStaticMeshComponent>(TEXT("ButtonPromptMesh"));
-	ButtonPromptMesh->AttachTo(RootComponent);
+	//ButtonPromptMesh->AttachTo(RootComponent);
+	ButtonPromptMesh->SetupAttachment(RootComponent);
 
 	OnOff = true;
 	currentState = stateOne;
@@ -42,7 +43,8 @@ ALightSwitch::ALightSwitch()
 
 	propellerAudioComponent->bAutoActivate = false;
 
-	propellerAudioComponent->AttachParent = RootComponent;
+	//propellerAudioComponent->AttachParent = RootComponent;
+	propellerAudioComponent->SetupAttachment(RootComponent);
 
 	propellerAudioComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 100.0f));
 

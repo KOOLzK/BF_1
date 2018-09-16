@@ -19,7 +19,8 @@ AInteractSphere::AInteractSphere()
 	RootComponent = CollisionComp;
 
 	InteractAbleMesh = CreateDefaultSubobject <UStaticMeshComponent>(TEXT("InteractAbleMesh"));
-	InteractAbleMesh->AttachTo(CollisionComp);
+	//InteractAbleMesh->AttachTo(CollisionComp);
+	InteractAbleMesh->SetupAttachment(CollisionComp);
 
 	ZLevelRespone = -10000;
 
@@ -98,7 +99,8 @@ void AInteractSphere::AttachToHand(USceneComponent* Hand)
 void AInteractSphere::DetachFromHand() // AInteractAble* MakeHandNull)
 {
 	//if (MakeHandNull != NULL) {
-		CollisionComp->DetachFromParent(true);
+		//CollisionComp->DetachFromParent(true);
+		CollisionComp->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
 		CollisionComp->SetSimulatePhysics(true);
 		//MakeHandNull = NULL;
 

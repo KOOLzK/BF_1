@@ -22,7 +22,8 @@ AStaticInteract::AStaticInteract()
 	HasPhysics = false;
 
 	InteractAbleMesh = CreateDefaultSubobject <UStaticMeshComponent>(TEXT("InteractAbleMesh"));
-	InteractAbleMesh->AttachTo(CollisionComp);
+	//InteractAbleMesh->AttachTo(CollisionComp);
+	InteractAbleMesh->SetupAttachment(CollisionComp);
 }
 
 // Called when the game starts or when spawned

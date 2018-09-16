@@ -20,7 +20,8 @@ ALevelLoader::ALevelLoader()
 	RootComponent = CollisionComp;
 
 	LoaderMesh = CreateDefaultSubobject <UStaticMeshComponent>(TEXT("LoaderMesh"));
-	LoaderMesh->AttachTo(RootComponent);
+	//LoaderMesh->AttachTo(RootComponent);
+	LoaderMesh->SetupAttachment(RootComponent);
 
 	LevelKey = "CurrentLevel";
 
@@ -32,7 +33,8 @@ ALevelLoader::ALevelLoader()
 	static ConstructorHelpers::FObjectFinder<UTexture2D> SpriteTexture(TEXT("Texture2D'/Game/Textures/Loader.Loader'"));
 	EditorIcon->Sprite = SpriteTexture.Object;
 	EditorIcon->ScreenSize = 0.0015f;
-	EditorIcon->AttachTo(CollisionComp);
+	//EditorIcon->AttachTo(CollisionComp);
+	EditorIcon->SetupAttachment(CollisionComp);
 
 	static ConstructorHelpers::FObjectFinder<UTexture2D> PS(TEXT("Texture2D'/Game/Textures/game-loading2.game-loading2'"));
 	ReticleDisplayLoading = PS.Object;

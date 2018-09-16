@@ -19,7 +19,8 @@ ASlidingDoor::ASlidingDoor()
 	RootComponent = CollisionComp;
 
 	DoorMesh = CreateDefaultSubobject <UStaticMeshComponent>(TEXT("DoorMesh"));
-	DoorMesh->AttachTo(RootComponent);
+	//DoorMesh->AttachTo(RootComponent);
+	DoorMesh->SetupAttachment(RootComponent);
 
 	BlackboardComp = CreateDefaultSubobject<UBlackboardComponent>(TEXT("BlackboardComp"));
 

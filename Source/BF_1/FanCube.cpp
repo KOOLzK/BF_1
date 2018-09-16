@@ -23,8 +23,9 @@ AFanCube::AFanCube()
 	WindComp->SetCollisionResponseToChannel(ECollisionChannel::ECC_WorldDynamic, ECollisionResponse::ECR_Overlap);
 	WindComp->OnComponentBeginOverlap.AddDynamic(this, &AFanCube::OnOverlapBegin);
 	WindComp->OnComponentEndOverlap.AddDynamic(this, &AFanCube::OnOverlapEnd);
-	WindComp->AttachTo(CollisionComp);
-	
+	//WindComp->AttachTo(CollisionComp);
+	WindComp->SetupAttachment(CollisionComp);
+
 	FanPower = 2;
 }
 

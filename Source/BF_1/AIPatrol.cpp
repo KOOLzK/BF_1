@@ -27,7 +27,8 @@ AAIPatrol::AAIPatrol()
 
 	propellerAudioComponent->bAutoActivate = false;
 
-	propellerAudioComponent->AttachParent = RootComponent;
+	//propellerAudioComponent->AttachParent = RootComponent;
+	propellerAudioComponent->SetupAttachment(RootComponent);
 
 	propellerAudioComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 100.0f));
 
@@ -103,7 +104,7 @@ float AAIPatrol::GetLightingAmount()
 {
 	FVector Loc = GetActorLocation();
 	FCollisionQueryParams Params = FCollisionQueryParams(FName(TEXT("LightTrace")), true, this);
-	float Result;
+	Result = 0.0f;
 	float AllResult = 0;
 
 	ABlinkingLight* BL = nullptr;

@@ -19,13 +19,15 @@ AIA_Switch::AIA_Switch()
 
 	propellerAudioComponent->bAutoActivate = false;
 
-	propellerAudioComponent->AttachParent = RootComponent;
+	//propellerAudioComponent->AttachParent = RootComponent;
+	propellerAudioComponent->SetupAttachment(RootComponent);
 
 	EditorIcon = CreateDefaultSubobject<UBillboardComponent>(TEXT("Billboard"), true);
 	static ConstructorHelpers::FObjectFinder<UTexture2D> PowerTexture(TEXT("Texture2D'/Game/Textures/PowerSymbol.PowerSymbol'"));
 	EditorIcon->Sprite = PowerTexture.Object;
 	EditorIcon->ScreenSize = 0.001f;
-	EditorIcon->AttachTo(CollisionComp);
+	//EditorIcon->AttachTo(CollisionComp);
+	EditorIcon->SetupAttachment(CollisionComp);
 
 
 	PO = new Switch();

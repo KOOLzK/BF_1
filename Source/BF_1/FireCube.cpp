@@ -15,7 +15,8 @@ AFireCube::AFireCube()
 	CollisionFireStart->BodyInstance.SetCollisionProfileName("FireCube");
 	CollisionFireStart->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
 	CollisionFireStart->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-	CollisionFireStart->AttachTo(RootComponent);
+	//CollisionFireStart->AttachTo(RootComponent);
+	CollisionFireStart->SetupAttachment(RootComponent);
 
 	
 
@@ -28,12 +29,14 @@ AFireCube::AFireCube()
 	CollisionFireReach->OnComponentBeginOverlap.AddDynamic(this, &AFireCube::OnOverlapBegin);
 	CollisionFireReach->OnComponentEndOverlap.AddDynamic(this, &AFireCube::OnOverlapEnd);
 
-	CollisionFireReach->AttachTo(CollisionFireStart);
+	//CollisionFireReach->AttachTo(CollisionFireStart);
+	CollisionFireReach->SetupAttachment(CollisionFireStart);
 
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> PS(TEXT("ParticleSystem'/Game/Effects/P_FireForInteractAble.P_FireForInteractAble'"));
 	TempPS = PS.Object;
 	FirePS = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("FirePSC"));
-	FirePS->AttachTo(CollisionFireStart);
+	//FirePS->AttachTo(CollisionFireStart);
+	FirePS->SetupAttachment(CollisionFireStart);
 
 	//OnFire = false;
 

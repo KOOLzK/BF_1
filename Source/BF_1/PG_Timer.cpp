@@ -16,7 +16,8 @@ APG_Timer::APG_Timer()
 	static ConstructorHelpers::FObjectFinder<UTexture2D> PowerTexture(TEXT("Texture2D'/Game/Textures/PowerSymbol.PowerSymbol'"));
 	EditorIcon->Sprite = PowerTexture.Object;
 	EditorIcon->ScreenSize = 0.0001f;
-	EditorIcon->AttachTo(RootComponent);
+	//EditorIcon->AttachTo(RootComponent);
+	EditorIcon->SetupAttachment(RootComponent);
 
 	PO = new Switch();
 }

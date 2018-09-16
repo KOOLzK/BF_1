@@ -24,7 +24,8 @@ APhysicsInteract::APhysicsInteract()
 	InteractAbleMesh = CreateDefaultSubobject <UStaticMeshComponent>(TEXT("InteractAbleMesh"));
 	//InteractAbleMesh->SetRelativeLocation(FVector(0, 0, 0));
 	//InteractAbleMesh->SetCollisionResponseToChannel(EEC_InteractAble, ECollisionResponse::ECR_Block);
-	InteractAbleMesh->AttachTo(CollisionComp);
+	//InteractAbleMesh->AttachTo(CollisionComp);
+	InteractAbleMesh->SetupAttachment(CollisionComp);
 
 	ZLevelRespone = -10000;
 
@@ -85,7 +86,8 @@ void APhysicsInteract::AttachToHand(USceneComponent* Hand)
 
 void APhysicsInteract::DetachFromHand()
 {
-	CollisionComp->DetachFromParent(true);
+	//CollisionComp->DetachFromParent(true);
+	CollisionComp->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
 	CollisionComp->SetSimulatePhysics(true);
 	//it is set to QueryAndPhysics so it has Query so you can pick it later
 	CollisionComp->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);

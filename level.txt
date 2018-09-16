@@ -1,1 +1,1 @@
-0box=1box=1 box=0 stairway=1 KeyLevel=3
+0
